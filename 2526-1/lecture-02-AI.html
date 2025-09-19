@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Bài 1: Giới thiệu Tư duy tính toán</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<!-- Trang 1: Title slide – HTML thuần -->
+<section>
+  <section>
+    <h1 class="r-fit-text">Tư duy Tính toán</h1>
+    <h2>Lập trình với AI hỗ trợ</h2>
+    <p>University of Engineering and Technology – Vietnam National University, Hanoi</p>
+  </section>
+
+  <!-- Trang 2: Mục lục – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## Nội dung
+    - Vai trò của Trí tuệ Nhân tạo trong Tư duy Tính toán
+    - Hệ sinh thái trợ lý AI
+    - Học Python với AI
+    - Cạm bẫy và thách thức thường gặp
+    - Sử dụng AI có trách nhiệm
+    </textarea>
+  </section>
+</section>
+
+<!-- Trang 3: Tiêu đề phần – HTML thuần -->
+<section>
+  <section>
+    <h2 class="r-fit-text">Vai trò của AI trong Tư duy Tính toán</h2>
+  </section>
+
+  <!-- Trang 4: Text + Ảnh (2 cột) -->
+  <section>
+    <div style="display:flex; gap:2rem; align-items:center;">
+      <div style="flex:1;">
+        <h2>Lập trình không chỉ là gõ mã!</h2>
+        <ul>
+          <li>Trước máy tính, con người đã giải quyết vấn đề phức tạp như thế nào?</li>
+          <li>Đó là kỹ năng hệ thống: phân tích và giải quyết vấn đề—<strong>Tư duy Tính toán</strong>.</li>
+          <li>Lập trình là công cụ để “bảo” máy tính thực thi lời giải.</li>
+        </ul>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p04.jpg" alt="Minh họa Computational Thinking" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 5: 4 Kỹ năng CT – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## Tư duy Tính toán: 4 kỹ năng cốt lõi
+    1. **Phân rã**: bẻ nhỏ vấn đề lớn thành phần nhỏ, dễ xử lý.  
+    2. **Nhận diện mẫu**: tìm điểm giống nhau, xu hướng, quy luật.  
+    3. **Trừu tượng hóa**: tập trung phần cốt yếu, bỏ chi tiết không cần.  
+    4. **Thiết kế thuật toán**: đề ra các bước giải quyết vấn đề.
+    </textarea>
+  </section>
+
+  <!-- Trang 6: Định nghĩa AI + icon – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem; align-items:center;">
+      <div style="flex:1;">
+        <h2>Trí tuệ Nhân tạo (AI)</h2>
+        <p>AI là ngành khoa học máy tính tạo ra hệ thống có thể thực hiện các tác vụ cần trí tuệ con người: học, suy luận, giải quyết vấn đề, cảm nhận và hiểu ngôn ngữ.</p>
+        <ul>
+          <li>Nhận dạng & xử lý tiếng nói</li>
+          <li>Hiểu ngôn ngữ tự nhiên</li>
+          <li>Nhận thức thị giác & phân tích</li>
+          <li>Suy nghĩ, lập luận & ra quyết định</li>
+        </ul>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p06.jpg" alt="Biểu tượng các lĩnh vực AI" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 7: AI như trợ lý – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem; align-items:center;">
+      <div style="flex:1;">
+        <h2>AI như Trợ lý</h2>
+        <p>Trợ lý AI dùng NLP để hiểu yêu cầu tự nhiên của bạn và phản hồi thông tin/hỗ trợ tương ứng.</p>
+        <ul>
+          <li>Bạn hỏi bằng ngôn ngữ tự nhiên</li>
+          <li>AI phản hồi thông tin cần thiết</li>
+        </ul>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p07.jpg" alt="Sơ đồ hỏi–đáp trợ lý AI" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 8: Prompt – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem; align-items:center;">
+      <div style="flex:1;">
+        <h2>Dùng Prompt với Trợ lý AI</h2>
+        <p><strong>Prompt</strong> là đầu vào/chỉ dẫn bạn đưa cho AI để định hướng phản hồi: câu hỏi, phát biểu hay mã nguồn.</p>
+        <p><em>Ví dụ prompt:</em> “Viết hàm Python <code>tinh_tong(a, b)</code> trả về tổng.”</p>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p08.jpg" alt="Minh họa Prompt" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 9: CT với AI (1) – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## CT với AI (1)
+    - **Nhiệm vụ**: Viết chương trình quản lý sinh viên.
+    - **Prompt**: “Tôi muốn viết chương trình quản lý SV. Cần các chức năng gì?”
+    - **AI gợi ý**: Thêm SV, liệt kê, tìm theo mã, xóa SV, ...
+    </textarea>
+  </section>
+
+  <!-- Trang 10: CT với AI (2) – 2 cột + ảnh code -->
+  <section>
+    <div style="display:flex; gap:2rem;">
+      <div style="flex:1;">
+        <h2>CT với AI (2)</h2>
+        <ul>
+          <li><strong>Nhiệm vụ</strong>: In lời chào tới 3 người khác nhau.</li>
+          <li><strong>Prompt</strong>: “Mình đang lặp lại code, hãy chỉ ra mẫu và đề xuất cách tốt hơn?”</li>
+        </ul>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p10.jpg" alt="Đoạn code Python chào 3 người" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 11: CT với AI (3) – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem;">
+      <div style="flex:1;">
+        <h2>CT với AI (3): Nhận diện mẫu</h2>
+        <p>Mẫu chung: <code>print("Hello, [tên]!")</code> lặp lại chỉ khác tên.</p>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p11.jpg" alt="Nhận diện mẫu trong code chào" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 12: CT với AI (4) – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem;">
+      <div style="flex:1;">
+        <h2>CT với AI (4): Trừu tượng hóa</h2>
+        <p>Tạo hàm <code>greet(name)</code> để gói mẫu lặp, nhận <em>name</em> và in lời chào.</p>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p12.jpg" alt="Hàm greet(name)" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 13: CT với AI (5) – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem;">
+      <div style="flex:1;">
+        <h2>CT với AI (5): Thiết kế thuật toán</h2>
+        <p>Thay vì gõ 3 lần <code>print</code>, chỉ cần gọi <code>greet</code> 3 lần với các tên khác nhau.</p>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p13.jpg" alt="Gọi hàm greet nhiều lần" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 14: AI ở đâu trong bức tranh? – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem; align-items:center;">
+      <div style="flex:1;">
+        <h2>AI: Bạn đồng hành trên hành trình tư duy</h2>
+        <ul>
+          <li>Không thay thế tư duy phản biện.</li>
+          <li>Hỗ trợ cả 4 bước CT, làm quy trình hiệu quả hơn.</li>
+          <li>Mục tiêu: học cách “ra lệnh” cho AI.</li>
+        </ul>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p14.jpg" alt="Bạn và robot trên hành trình" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 15: Trợ lý mạnh của lập trình viên – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## AI: Trợ lý mạnh của lập trình viên
+    - **Sinh code** từ mô tả ngắn
+    - **Gợi ý code** khi đang gõ
+    - **Giải thích code**
+    - **Gỡ lỗi** & đề xuất sửa
+    - **Sinh tài liệu**
+    - **Trợ giảng**: ví dụ, giải thích khái niệm
+    </textarea>
+  </section>
+</section>
+
+<!-- Trang 16: Tiêu đề phần -->
+<section>
+  <section>
+    <h2 class="r-fit-text">Giới thiệu hệ sinh thái Trợ lý AI</h2>
+  </section>
+
+  <!-- Trang 17: ChatGPT – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## ChatGPT: Trợ lý mã hóa đa năng
+    - **Cách hoạt động**: Hỏi–đáp theo prompt.
+    - **Thế mạnh**: Linh hoạt, giải thích chi tiết, động não ý tưởng.
+    - **Khi dùng**: Cần giải thích, ý tưởng, mẫu code trọn vẹn.
+    </textarea>
+  </section>
+
+  <!-- Trang 18: Demo ý tưởng -> code – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## Demo: Từ ý tưởng thành code
+    **Prompt**: Viết hàm `tinh_tong(a, b)` trả về tổng.  
+    **AI sinh ra**: Hàm đúng kèm docstring — giúp tập trung phần logic phức tạp hơn.
+    </textarea>
+  </section>
+
+  <!-- Trang 19: Copilot – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem;">
+      <div style="flex:1;">
+        <h2>GitHub Copilot: Trợ lý trong trình soạn thảo</h2>
+        <ul>
+          <li>Tích hợp trực tiếp VS Code, gợi ý khi bạn gõ.</li>
+          <li>Hiểu ngữ cảnh dự án, tăng tốc viết mã.</li>
+          <li>Phù hợp khi bạn biết mình cần viết gì.</li>
+        </ul>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p19.jpg" alt="Gợi ý của Copilot trong VS Code" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 20: So sánh ChatGPT vs Copilot – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## ChatGPT vs. Copilot
+    - **Định dạng**: Chat vs. Tích hợp trong IDE  
+    - **Tốt nhất cho**: Động não/giải thích vs. Tăng tốc hoàn thiện mã  
+    - **Mạnh**: Linh hoạt/giải thích vs. Tốc độ/nhận biết ngữ cảnh  
+    </textarea>
+  </section>
+
+  <!-- Trang 21: Hệ sinh thái công cụ – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem;">
+      <div style="flex:1;">
+        <h2>Hệ sinh thái AI cho lập trình</h2>
+        <p>Ngoài ChatGPT và Copilot còn nhiều công cụ khác (Cursor, Codeium, Replit, v.v.).</p>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p21.jpg" alt="Biểu đồ hệ sinh thái công cụ AI cho dev" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- Trang 22: Tiêu đề phần -->
+<section>
+  <section>
+    <h2 class="r-fit-text">Học Python với AI</h2>
+    <p>Tận dụng AI để học nhanh và hiệu quả hơn.</p>
+  </section>
+
+  <!-- Trang 23: Demo phân rã với ChatGPT – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## Demo: Phân rã vấn đề với ChatGPT
+    **Bài toán**: Đếm số từ trong một câu người dùng nhập.  
+    **Gợi ý bước**: nhập `input()`, tách `.split()`, đếm `len()`, in kết quả.
+    </textarea>
+  </section>
+
+  <!-- Trang 24: Copilot tự hoàn thành – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem;">
+      <div style="flex:1;">
+        <h2>Demo: Copilot tự hoàn thành</h2>
+        <p>Hiểu bài toán (nhờ ChatGPT), bắt đầu gõ trong VS Code, Copilot gợi ý hoàn thiện.</p>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p24.jpg" alt="Ảnh VS Code với gợi ý Copilot" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 25: AI giúp debug – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## AI giúp gỡ lỗi
+    **Lỗi**: *TypeError: can only concatenate str (not "int") to str*.  
+    **Hỏi AI**: “Lỗi này nghĩa là gì và sửa ra sao?”
+    </textarea>
+  </section>
+
+  <!-- Trang 26: AI giải thích lỗi – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## AI giải thích như giáo viên
+    - Kết hợp chuỗi với số gây lỗi — cần `str(count)` hoặc f-string: `f"...{count}"`.
+    - AI đưa nhiều cách sửa & giải thích vì sao.
+    </textarea>
+  </section>
+
+  <!-- Trang 27: Chiến lược Prompt – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## "Rác vào, rác ra": Chiến lược Prompt
+    - **Vai trò**: “Hãy đóng vai chuyên gia Python…”
+    - **Mục tiêu**: “…giải thích vòng lặp for…”
+    - **Quy tắc**: “…chỉ dùng ví dụ đơn giản.”
+    - **Đối tượng**: “…cho người mới học.”
+    - **Tốt**: nêu rõ yêu cầu (vd. mô tả hàm `count_words`).
+    </textarea>
+  </section>
+
+  <!-- Trang 28: Prompt Engineering – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## Prompt Engineering (mẫu)
+    - Zero-/One-/Few-shot
+    - Role prompting
+    - Chain-of-Thought
+    - Prompt cho code: viết/giải thích/dịch/debug/soát xét, ...
+    </textarea>
+  </section>
+</section>
+
+<!-- Trang 29: Tiêu đề phần -->
+<section>
+  <section>
+    <h2 class="r-fit-text">Cạm bẫy & thách thức thường gặp</h2>
+  </section>
+
+  <!-- Trang 30: Pitfall 1 – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem;">
+      <div style="flex:1;">
+        <h2>Ví dụ 1: Quên ca biên</h2>
+        <p>Code chạy với dữ liệu thường, sai ở ca biên (vd. danh sách rỗng).</p>
+        <p><em>Prompt</em>: “Viết hàm tìm max trong list.”</p>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p30.jpg" alt="Hàm find_max thiếu xử lý list rỗng" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 31: Pitfall 2 – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem;">
+      <div style="flex:1;">
+        <h2>Ví dụ 2: Không hiệu quả</h2>
+        <p>Đúng chức năng nhưng kém hiệu năng (vd. O(n²) khi khử trùng lặp).</p>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p31.jpg" alt="remove_duplicates O(n^2)" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 32: Pitfall 3 – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem;">
+      <div style="flex:1;">
+        <h2>Ví dụ 3: Rủi ro bảo mật</h2>
+        <p>Mô hình có thể sao chép mẫu nguy hiểm (vd. chạy lệnh hệ thống từ input người dùng).</p>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p32.jpg" alt="run_user_command nguy hiểm" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 33: Khi AI “tự tin” nhưng sai – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem; align-items:center;">
+      <div style="flex:1;">
+        <h2>Thiên kiến & Ảo giác</h2>
+        <ul>
+          <li><strong>Bias dữ liệu</strong>: học theo mẫu lỗi/thói quen cũ.</li>
+          <li><strong>Hallucination</strong>: bịa hàm/thư viện/khái niệm không có.</li>
+        </ul>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p33.jpg" alt="Minh họa thiên kiến và ảo giác" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 34: Đừng tin 100% – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## Đừng tin AI 100%!
+    - Có thể dùng hàm/thư viện không tồn tại, giải thích sai, code đúng cú pháp nhưng sai logic.  
+    - **Bài học cốt lõi**: luôn kiểm chứng.
+    </textarea>
+  </section>
+
+  <!-- Trang 35: Bài học “xương máu” – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## Bài học “xương máu”
+    - AI sinh script xóa nhầm file hệ thống → sập máy, mất dữ liệu.  
+    - **Đừng chạy lệnh nguy hiểm** nếu chưa hiểu 100%.
+    </textarea>
+  </section>
+</section>
+
+<!-- Trang 36: Tiêu đề phần -->
+<section>
+  <section>
+    <h2 class="r-fit-text">Sử dụng AI có trách nhiệm</h2>
+  </section>
+
+  <!-- Trang 37: Vì sao không “thuê não” cho AI? – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem; align-items:center;">
+      <div style="flex:1;">
+        <h2>Vì sao không thể “giao não” cho AI?</h2>
+        <ul>
+          <li>AI có thể sai—chỉ bạn hiểu bối cảnh để sửa.</li>
+          <li>Sáng tạo là của con người.</li>
+          <li>Gỡ lỗi rèn tư duy sâu.</li>
+          <li>Kiến thức nền tảng là gốc rễ.</li>
+        </ul>
+      </div>
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec02/p37.jpg" alt="Minh họa học và robot" style="max-height:360px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 38: Khi nên/không nên dùng AI – 2 cột -->
+  <section>
+    <div style="display:flex; gap:2rem;">
+      <div style="flex:1;">
+        <h3>✅ Khi nên dùng</h3>
+        <ul>
+          <li>Sinh ví dụ code, học kỹ năng mới</li>
+          <li>Tìm kiếm thông tin, giải thích lỗi, tự động hóa việc lặp</li>
+        </ul>
+      </div>
+      <div style="flex:1;">
+        <h3>🚫 Khi không nên dùng</h3>
+        <ul>
+          <li>Bài tập học thuật (trừ khi được phép)</li>
+          <li>Dữ liệu nhạy cảm/bảo mật</li>
+          <li>Khi học nền tảng: hãy tự vật lộn trước</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 39: Cộng tác hay bị “chỉ huy”? – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## AI: Cộng tác hay “chỉ huy”?
+    - **Thụ động**: copy–paste → 0 hiểu, 0 kỹ năng.  
+    - **Chủ động**: tự phân tích, hỏi gợi ý, tự code, hỏi để hiểu & tự sửa → hiểu sâu, lên tay.
+    </textarea>
+  </section>
+
+  <!-- Trang 40: Bạn có phụ thuộc AI quá không? – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## Bạn có đang phụ thuộc AI?
+    1) Dán code mà không hiểu  
+    2) Hở tí là hỏi debug  
+    3) Không giải thích nổi code vừa dùng  
+    4) Điểm cao nhưng “rỗng” nền tảng  
+    **>** Chọn từ 2 mục trở lên: cần cảnh giác!
+    </textarea>
+  </section>
+
+  <!-- Trang 41: 4 quy tắc vàng – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## 4 quy tắc vàng dùng AI có trách nhiệm
+    1. **Minh bạch**: ghi nhận khi dùng AI  
+    2. **Trách nhiệm**: bạn chịu trách nhiệm cuối  
+    3. **Hiểu biết**: hiểu rồi mới dùng  
+    4. **Trung thực học thuật**: theo quy định khóa học
+    </textarea>
+  </section>
+
+  <!-- Trang 42: Luôn kiểm chứng – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## Luôn kiểm chứng kết quả!
+    - Chạy được chưa? Đúng mọi ca? Có cách tốt hơn? Mình hiểu hết chưa?  
+    - Bạn là người soát cuối cùng.
+    </textarea>
+  </section>
+
+  <!-- Trang 43: Trích dẫn AI trong học thuật – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## Trích dẫn AI trong học thuật
+    - Ghi công rõ ràng khi dùng code/ý tưởng/giải thích từ AI.  
+    - Cách trích dẫn gợi ý (hãy theo hướng dẫn GV):
+    ```text
+    // Đoạn này được ChatGPT (OpenAI) gợi ý/ngày [YYYY-MM-DD],
+    // dựa trên prompt: "[Nội dung prompt]".
+    // Tôi đã rà soát & chỉnh sửa để phù hợp yêu cầu bài.
+    </textarea>
+  </section>
+
+  <!-- Trang 44: Những bước đầu tiên – data-markdown -->
+  <section data-markdown>
+    <textarea data-template>
+    ## Những bước đầu tiên trong lập trình
+    - **Nền tảng**: tư duy tính toán, CTDL & GT
+    - **Ôm sai lầm**: tự debug để nhớ lâu
+    - **AI là người hỗ trợ học tập**: quyết định cuối là hiểu biết của bạn
+    - **Lọc thông tin**: hỏi đúng & đánh giá phản hồi
+    </textarea>
+  </section>
+</section>
+
+<!-- Trang 45: Tổng kết – data-markdown -->
+<section data-markdown>
+  <textarea data-template>
+  ## Kết luận
+  - Lập trình là tư duy; code chỉ là công cụ.
+  - AI là trợ lý mạnh, không phải sự thay thế.
+  - Hãy chủ động & có trách nhiệm khi dùng AI.
+  - Hiểu, kiểm chứng, trung thực → thành công bền vững.
+  - Nền tảng vững để cưỡi “làn sóng” AI thay vì bị nhấn chìm.
+  </textarea>
+</section>
+
+      <!-- Footer -->
+      <div class="footer">
+        Tư duy tính toán. (Học kỳ 1 2025-2026) §1: Giới thiệu Tư duy tính toán
+      </div>
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
