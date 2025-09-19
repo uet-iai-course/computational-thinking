@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Bài 1: Giới thiệu Tư duy tính toán</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<!-- Chủ đề: Giới thiệu -->
+<section>
+
+  <!-- Trang 1 -->
+  <section>
+    <h1>Tư duy Tính toán</h1>
+    <h3>Bài giảng 1: Giới thiệu</h3>
+    <p>Trường Đại học Công nghệ<br>Đại học Quốc gia Hà Nội</p>
+  </section>
+
+  <!-- Trang 2 -->
+  <section data-markdown>
+    <textarea data-template>
+    ## Nội dung
+    1. Ví dụ thực tế
+    2. Tư duy giải quyết vấn đề
+    3. Tư duy tính toán là gì?
+    4. Lập trình là gì?
+    5. Bắt đầu với Python
+    </textarea>
+  </section>
+</section>
+
+<!-- Chủ đề: Ví dụ thực tế -->
+<section>
+  <!-- Trang 3 -->
+  <section>
+    <h2 class="r-fit-text">Ví dụ thực tế</h2>
+  </section>
+
+  <!-- Trang 4 -->
+  <section>
+    <h2>Trò chơi một người</h2>
+    <div style="display:flex; justify-content: space-around; align-items:center;">
+      <div>
+        <img src="img/lec01/tetris.png" alt="Tetris" style="height:300px;">
+        <p style="text-align:center;">Tetris</p>
+      </div>
+      <div>
+        <img src="img/lec01/sodoku.png" alt="Sudoku" style="height:300px;">
+        <p style="text-align:center;">Sudoku</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trang 5 -->
+  <section>
+    <h2>Trò chơi nhiều người</h2>
+    <div style="display:flex; justify-content: space-around; align-items:center;">
+      <div>
+        <img src="img/lec01/rock-paper-scissors.png" alt="Oẳn tù tì" style="height:300px;">
+        <p style="text-align:center;">Oẳn tù tì</p>
+      </div>
+      <div>
+        <img src="img/lec01/tic-tac-toe.png" alt="Cờ ca-rô" style="height:300px;">
+        <p style="text-align:center;">Cờ ca-rô</p>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- Chủ đề: Khái niệm "Vấn đề" -->
+<section>
+    <!-- Slide 6: Khái niệm "Vấn đề" -->
+  <section>
+    <h2 class="r-fit-text">Khái niệm “Vấn đề”</h2>
+    <div style="display:flex; justify-content:center; align-items:flex-start; gap:2em;">
+
+      <!-- Bên trái: hình minh họa -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/problem-games.png" alt="Trò chơi và vấn đề" style="max-height:380px;">
+        <p style="font-size:0.9em; margin-top:0.5em;">
+          Ví dụ: Tetris, Sudoku, Oẳn tù tì, Cờ ca-rô
+        </p>
+      </div>
+
+      <!-- Bên phải: nội dung chữ -->
+      <div style="flex:1;">
+        <p><strong>Vấn đề</strong> = Khó khăn / Khác biệt / Thách thức cần giải pháp</p>
+        <p><strong>Tư duy</strong> bao gồm:</p>
+        <ul>
+          <li>Phân rã</li>
+          <li>Nhận dạng mẫu </li>
+          <li>Trừu tượng hóa </li>
+          <li>Thuật toán</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Slide 7: Vấn đề thực tế – Quản lý chi tiêu -->
+  <section>
+    <h2>Quản lý chi tiêu</h2>
+    <div style="display:flex; justify-content:center; align-items:flex-start; gap:2em;">
+
+      <!-- Hình minh họa -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/expense-tree.png" alt="Cây chi tiêu" style="max-height:400px;">
+        <p style="font-size:0.9em; margin-top:0.5em;">Chi tiêu hàng tháng</p>
+      </div>
+
+      <!-- Nội dung chữ -->
+      <div style="flex:1;">
+        <p><strong>Bài toán:</strong> Bạn có <em>X triệu VND/tháng</em> để chi trả sinh hoạt phí ở Hà Nội.</p>
+        <p><strong>Yếu tố:</strong> Chi phí bất ngờ, nhu cầu thiết yếu.</p>
+        <p><strong>Thuật toán?</strong></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Slide 8: Vấn đề thực tế – Tìm đường đi tối ưu -->
+  <section>
+    <h2>Tìm đường đi tối ưu</h2>
+    <div style="display:flex; justify-content:center; align-items:flex-start; gap:2em;">
+
+      <!-- Hình minh họa -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/route-map.png" alt="Bản đồ tìm đường" style="max-height:400px;">
+        <!-- <p style="font-size:0.9em; margin-top:0.5em;">Ví dụ: Ngã Tư Sở → VNU-UET</p> -->
+      </div>
+
+      <!-- Nội dung chữ -->
+      <div style="flex:1;">
+        <p><strong>Bài toán:</strong> Tìm đường đi tối ưu từ <em>A</em> (Ngã Tư Sở) đến <em>B</em> (VNU-UET).</p>
+        <p><strong>Yếu tố:</strong> Tắc đường, thời tiết, phương tiện di chuyển.</p>
+        <p><strong>Thuật toán?</strong></p>
+      </div>
+
+    </div>
+  </section>
+
+</section>
+
+<!-- Chủ đề: Tư duy giải quyết vấn đề -->
+<section>
+  <!-- Trang 9 -->
+  <section>
+    <h2 class="r-fit-text">Tư duy giải quyết vấn đề</h2>
+  </section>
+
+  <!-- Slide 10: Tư duy giải quyết vấn đề -->
+  <section>
+    <h2>Tư duy giải quyết vấn đề</h2>
+    <p>Quá trình hiểu vấn đề, khám phá các giải pháp khả thi và thiết kế thuật toán rõ ràng, từng bước để giải quyết.</p>
+    
+    <div style="display:flex; justify-content:space-around; align-items:flex-start; margin-top:1em; gap:2em;">
+      <!-- Vấn đề -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/problem-icon.png" alt="Vấn đề" style="height:120px;">
+        <h4>Vấn đề</h4>
+        <p>Tình huống cần giải quyết.</p>
+      </div>
+
+      <!-- Ý tưởng giải pháp -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/solution-icon.png" alt="Ý tưởng giải pháp" style="height:120px;">
+        <h4>Giải pháp</h4>
+        <p>Cách tiếp cận để đạt mục tiêu.</p>
+      </div>
+
+      <!-- Thuật toán -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/algorithm-icon.png" alt="Thuật toán" style="height:120px;">
+        <h4>Thuật toán</h4>
+        <p>Các bước giải rõ ràng.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 11: Sức mạnh của máy tính trong hỗ trợ giải quyết vấn đề -->
+  <section>
+    <h2>Sức mạnh của máy tính<br>trong giải quyết vấn đề</h2>
+
+    <!-- Bảng so sánh gọn -->
+    <table style="width:100%; font-size:0.9em; border-collapse:collapse; text-align:center;">
+      <thead>
+        <tr>
+          <th>Khía cạnh</th>
+          <th>Con người</th>
+          <th>Máy tính</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Sáng tạo</td>
+          <td>Trực giác</td>
+          <td>Không sáng tạo</td>
+        </tr>
+        <tr>
+          <td>Quy mô</td>
+          <td>Vấn đề nhỏ</td>
+          <td>Dữ liệu lớn</td>
+        </tr>
+        <tr>
+          <td>Tốc độ</td>
+          <td>Chậm</td>
+          <td>Rất nhanh</td>
+        </tr>
+        <tr>
+          <td>Độ chính xác</td>
+          <td>Dễ sai</td>
+          <td>Luôn đúng</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Slide 12: Giải quyết vấn đề với Tư duy Tính toán -->
+  <section>
+    <h2>Giải quyết vấn đề<br>với Tư duy Tính toán</h2>
+
+    <div style="display:flex; justify-content:space-around; align-items:flex-start; margin-top:1em; gap:2em;">
+
+      <!-- Vấn đề -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/problem-icon.png" alt="Vấn đề" style="height:100px;">
+        <h4>Vấn đề</h4>
+      </div>
+
+      <!-- Ý tưởng giải pháp -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/solution-icon.png" alt="Giải pháp" style="height:100px;">
+        <h4>Giải pháp</h4>
+      </div>
+
+      <!-- Thuật toán -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/algorithm-icon.png" alt="Thuật toán" style="height:100px;">
+        <h4 style="color:red">Thuật toán</h4>
+      </div>
+
+      <!-- Code -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/code-icon.png" alt="Code" style="height:100px;">
+        <h4 style="color:red;">Code</h4>
+      </div>
+
+    </div>
+  </section>
+
+</section>
+
+<!-- Chủ đề: Tư duy Tính toán -->
+<section>
+  <!-- Slide 14 -->
+  <section>
+    <h1 class="r-fit-text">Tư duy Tính toán là gì?</h1>
+  </section>
+
+  <!-- Slide 15 -->
+  <section>
+    <h2>Tư duy Tính toán</h2>
+    <p>Là cách tiếp cận giải quyết vấn đề bằng cách sử dụng các khái niệm trong Khoa học máy tính
+      để thiết kế giải pháp .</p>
+    <ul>
+      <li>Phân rã (<em>Decomposition</em>)</li>
+      <li>Nhận dạng mẫu (<em>Pattern Recognition</em>)</li>
+      <li>Trừu tượng hóa (<em>Abstraction</em>)</li>
+      <li>Thiết kế thuật toán (<em>Algorithm Design</em>)</li>
+    </ul>
+  </section>
+
+  <!-- Slide 16 -->
+  <section>
+    <h2>Phân rã (Decomposition)</h2>
+    <p>Chia nhỏ vấn đề lớn thành các phần nhỏ, dễ quản lý.</p>
+    <p>Ví dụ: tính diện tích hình chữ nhật</p>
+    <pre><code data-trim class="language-markdown">
+1. Nhập chiều dài & chiều rộng
+2. Tính diện tích = dài * rộng
+3. Hiển thị kết quả
+    </code></pre>
+  </section>
+
+  <!-- Slide 17 -->
+  <section>
+    <h2>Nhận dạng mẫu (Pattern Recognition)</h2>
+    <p>Tìm sự lặp lại hoặc điểm chung.</p>
+    <p>Ví dụ: viết các số chẵn trong khoảng 1 đến 10</p>
+    <pre><code data-trim class="language-python">
+for i in range(1, 11):
+    if i % 2 == 0:
+        print(i)
+    </code></pre>
+    <p>→ Quy luật: số chẵn</p>
+  </section>
+
+  <!-- Slide 18 -->
+  <section>
+    <h2>Trừu tượng hóa (Abstraction)</h2>
+    <p>Tập trung vào chi tiết quan trọng, bỏ qua phần không cần.</p>
+    <p>Ví dụ: hàm cộng hai số</p>
+    <pre><code data-trim class="language-python">
+def add_numbers(a, b):
+    return a + b
+
+print(add_numbers(5, 7))
+    </code></pre>
+    <p>→ Chỉ quan tâm đến kết quả: <code>a+b</code></p>
+  </section>
+
+  <!-- Slide 19 -->
+  <section>
+    <h2>Thiết kế thuật toán (Algorithm Design)</h2>
+    <p>Tạo quy trình từng bước để giải quyết vấn đề.</p>
+    <p>Ví dụ: tìm số lớn nhất trong danh sách</p>
+    <pre><code data-trim class="language-python">
+def find_max(numbers):
+    max_num = numbers[0]
+    for n in numbers:
+        if n > max_num:
+            max_num = n
+    return max_num
+    </code></pre>
+    <p>→ Thuật toán = công thức chính xác để giải bài toán</p>
+  </section>
+</section>
+
+<!-- Chủ đề: Lập trình là gì ? -->
+<section>
+  <!-- Slide 14 -->
+  <section>
+    <h1 class="r-fit-text">Lập trình là gì ?</h1>
+  </section>
+  <!-- Slide 20: Lập trình là gì? -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Lập trình là gì?</h2>
+    <div style="display:flex; align-items:center; gap:2em;">
+      
+      <!-- Ảnh Scratch -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/scratch-programming.png" alt="Giao diện Scratch" style="max-height:400px;">
+        <p style="font-size:0.8em;">Scratch tại <a href="https://studio.code.org">code.org</a></p>
+      </div>
+
+      <!-- Nội dung chữ -->
+      <div style="flex:1;">
+        <p>Cho một tập lệnh và một nhiệm vụ → viết chuỗi lệnh để thực hiện.</p>
+        <p><em>Ví dụ: </em>Scratch – công cụ lập trình cho trẻ em.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Slide 21: Còn lập trình bằng Python thì sao? -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Lập trình bằng Python?</h2>
+    <div style="display:flex; align-items:center; gap:2em;">
+
+      <!-- Ảnh Python -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/python-programming.png" alt="Mã Python" style="max-height:400px;">
+        <p style="font-size:0.8em;">Ví dụ: chương trình Python tương ứng</p>
+      </div>
+
+      <!-- Nội dung chữ -->
+      <div style="flex:1;">
+        <p><strong>Quy trình giống nhau:</strong> cùng nhiệm vụ, nhưng tập lệnh khác.</p>
+        <p><em>Python</em> dùng câu lệnh văn bản thay cho khối lệnh kéo thả.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Slide 22 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Nhiệm vụ phức tạp hơn?</h2>
+    <div style="text-align:center;">
+      <img src="img/lec01/scratch-task.png" alt="Nhiệm vụ Scratch" style="max-height:400px;">
+      <p><em>Đến lượt bạn thử</em>
+      <a href="https://studio.code.org/courses/express-2025/units/1/lessons/1/levels/11">code.org – Bài 1.</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Slide 23 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Giới thiệu biến, giá trị và biểu thức</h2>
+    <ul>
+      <li>Số: <code>1</code>, <code>-2.5</code></li>
+      <li>Giá trị logic: <code>True</code>, <code>False</code></li>
+      <li>Chuỗi: <code>"Hello"</code>, <code>"Hôm nay trời đẹp"</code></li>
+      <li>Danh sách: <code>[1,2,3]</code></li>
+      <li>Bộ giá trị: <code>('Toán', 8.4)</code></li>
+      <li>Từ điển: <code>{'Toán':8.4, 'Lý':6.5}</code></li>
+    </ul>
+  </section>
+
+  <!-- Slide 24 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Biểu thức</h3>
+    <ul>
+      <li>Biểu thức biểu diễn một giá trị.</li>
+      <li>Python tính toán biểu thức → cho kết quả.</li>
+      <li>Ví dụ: <code>2.3</code>, <code>(3*7+2)*0.1</code></li>
+    </ul>
+  </section>
+
+  <!-- Slide 25 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Lưu trữ & Tính toán dữ liệu</h2>
+    <p>Dữ liệu có thể là:</p>
+    <ul>
+      <li>Số: <code>1</code>, <code>-2.5</code></li>
+      <li>Logic: <code>True</code>, <code>False</code></li>
+      <li>Chuỗi: <code>"Hello"</code>, <code>"Hôm nay trời đẹp"</code></li>
+      <li>Danh sách: <code>[1,2,3]</code></li>
+      <li>Bộ giá trị: <code>('Toán', 8.4)</code></li>
+      <li>Từ điển: <code>{'Toán':8.4, 'Lý':6.5}</code>x</li>
+    </ul>
+  </section>
+
+  <!-- Slide 26 -->
+  <section>
+    <h2>Biến</h2>
+    <p>Biến là tên để tham chiếu dữ liệu.</p>
+    <pre> <code  data-trim  class="language-python">
+x = 5
+x = 10 * 2
+numbers = [1, 2, 3]
+    </code></pre>
+    <p><code>numbers</code> giờ là tên của danh sách <code>[1,2,3]</code></p>
+  </section>
+
+  <!-- Slide 27 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Biến…</h2>
+
+    <!-- Hàng 1: Sử dụng trước khi định nghĩa -->
+    <div style="display:flex; align-items:center; gap:2em; margin-bottom:2em;">
+      <div style="flex:1;">
+        <p><strong>Sử dụng biến trước khi định nghĩa</strong></p>
+      </div>
+      <div style="flex:2; text-align:center;">
+        <img src="img/lec01/var-error.png" alt="Lỗi biến chưa định nghĩa" style="max-height:220px;">
+      </div>
+    </div>
+
+    <!-- Hàng 2: Sau khi định nghĩa -->
+    <div style="display:flex; align-items:center; gap:2em;">
+      <div style="flex:1;">
+        <p><strong>Sau khi định nghĩa</strong></p>
+      </div>
+      <div style="flex:2; text-align:center;">
+        <img src="img/lec01/var-ok.png" alt="Biến đã định nghĩa" style="max-height:220px;">
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Slide 28 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Trò chơi khác</h2>
+    <div style="text-align:center;">
+      <img src="img/lec01/game-more.png" alt="Trò chơi Scratch" style="max-height:300px;">
+      <p><a href="https://studio.code.org/courses/express-2025/units/1/lessons/7">code.org – Bài 7</a></p>
+    </div>
+  </section>
+
+  <!-- Slide 29 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Vòng lặp (Loops)</h2>
+    <div style="text-align:center;">
+      <img src="img/lec01/loop-blocks.png" alt="Vòng lặp Scratch" style="max-height:300px;">
+      <p><a href="https://studio.code.org/courses/express-2025/units/1/lessons/7">code.org – Bài 7</a></p>
+    </div>
+  </section>
+
+  <!-- Slide 30 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Vòng lặp (Loops)</h2>
+    <div style="text-align:center;">
+      <img src="img/lec01/loop-python.png" alt="Vòng lặp Python" style="max-height:300px;">
+      <p>Ví dụ: Python triển khai vòng lặp tương ứng</p>
+    </div>
+  </section>
+
+<!-- Chủ đề: Vòng lặp & Lặp trong Python -->
+
+  <!-- Slide 32 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Lặp trong Python</h2>
+    <p>Có thể làm nhiều việc bên trong vòng <code>for</code>.</p>
+    <pre><code class="language-python">
+def move_forward():
+    print('tiến')
+for i in range(3):
+    move_forward()
+    print(i)
+    </code></pre>
+    <p>→ Python cho phép lặp + thêm hành động.</p>
+  </section>
+
+  <!-- Slide 33 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Thêm trò chơi</h2>
+    <div style="text-align:center;">
+      <img src="img/lec01/game-variables.png" alt="Trò chơi với biến" style="max-height:300px;">
+      <p><a href="https://studio.code.org/courses/express-2025/units/1/lessons/27/levels/3">code.org – Bài 27</a></p>
+    </div>
+  </section>
+
+  <!-- Slide 35 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Logic phức tạp hơn</h2>
+    <div style="display:flex; align-items:center; gap:2em;">
+      
+      <!-- Cột trái: nội dung chữ -->
+      <div style="flex:1;">
+        <p>Dùng ít khối nhất để ong lấy hết mật hoa.</p>
+        <p>
+          <a href="https://studio.code.org/courses/express-2025/units/1/lessons/14/levels/5">
+            code.org – Bài 14
+          </a>
+        </p>
+      </div>
+
+      <!-- Cột phải: ảnh -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/bee-nectar.png" alt="Ong lấy mật" style="max-height:400px;">
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Slide 36 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Logic phức tạp hơn</h2>
+    <div style="text-align:center;">
+      <img src="img/lec01/bee-loop.png" alt="Vòng lặp ong lấy mật" style="max-height:300px;">
+          <p><a href="https://studio.code.org/courses/express-2025/units/1/lessons/14/levels/5">
+            code.org – Bài 14
+          </a></p>
+    </div>
+
+  </section>
+
+  <!-- Slide 37 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Logic phức tạp hơn</h2>
+    <div style="display:flex; align-items:center; gap:2em;">
+
+      <!-- Cột trái: nội dung chữ -->
+      <div style="flex:1;">
+        <p>Dùng ít khối nhất để zombie đến được hoa.</p>
+        <p>
+          <a href="https://studio.code.org/courses/express-2025/units/1/lessons/14/levels/8">
+            code.org – Bài 14
+          </a>
+        </p>
+      </div>
+
+      <!-- Cột phải: ảnh -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/zombie-path.png" alt="Zombie đi đường" style="max-height:400px;">
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Slide 38 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Logic phức tạp hơn</h2>
+    <div style="text-align:center;">
+      <img src="img/lec01/zombie-code.png" alt="Vòng lặp zombie" style="max-height:400px;">
+    </div>
+  </section>
+
+  <!-- Slide 39 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Logic phức tạp hơn</h2>
+    <div style="text-align:center;">
+      <img src="img/lec01/zombie-python.png" alt="Code vòng lặp zombie" style="max-height:400px;">
+    </div>
+  </section>
+
+  <!-- Slide 40 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Điểm quan trọng</h2>
+    <p>Chia nhỏ bài toán thành các <strong>nhiệm vụ con</strong> và tìm quy luật.</p>
+    <div style="display:flex; justify-content:center; gap:2em;">
+      <img src="img/lec01/bee-subtask.png" alt="Chia nhỏ bài toán ong" style="max-height:250px;">
+      <img src="img/lec01/zombie-subtask.png" alt="Chia nhỏ bài toán zombie" style="max-height:250px;">
+    </div>
+  </section>
+
+  <!-- Slide 42 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Thêm trò chơi?</h2>
+    <p>Bạn có thể luyện tập qua các trò chơi:</p>
+    <ul>
+      <li><a href="https://studio.code.org/courses/express-2025/units/1/lessons/14/levels/1">code.org – Bài 14</a></li>
+      <li><a href="https://studio.code.org/courses/express-2025/units/1/lessons/15/levels/1">code.org – Bài 15</a></li>
+    </ul>
+  </section>
+
+  <!-- Slide 43 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Rẽ nhánh</h2>
+    <div style="display:flex; align-items:center; gap:2em;">
+
+      <!-- Cột trái: nội dung chữ -->
+      <div style="flex:1;">
+        <p>Kiểm tra từng đám mây → có hoa thì lấy mật.</p>
+        <p>
+          <a href="https://studio.code.org/courses/express-2025/units/1/lessons/17/levels/3">
+            code.org – Bài 17
+          </a>
+        </p>
+      </div>
+
+      <!-- Cột phải: ảnh -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/bee-selection-1.png" alt="Bee Selection 1" style="max-height:400px;">
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Slide 44 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Rẽ nhánh</h2>
+    <div style="display:flex; align-items:center; gap:2em;">
+
+      <!-- Cột trái: nội dung chữ -->
+      <div style="flex:1;">
+        <p>Lấy hết mật từ hoa hoặc làm mật ong từ tổ → kiểm tra từng ô.</p>
+        <p>
+          <a href="https://studio.code.org/courses/express-2025/units/1/lessons/17/levels/12">
+            code.org – Bài 17
+          </a>
+        </p>
+      </div>
+
+      <!-- Cột phải: ảnh -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/bee-selection-2.png" alt="Bee Selection 2" style="max-height:400px;">
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Slide 45 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Rẽ nhánh</h2>
+    <div style="display:flex; align-items:center; gap:2em;">
+
+      <!-- Cột trái: nội dung chữ -->
+      <div style="flex:1;">
+        <p>Lấy hết mật từ hoa hoặc làm mật ong từ tổ → kiểm tra từng ô.</p>
+        <p>
+          <a href="https://studio.code.org/courses/express-2025/units/1/lessons/17/levels/12">
+            code.org – Bài 17
+          </a>
+        </p>
+      </div>
+
+      <!-- Cột phải: ảnh -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/bee-selection-3.png" alt="Bee Selection 2" style="max-height:400px;">
+      </div>
+
+    </div>
+  </section>
+  
+  <!-- Slide 46 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Rẽ nhánh trong Python</h2>
+    <pre><code class="language-python">
+x = 5
+if x > 0:
+    print("x dương")
+else:
+    print("x không dương")
+    </code></pre>
+  </section>
+
+  <!-- Slide 47 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Scratch vs. Python</h2>
+    <p>Lập trình bằng khối lệnh (Scratch) vs. văn bản (Python).</p>
+    <div style="display:flex; justify-content:center; gap:2em;">
+      <img src="img/lec01/scratch-python-if.png" alt="Scratch Python If" style="max-height:300px;">
+    </div>
+  </section>
+
+  <!-- Slide 48 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Vậy... Lập trình là gì?</h2>
+    <ul>
+      <li>Viết code: Sắp xếp khối lệnh / code theo thứ tự đúng.</li>
+      <li>Kiểm tra code: Chạy thử để xem kết quả.</li>
+      <li>Debug: Tìm lỗi, sửa lỗi.</li>
+      <li>Chữa lỗi: Kiểm thử, hoàn thiện chương trình.</li>
+    </ul>
+    <p><a href="https://studio.code.org/courses/express-2025/units/1/lessons/1/levels/11">code.org – Bài 1</a></p>
+  </section>
+
+  <!-- Slide 49 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Nhưng… Làm thế nào?</h2>
+    <ul>
+      <li>Nghĩ theo ngôn ngữ lập trình.</li>
+      <li>Chia nhiệm vụ thành các bước nhỏ.</li>
+      <li>Lặp lại cho đến khi mỗi bước có thể viết bằng một lệnh.</li>
+    </ul>
+    <p><a href="https://studio.code.org/courses/express-2025/units/1/lessons/1/levels/11">code.org – Bài 1</a></p>
+  </section>
+
+  <!-- Slide 50 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Không hiểu?</h2>
+    <p>Đừng lo! Hãy thử Scratch tại <a href="https://studio.code.org">code.org</a>.</p>
+    <p>Luyện tập dần dần, bạn sẽ thấy quen!</p>
+    <p><strong>Happy coding! 🎉</strong></p>
+  </section>
+
+
+</section>
+
+      <!-- Footer -->
+      <div class="footer">
+        Tư duy tính toán. (Học kỳ 1 2025-2026) §1: Giới thiệu Tư duy tính toán
+      </div>
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
