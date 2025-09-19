@@ -744,6 +744,164 @@ else:
     <p><strong>Happy coding! 🎉</strong></p>
   </section>
 
+</section>
+
+<!-- Chủ đề: Chạy chương trình Python -->
+<section>
+
+  <section>
+    <h1 class="r-fit-text">Chạy chương trình Python</h1>
+  </section>
+
+  <!-- Slide 51 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Chạy chương trình Python</h2>
+    <ul>
+      <li>Dùng <strong>command line</strong>:</li>
+      <ul>
+        <li>Mac/Linux: Terminal</li>
+        <li>Windows: PowerShell</li>
+      </ul>
+      <li>Gõ <code>python</code> để vào chế độ tương tác.</li>
+      <li>Thoát bằng <code>quit()</code>.</li>
+    </ul>
+  </section>
+
+  <!-- Slide 52 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Chạy module</h2>
+    <p>File <code>add.py</code>:</p>
+    <pre><code class="language-python">
+x = 'Hello'
+y = x + ' World'
+    </code></pre>
+    <p>Lệnh:</p>
+    <pre><code>C:\> python add.py</code></pre>
+    <p>→ Thực hiện lệnh nhưng chưa in ra kết quả.</p>
+  </section>
+
+  <!-- Slide 53 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Chạy module (in kết quả)</h2>
+    <p>Sửa <code>add.py</code>:</p>
+    <pre><code class="language-python">
+x = 'Hello'
+y = x + ' World'
+print("y = " + y)
+    </code></pre>
+    <p>Kết quả:</p>
+    <pre><code>C:\> python add.py
+y = Hello World</code></pre>
+  </section>
+
+  <!-- Slide 54 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Module thú vị hơn</h2>
+    <p><code>guess.py</code>:</p>
+    <pre><code class="language-python">
+user_guess = input('Tôi đang nghĩ gì? ')
+print('Sai rồi, tôi không nghĩ đến ' + user_guess)
+    </code></pre>
+    <p>Kết quả:</p>
+    <pre><code>C:\> python guess.py
+Tôi đang nghĩ gì? cat
+Sai rồi, tôi không nghĩ đến cat</code></pre>
+  </section>
+
+  <!-- Slide 55 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Chế độ tương tác</h2>
+    <pre><code>C:\> python
+Python 3.10.0 ...
+>>> x = 'Hello'
+>>> y = x + ' World'
+>>> y
+'Hello World'
+    </code></pre>
+  </section>
+
+  <!-- Slide 56 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Import module</h2>
+    <p>Dùng <code>import add</code> để chạy file <code>add.py</code>.</p>
+    <pre><code class="language-python">
+# add.py
+x = 'Hello'
+y = x + ' World'
+print("y = " + y)
+    </code></pre>
+    <pre><code>>>> import add
+y = Hello World</code></pre>
+  </section>
+
+  <!-- Slide 57 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">3 cách chạy code</h2>
+    <ol>
+      <li>Chế độ tương tác.</li>
+      <li>Import module.</li>
+      <li>Chạy file script.</li>
+    </ol>
+    <p>→ Hãy cài Python và thử ngay 🎉</p>
+  </section>
+
+  <!-- Slide 58 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Nếu không cài Python?</h2>
+    <p>Dùng các IDE online:</p>
+    <ul>
+      <li><a href="https://www.online-python.com">online-python.com</a></li>
+      <li><a href="https://www.onlinegdb.com">onlinegdb.com</a></li>
+      <li><a href="https://www.pythononline.net">pythononline.net</a></li>
+    </ul>
+  </section>
+
+  <!-- Slide 59 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Jupyter Notebook</h2>
+    <div style="display:flex; align-items:center; gap:2em;">
+
+      <!-- Cột trái: nội dung chữ -->
+      <div style="flex:1;">
+        <p>Dùng <strong>Google Colab</strong> để chạy Jupyter Notebook trực tuyến.</p>
+        <p>
+          <a href="https://colab.research.google.com">colab.research.google.com</a>
+        </p>
+      </div>
+
+      <!-- Cột phải: ảnh -->
+      <div style="flex:1; text-align:center;">
+        <img src="img/lec01/colab.png" alt="Google Colab" style="max-height:400px;">
+      </div>
+
+    </div>
+  </section>
+
+
+</section>
+
+
+<!-- Chủ đề: Tổng kết -->
+<section>
+
+  <!-- Slide 60 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Tổng kết</h2>
+    <ul>
+      <li>Giải quyết vấn đề với tư duy tính toán</li>
+      <li>Vấn đề → Giải pháp → Thuật toán → Code</li>
+      <li>Các bước: Phân rã, Nhận dạng mẫu, Trừu tượng hóa, Thuật toán</li>
+      <li>Lập trình = Viết lệnh để máy tính thực hiện</li>
+      <li>Bắt đầu với Python: biến, giá trị, biểu thức, vòng lặp, rẽ nhánh</li>
+      <li>Học bằng cách <strong>thực hành</strong></li>
+    </ul>
+  </section>
+
+  <!-- Slide 61 -->
+  <section>
+    <h2 style="font-size:2em; margin-bottom:1em;">Hỏi đáp</h2>
+    <p><em>Cứ bình tĩnh & vui vẻ khi lập trình!</em></p>
+  </section>
 
 </section>
 
