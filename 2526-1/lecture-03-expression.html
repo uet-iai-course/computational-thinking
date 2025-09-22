@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Bài 3: Toán tử, biểu thức, nhập - xuất</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<!-- Sections for Lecture 03 (Operators, Expressions, Input-Output) generated from PPTX -->
+<!-- Paste these inside <div class="slides"> of your Reveal.js deck -->
+
+<!-- 1) Title & Outline -->
+<section>
+  <section>
+    <h1 class="r-fit-text">Tư duy Tính toán</h1>
+    <h2>Biểu thức, Toán tử &amp; Nhập xuất</h2>
+    <p>Trường ĐH Công nghệ – Đại học Quốc gia Hà Nội</p>
+  </section>
+  <section data-markdown>
+    <textarea data-template>
+    ## Nội dung
+    - Ví dụ thực tế
+    - Biến, Kiểu dữ liệu &amp; Gán
+    - Biểu thức &amp; Toán tử
+    - Nhập &amp; Xuất trong Python
+    </textarea>
+  </section>
+</section>
+
+<!-- 2) Real-life Example: Bookstore Cashier -->
+<section>
+  <section>
+    <h2 class="r-fit-text">Ví dụ thực tế: Thu ngân hiệu sách</h2>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Bài toán
+    **Nhiệm vụ:** Viết chương trình tính **tổng tiền** cho một hóa đơn.  
+    - **Đầu vào:** Danh sách sách trong giỏ (mỗi mục có *tên, số lượng, đơn giá*).  
+    - **Đầu ra:** Tổng tiền cần thanh toán.
+    </textarea>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Phân rã &amp; Mẫu chung
+    - Tổng tiền = **tổng** của *thành tiền* từng mục  
+    - Mẫu (pattern): `thành_tiền = số_lượng × đơn_giá`  
+    - Thuật toán: 1) khởi tạo `total = 0`  → 2) duyệt từng mục → 3) cộng dồn `qty*price` → 4) in `total`.
+    </textarea>
+  </section>
+
+  <section>
+    <h3>Dữ liệu &amp; Công thức</h3>
+    <ul>
+      <li><strong>Tên</strong>: chuỗi (string)</li>
+      <li><strong>Số lượng</strong>: số nguyên (int)</li>
+      <li><strong>Đơn giá / Thành tiền / Tổng</strong>: số thực (float)</li>
+    </ul>
+    <p><code>thanh_tien = qty * price</code></p>
+  </section>
+</section>
+
+<!-- 3) Variables, Types & Assignment -->
+<section>
+  <section>
+    <h2 class="r-fit-text">Biến, Kiểu dữ liệu &amp; Gán</h2>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Biến là gì?
+    Biến là **tên** gán cho một **giá trị** trong bộ nhớ → dùng để tham chiếu &amp; thao tác trong khi chạy chương trình.
+    </textarea>
+  </section>
+
+  <section>
+    <h3>Quy tắc đặt tên biến (Python)</h3>
+    <ul>
+      <li>Chỉ gồm chữ cái, chữ số, và <code>_</code>; không bắt đầu bằng chữ số.</li>
+      <li>Phân biệt hoa–thường: <code>myVar</code> ≠ <code>myvar</code>.</li>
+      <li>Không dùng từ khóa: <code>if</code>, <code>for</code>, ...</li>
+    </ul>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Kiểu dữ liệu phổ biến
+    - **Số**: `int`, `float`  
+    - **Boolean**: `True` / `False`  
+    - **Chuỗi**: `'Hello'`, `"It's a good day"`  
+    - **List/Tuple**: `[1,2,3]`, `('Math', 8.4)`  
+    - **Set/Dict**: `{'Math', 'English'}`, `{'Math': 8.4}`  
+    - **None**: giá trị đặc biệt `None`
+    </textarea>
+  </section>
+
+  <section>
+    <h3>Xem kiểu &amp; Gán giá trị</h3>
+    <pre><code class="language-python">type(5)       # int
+x = 5         # gán cơ bản
+a = b = c = 5 # gán cùng giá trị
+x, y, z = 1, 2.5, "Python"  # gán nhiều giá trị</code></pre>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Dynamic typing &amp; Ép kiểu
+    - Python là **dynamic typing**: `x = 10` rồi `x = "string"` vẫn hợp lệ.  
+    - **Ép kiểu**: `int("3")`, `float("3.14")`, `str(3.14)`.
+    </textarea>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Biến cục bộ &amp; toàn cục
+    - **Local**: khai báo trong hàm, chỉ tồn tại khi hàm chạy.  
+    - **Global**: khai báo ngoài mọi hàm, truy cập được ở bất kỳ đâu (cẩn trọng khi dùng).
+    </textarea>
+  </section>
+</section>
+
+<!-- 4) Expressions & Operators -->
+<section>
+  <section>
+    <h2 class="r-fit-text">Biểu thức &amp; Toán tử</h2>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Biểu thức là gì?
+    Tổ hợp **toán tử** và **toán hạng** tạo ra **giá trị**.  
+    Ví dụ: `x = 3 + 5`, `y = (3*7 + 2) * 0.1`.
+    </textarea>
+  </section>
+
+  <section>
+    <div style="display:flex; gap:2rem; align-items:flex-start;">
+      <div style="flex:1;">
+        <h3>Đơn giản</h3>
+        <pre><code class="language-python">3 + 5
+2 * (3 + 4)</code></pre>
+      </div>
+      <div style="flex:1;">
+        <h3>Phức tạp</h3>
+        <pre><code class="language-python">(a + b) / 2 &gt; 10 and (a*b) % 2 == 0</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Toán tử số học
+    `+`, `-`, `*`, `/` *(kết quả float)*, `//` *(chia lấy phần nguyên)*, `%` *(dư)*, `**` *(lũy thừa)*.
+    </textarea>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## So sánh
+    `==`, `!=`, `&lt;`, `&lt;=`, `&gt;`, `&gt;=` → trả về `True/False`.  
+    ⚠️ **Số thực**: so sánh xấp xỉ với `math.isclose(a, b)`.
+    </textarea>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## So sánh chuỗi &amp; cấu trúc
+    - Chuỗi so sánh theo mã Unicode từng ký tự.  
+    - List/Tuple: so sánh **theo từng phần tử** từ trái sang phải.
+    </textarea>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Logic, Bit, Gán, Thành viên
+    - **Logic**: `and`, `or`, `not`  
+    - **Bitwise**: `&amp;`, `|`, `^`, `~`, `&lt;&lt;`, `&gt;&gt;`  
+    - **Gán**: `=`, `+=`, `-=`, `*=`, ...  
+    - **Membership**: `in`, `not in`
+    </textarea>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Độ ưu tiên &amp; Kết hợp
+    - Dấu ngoặc **ưu tiên cao nhất**.  
+    - Mặc định: `**` &gt; `*`, `/`, `//`, `%` &gt; `+`, `-`  
+    - Kết hợp trái→phải (trừ `**`).
+    </textarea>
+  </section>
+</section>
+
+<!-- 5) Expressions in Practice -->
+<section>
+  <section>
+    <h2 class="r-fit-text">Biểu thức trong thực hành</h2>
+  </section>
+
+  <section>
+    <h3>Trong điều kiện &amp; vòng lặp</h3>
+    <pre><code class="language-python">if (score &gt;= 5) and (absence &lt; 3):
+    print("Qua môn")
+
+x = 0
+while x &lt; 10:
+    x += 1</code></pre>
+  </section>
+
+  <section>
+    <h3>List comprehension &amp; Hàm</h3>
+    <pre><code class="language-python">squares = [x**2 for x in range(10) if x % 2 == 0]
+
+def square(x):
+    return x**2
+
+ok = max(a, b, c) &gt; 10 and (a + b) % 2 == 0</code></pre>
+  </section>
+</section>
+
+<!-- 6) Input & Output -->
+<section>
+  <section>
+    <h2 class="r-fit-text">Nhập &amp; Xuất trong Python</h2>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Nhập dữ liệu: `input()`
+    - Luôn trả về **chuỗi** (`str`).  
+    - Ép kiểu khi cần: `int(input(...))`, `float(input(...))`.
+    </textarea>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Nhập nhiều giá trị trên một dòng
+    ```python
+    a, b = input().split()      # tách theo khoảng trắng
+    x, y = map(int, input().split())
+    ```
+    </textarea>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Lỗi thường gặp khi nhập
+    Quên ép kiểu → nối chuỗi với số gây `TypeError`.  
+    ✅ Dùng `str()` hoặc f-string.
+    </textarea>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## In ra màn hình: `print()`
+    - In văn bản, biến, biểu thức.  
+    - Dùng **f-string**: `print(f"Total: {total:.2f}")`  
+    - Hoặc `.format()`: `"Total: {:.2f}".format(total)`
+    </textarea>
+  </section>
+</section>
+
+<!-- 7) Summary -->
+<section data-markdown>
+  <textarea data-template>
+  ## Tổng kết
+  - **Biến**: tên gắn với **giá trị**.  
+  - **Kiểu** quy định thao tác hợp lệ; Python **dynamic typing**.  
+  - **Biểu thức** = toán tử + toán hạng → tạo giá trị.  
+  - **Toán tử**: số học, so sánh, logic, bit, gán, membership; chú ý **ưu tiên**.  
+  - **I/O**: `input()` trả về chuỗi; dùng `print()` với f-string/`.format()`.
+  </textarea>
+</section>
+
+      <!-- Footer -->
+      <div class="footer">
+        Tư duy tính toán. (Học kỳ 1 2025-2026) §3: Biểu thức, Toán tử &amp; Nhập xuất
+      </div>
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
