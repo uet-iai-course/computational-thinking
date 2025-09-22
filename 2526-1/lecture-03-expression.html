@@ -1,34 +1,28 @@
 <!doctype html>
-<html lang="en">
-
+<html lang="vi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <title>Bài 3: Toán tử, biểu thức, nhập - xuất</title>
+  <title>Bài 3: Biểu thức, Toán tử & I/O</title>
 
   <link rel="stylesheet" href="revealjs/dist/reset.css">
   <link rel="stylesheet" href="revealjs/dist/reveal.css" />
   <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
-
-  <!-- Theme used for syntax highlighted code -->
   <link rel="stylesheet" href="plugin/highlight/monokai.css">
-
   <link rel="stylesheet" href="lecture-style.css">
 </head>
-
 <body>
   <div class="reveal">
     <div class="slides">
 
 <!-- Sections for Lecture 03 (Operators, Expressions, Input-Output) generated from PPTX -->
-<!-- Paste these inside <div class="slides"> of your Reveal.js deck -->
 
 <!-- 1) Title & Outline -->
 <section>
   <section>
     <h1 class="r-fit-text">Tư duy Tính toán</h1>
-    <h2>Biểu thức, Toán tử &amp; Nhập xuất</h2>
+    <h2>Biểu thức, Toán tử &amp;<br>Nhập - xuất</h2>
     <p>Trường ĐH Công nghệ – Đại học Quốc gia Hà Nội</p>
   </section>
   <section data-markdown>
@@ -54,6 +48,19 @@
     **Nhiệm vụ:** Viết chương trình tính **tổng tiền** cho một hóa đơn.  
     - **Đầu vào:** Danh sách sách trong giỏ (mỗi mục có *tên, số lượng, đơn giá*).  
     - **Đầu ra:** Tổng tiền cần thanh toán.
+    </textarea>
+  </section>
+
+  <section data-markdown>
+    <textarea data-template>
+    ## Giỏ hàng mẫu
+
+    | # | Name   | Qty | Price ($) | Amount ($) |
+    |---|--------|-----|-----------|------------|
+    | 1 | Book A | 1   | 10.0      | 10.0       |
+    | 2 | Book B | 2   | 2.5       | 5.0        |
+
+    **Total:** 15.0
     </textarea>
   </section>
 
@@ -86,7 +93,9 @@
   <section data-markdown>
     <textarea data-template>
     ## Biến là gì?
-    Biến là **tên** gán cho một **giá trị** trong bộ nhớ → dùng để tham chiếu &amp; thao tác trong khi chạy chương trình.
+    - Biến dùng để tham chiếu &amp; thao tác giá trị trong khi chạy chương trình.
+    - Biến bản chất là **tên** gán cho một **giá trị** trong bộ nhớ
+    - Ví dụ: `x = 5` thì `x` là tên biến, `5` là giá trị kiểu số nguyên.
     </textarea>
   </section>
 
@@ -121,8 +130,10 @@ x, y, z = 1, 2.5, "Python"  # gán nhiều giá trị</code></pre>
 
   <section data-markdown>
     <textarea data-template>
-    ## Dynamic typing &amp; Ép kiểu
-    - Python là **dynamic typing**: `x = 10` rồi `x = "string"` vẫn hợp lệ.  
+    ## Ép kiểu
+    - Python là ngôn ngữ cho phép thay đổi kiểu của biến (**dynamic typing**):
+    
+    `x = 10` rồi `x = "string"` vẫn hợp lệ.  
     - **Ép kiểu**: `int("3")`, `float("3.14")`, `str(3.14)`.
     </textarea>
   </section>
@@ -130,8 +141,8 @@ x, y, z = 1, 2.5, "Python"  # gán nhiều giá trị</code></pre>
   <section data-markdown>
     <textarea data-template>
     ## Biến cục bộ &amp; toàn cục
-    - **Local**: khai báo trong hàm, chỉ tồn tại khi hàm chạy.  
-    - **Global**: khai báo ngoài mọi hàm, truy cập được ở bất kỳ đâu (cẩn trọng khi dùng).
+    - **Cục bộ**: khai báo trong hàm, chỉ tồn tại khi hàm chạy.  
+    - **Toàn cục**: khai báo ngoài mọi hàm, truy cập được ở bất kỳ đâu (cẩn trọng khi dùng).
     </textarea>
   </section>
 </section>
@@ -144,8 +155,8 @@ x, y, z = 1, 2.5, "Python"  # gán nhiều giá trị</code></pre>
 
   <section data-markdown>
     <textarea data-template>
-    ## Biểu thức là gì?
-    Tổ hợp **toán tử** và **toán hạng** tạo ra **giá trị**.  
+    ## Biểu thức
+    Biểu thức = Tổ hợp **toán tử** và **toán hạng** tạo ra **giá trị**.  
     Ví dụ: `x = 3 + 5`, `y = (3*7 + 2) * 0.1`.
     </textarea>
   </section>
@@ -199,21 +210,38 @@ x, y, z = 1, 2.5, "Python"  # gán nhiều giá trị</code></pre>
 
   <section data-markdown>
     <textarea data-template>
-    ## Độ ưu tiên &amp; Kết hợp
-    - Dấu ngoặc **ưu tiên cao nhất**.  
-    - Mặc định: `**` &gt; `*`, `/`, `//`, `%` &gt; `+`, `-`  
-    - Kết hợp trái→phải (trừ `**`).
+## Độ ưu tiên &amp; Kết hợp
+| TT             | Tên                              | Toán tử                          | Thứ tự kết hợp     |
+|----------------|----------------------------------|----------------------------------|--------------------|
+| 1              | Ngoặc                            | `() [] {}`                       | T → P              |
+| 2              | Lũy thừa                         | `**`                             | P → T              |
+| 3              | Cộng/trừ đơn                     | `-a`, `+a`, `~a`                 | T → P              |
+| 4              | Nhân, Chia,                      | `/`, `*`, `//`, `%`              | T → P              |
+| 5              | Cộng & Trừ                       | `+`, `-`                         | T → P              |
+| 6              | Dịch bit (Shift)                 | `<<`, `>>`                       | T → P              |
+| 7              | AND bit                          | `&`                              | T → P              |
+
     </textarea>
   </section>
-</section>
 
-<!-- 5) Expressions in Practice -->
-<section>
-  <section>
-    <h2 class="r-fit-text">Biểu thức trong thực hành</h2>
+  <section data-markdown>
+    <textarea data-template>
+## Độ ưu tiên &amp; Kết hợp
+| TT             | Tên                              | Toán tử                          | Thứ tự kết hợp     |
+|----------------|----------------------------------|----------------------------------|--------------------|
+| 8              | XOR bit                          | `^`                              | T → P              |
+| 9              | OR bit.                          | `\|`                             | T → P              |
+| 10             | So sánh                          | `>=`, `<=`, `>`, `<`             | T → P              |
+| 11             | So sánh bằng/khác                | `==`, `!=`                       | T → P              |
+| 12             | Gán                              | `=`, `+=`, `-=`, `/=`, `*=`      | T → P              |
+| 13             | Đồng nhất & Thành viên           | `is`, `is not`, `in`, `not in`   | T → P              |
+| 14             | Logic                            | `and`, `or`, `not`               | T → P              |
+
+    </textarea>
   </section>
 
   <section>
+    <h2 class="r-fit-text">Biểu thức trong thực hành</h2>
     <h3>Trong điều kiện &amp; vòng lặp</h3>
     <pre><code class="language-python">if (score &gt;= 5) and (absence &lt; 3):
     print("Qua môn")
@@ -224,7 +252,7 @@ while x &lt; 10:
   </section>
 
   <section>
-    <h3>List comprehension &amp; Hàm</h3>
+    <h3>Tạo danh sách &amp; Hàm</h3>
     <pre><code class="language-python">squares = [x**2 for x in range(10) if x % 2 == 0]
 
 def square(x):
@@ -281,19 +309,22 @@ ok = max(a, b, c) &gt; 10 and (a + b) % 2 == 0</code></pre>
   <textarea data-template>
   ## Tổng kết
   - **Biến**: tên gắn với **giá trị**.  
-  - **Kiểu** quy định thao tác hợp lệ; Python **dynamic typing**.  
+  - **Kiểu** quy định thao tác hợp lệ;
+    - Kiểu động: thay đổi trong quá trình chạy.
   - **Biểu thức** = toán tử + toán hạng → tạo giá trị.  
-  - **Toán tử**: số học, so sánh, logic, bit, gán, membership; chú ý **ưu tiên**.  
-  - **I/O**: `input()` trả về chuỗi; dùng `print()` với f-string/`.format()`.
+  - **Toán tử**: số học, so sánh, logic, bit, gán, kiểm tra phần tử; chú ý **thứ tự ưu tiên**.  
+  - **I/O**: `input()` trả về chuỗi; dùng `print()` với f-string hoặc `.format()`.
   </textarea>
 </section>
 
-      <!-- Footer -->
-      <div class="footer">
-        Tư duy tính toán. (Học kỳ 1 2025-2026) §3: Biểu thức, Toán tử &amp; Nhập xuất
-      </div>
     </div>
   </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Tư duy tính toán. (Học kỳ 1 2025-2026) §3: Biểu thức, Toán tử &amp; Nhập - xuất
+  </div>
+
   <script src="revealjs/dist/reveal.js"></script>
   <script src="plugin/notes/notes.js"></script>
   <script src="plugin/markdown/markdown.js"></script>
@@ -309,5 +340,4 @@ ok = max(a, b, c) &gt; 10 and (a + b) % 2 == 0</code></pre>
     });
   </script>
 </body>
-
 </html>
