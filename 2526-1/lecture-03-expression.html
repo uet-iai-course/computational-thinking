@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="vi">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -12,310 +13,880 @@
   <link rel="stylesheet" href="plugin/highlight/monokai.css">
   <link rel="stylesheet" href="lecture-style.css">
 </head>
+
 <body>
   <div class="reveal">
     <div class="slides">
 
-<!-- Sections for Lecture 03 (Operators, Expressions, Input-Output) generated from PPTX -->
+      <!-- Sections for Lecture 03 (Operators, Expressions, Input-Output) generated from PPTX -->
 
-<!-- 1) Title & Outline -->
-<section>
-  <section>
-    <h1 class="r-fit-text">Tư duy Tính toán</h1>
-    <h2>Biểu thức, Toán tử &amp;<br>Nhập - xuất</h2>
-    <p>Trường ĐH Công nghệ – Đại học Quốc gia Hà Nội</p>
-  </section>
-  <section data-markdown>
-    <textarea data-template>
+      <!-- 1) Title & Outline -->
+      <section>
+        <section>
+          <h1 class="r-fit-text">Tư duy Tính toán</h1>
+          <h2>Biểu thức, Toán tử &amp;<br>Nhập &mdash; xuất</h2>
+          <p>Trường ĐH Công nghệ – Đại học Quốc gia Hà Nội</p>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
     ## Nội dung
-    - Ví dụ thực tế
-    - Biến, Kiểu dữ liệu &amp; Gán
-    - Biểu thức &amp; Toán tử
-    - Nhập &amp; Xuất trong Python
+    1. Ví dụ thực tế
+    1. Biến, Kiểu dữ liệu &amp; Gán
+    1. Biểu thức &amp; Toán tử
+    1. Nhập &amp; Xuất trong Python
     </textarea>
-  </section>
-</section>
+        </section>
+      </section>
 
-<!-- 2) Real-life Example: Bookstore Cashier -->
-<section>
-  <section>
-    <h2 class="r-fit-text">Ví dụ thực tế: Thu ngân hiệu sách</h2>
-  </section>
+      <!-- 2) Real-life Example: Bookstore Cashier -->
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">1. Ví dụ thực tế:</span>
+            <br> Thu ngân <br> hiệu sách
+          </h1>
+        </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## Bài toán
-    **Nhiệm vụ:** Viết chương trình tính **tổng tiền** cho một hóa đơn.  
-    - **Đầu vào:** Danh sách sách trong giỏ (mỗi mục có *tên, số lượng, đơn giá*).  
-    - **Đầu ra:** Tổng tiền cần thanh toán.
-    </textarea>
-  </section>
+        <!-- Slide: Bài toán -->
+        <section style="font-size: 0.9em;">
+          <h2>Bài toán</h2>
+          <p><strong>Nhiệm vụ</strong>: Viết chương trình tính <span class="keyword">tổng tiền</span> cho
+            một hóa đơn.</p>
+          <ul>
+            <li class="fragment"><strong>Đầu vào</strong>: Danh sách sách trong hoá đơn. Ví dụ:
+              <div class="bg-light" style="padding:0.3em; margin-bottom:0.5em;">
+                <table style="width: 100%;">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Tên</th>
+                      <th>Số lượng</th>
+                      <th>Đơn giá ($)</th>
+                      <th>Thành tiền ($)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Book A</td>
+                      <td>1</td>
+                      <td>10.0</td>
+                      <td>10.0</td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>Book B</td>
+                      <td>2</td>
+                      <td>2.5</td>
+                      <td>5.0</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </li>
+            <li class="fragment"><strong>Đầu ra</strong>: Tổng tiền cần thanh toán.
+              <ul>
+                <li>Trong ví dụ trên, <strong>tổng tiền</strong> là $15.0.</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## Giỏ hàng mẫu
+        <!-- Slide: Phân rã & Mẫu chung -->
+        <section>
+          <h2>Phân rã &amp; Mẫu chung</h2>
+          <ul>
+            <li><strong>Tư duy tính toán</strong>: chia nhỏ vấn đề, tìm mẫu
+            </li>
+            <li>
+              <strong>Chia nhỏ vấn đề:</strong>
+              <ul>
+                <li>
+                  tổng_tiền = tổng của <em>thành_tiền</em> từng mục
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Tìm mẫu:</strong>
+              <ul>
+                <li>thành_tiền = số_lượng × đơn_giá</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
 
-    | # | Name   | Qty | Price ($) | Amount ($) |
-    |---|--------|-----|-----------|------------|
-    | 1 | Book A | 1   | 10.0      | 10.0       |
-    | 2 | Book B | 2   | 2.5       | 5.0        |
+        <!-- Slide: Dữ liệu & Công thức -->
+        <section style="font-size: 0.9em;">
+          <h2>Dữ liệu &amp; Công thức</h2>
+          <div>
+            <ul>
+              <li><strong>Dữ liệu:</strong>
+                <ul>
+                  <li><strong>Tên</strong>: chuỗi (str)</li>
+                  <li><strong>Số lượng</strong>: số nguyên (int)</li>
+                  <li><strong>Đơn giá / Thành tiền / Tổng tiền</strong>: số thực (float)</li>
+                </ul>
+              </li>
+              <li><strong>Công thức:</strong>
+                <ul>
+                  <li>thành_tiền = số_lượng × đơn_giá</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </section>
 
-    **Total:** 15.0
-    </textarea>
-  </section>
+        <section>
+          <h2>Biến, Kiểu dữ liệu, Biểu thức, Toán tử</h2>
+          <p>Trong ví dụ trên:</p>
+          <ul>
+            <li><strong>Biến</strong>: tên, số_lượng, đơn_giá, thành_tiền, tổng_tiền</li>
+            <li><strong>Kiểu dữ liệu</strong>: str, int, float</li>
+            <li><strong>Biểu thức</strong>: số_lượng × đơn_giá</li>
+            <li><strong>Toán tử</strong>: +, ×</li>
+          </ul>
+        </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## Phân rã &amp; Mẫu chung
-    - Tổng tiền = **tổng** của *thành tiền* từng mục  
-    - Mẫu (pattern): `thành_tiền = số_lượng × đơn_giá`  
-    - Thuật toán: 1) khởi tạo `total = 0`  → 2) duyệt từng mục → 3) cộng dồn `qty*price` → 4) in `total`.
-    </textarea>
-  </section>
+      </section>
 
-  <section>
-    <h3>Dữ liệu &amp; Công thức</h3>
-    <ul>
-      <li><strong>Tên</strong>: chuỗi (string)</li>
-      <li><strong>Số lượng</strong>: số nguyên (int)</li>
-      <li><strong>Đơn giá / Thành tiền / Tổng</strong>: số thực (float)</li>
-    </ul>
-    <p><code>thanh_tien = qty * price</code></p>
-  </section>
-</section>
+      <!-- 3) Variables, Types & Assignment -->
+      <section>
 
-<!-- 3) Variables, Types & Assignment -->
-<section>
-  <section>
-    <h2 class="r-fit-text">Biến, Kiểu dữ liệu &amp; Gán</h2>
-  </section>
+        <!-- Slide: Section Title -->
+        <section>
+          <h1>
+            <span class="text-light">2.</span><br>
+            Biến,<br> Kiểu dữ liệu <br>&amp; Gán
+          </h1>
+        </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## Biến là gì?
-    - Biến dùng để tham chiếu &amp; thao tác giá trị trong khi chạy chương trình.
-    - Biến bản chất là **tên** gán cho một **giá trị** trong bộ nhớ
-    - Ví dụ: `x = 5` thì `x` là tên biến, `5` là giá trị kiểu số nguyên.
-    </textarea>
-  </section>
+        <!-- Slide: Biến là gì -->
+        <section>
+          <h2>Biến là gì?</h2>
+          <ul>
+            <li><span class="keyword">Biến</span> dùng để tham chiếu &amp; thao tác giá trị khi chạy chương trình.</li>
+            <li>Bản chất: <span class="keyword">tên</span> gán cho một <span class="keyword">giá trị</span> trong bộ
+              nhớ.</li>
+            <li>Ví dụ: <span class="inline-code">x = 5</span> → <span class="inline-code">x</span> là tên biến, <span
+                class="inline-code">5</span> là giá trị kiểu <span class="keyword">int</span>.</li>
+          </ul>
+        </section>
 
-  <section>
-    <h3>Quy tắc đặt tên biến (Python)</h3>
-    <ul>
-      <li>Chỉ gồm chữ cái, chữ số, và <code>_</code>; không bắt đầu bằng chữ số.</li>
-      <li>Phân biệt hoa–thường: <code>myVar</code> ≠ <code>myvar</code>.</li>
-      <li>Không dùng từ khóa: <code>if</code>, <code>for</code>, ...</li>
-    </ul>
-  </section>
+        <!-- Slide: Quy tắc đặt tên biến -->
+        <section>
+          <h2>Quy tắc đặt tên biến (Python)</h2>
+          <ul>
+            <li>Chỉ gồm chữ cái, chữ số, và <span class="inline-code">_</span>; không bắt đầu bằng chữ số.</li>
+            <li>Phân biệt hoa–thường: <span class="inline-code">myVar</span> ≠ <span class="inline-code">myvar</span>.
+            </li>
+            <li>Không dùng <span class="keyword">từ khóa</span>: <span class="inline-code">if</span>, <span
+                class="inline-code">for</span>, ...</li>
+          </ul>
+        </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## Kiểu dữ liệu phổ biến
-    - **Số**: `int`, `float`  
-    - **Boolean**: `True` / `False`  
-    - **Chuỗi**: `'Hello'`, `"It's a good day"`  
-    - **List/Tuple**: `[1,2,3]`, `('Math', 8.4)`  
-    - **Set/Dict**: `{'Math', 'English'}`, `{'Math': 8.4}`  
-    - **None**: giá trị đặc biệt `None`
-    </textarea>
-  </section>
+        <!-- Slide: Kiểu dữ liệu phổ biến -->
+        <section style="font-size: 0.8em;">
+          <h2>Kiểu dữ liệu phổ biến</h2>
+          <ul>
+            <li><span class="keyword">Số</span> (<span class="inline-code">int</span>, <span
+                class="inline-code">float</span>): <span class="inline-code">5</span>, <span
+                class="inline-code">3.14</span></li>
+            <li><span class="keyword">Boolean</span> (<span class="inline-code">bool</span>): <span
+                class="inline-code">True</span> / <span class="inline-code">False</span></li>
+            <li><span class="keyword">Chuỗi</span> (<span class="inline-code">str</span>): <span
+                class="inline-code">'Hello'</span>, <span class="inline-code">"It's a good day"</span></li>
+            <li><span class="keyword">Danh sách</span> (<span class="inline-code">list</span>): <span
+                class="inline-code">[1, 2, 3]</span></li>
+            <li><span class="keyword">Bộ</span> (<span class="inline-code">tuple</span>): <span class="inline-code">(1,
+                2, 3)</span></li>
+            <li><span class="keyword">Tập hợp</span> (<span class="inline-code">set</span>): <span
+                class="inline-code">{'Math', 'English'}</span></li>
+            <li><span class="keyword">Từ điển</span> (<span class="inline-code">dict</span>): <span
+                class="inline-code">{'name': 'Alice', 'age': 25}</span></li>
+            <li><span class="keyword">NoneType</span>: giá trị đặc biệt <span class="inline-code">None</span></li>
+          </ul>
+        </section>
 
-  <section>
-    <h3>Xem kiểu &amp; Gán giá trị</h3>
-    <pre><code class="language-python">type(5)       # int
-x = 5         # gán cơ bản
-a = b = c = 5 # gán cùng giá trị
-x, y, z = 1, 2.5, "Python"  # gán nhiều giá trị</code></pre>
-  </section>
+        <!-- Slide: Xem kiểu & Gán giá trị -->
+        <section>
+          <h2>Xem kiểu &amp; Gán giá trị</h2>
+          <p>Dùng <span class="inline-code">type(...)</span> để <span class="keyword">xem kiểu</span> của biến hoặc giá
+            trị</p>
+          <pre><code class="language-pycon" data-trim>
+>>> type(5)
+&lt;class 'int'&gt;
+>>> x = [1, 2, 3]
+>>> type(x)
+&lt;class 'list'&gt;
+    </code></pre>
+          <p><span class="keyword">Gán</span> giá trị cho biến bằng toán tử <span class="inline-code">=</span></p>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## Ép kiểu
-    - Python là ngôn ngữ cho phép thay đổi kiểu của biến (**dynamic typing**):
-    
-    `x = 10` rồi `x = "string"` vẫn hợp lệ.  
-    - **Ép kiểu**: `int("3")`, `float("3.14")`, `str(3.14)`.
-    </textarea>
-  </section>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+x = 5                       # gán cơ bản
+a = b = c = 5               # gán cùng giá trị
+x, y, z = 1, 2.5, "Python"  # gán nhiều giá trị
+    </code></pre>
+        </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## Biến cục bộ &amp; toàn cục
-    - **Cục bộ**: khai báo trong hàm, chỉ tồn tại khi hàm chạy.  
-    - **Toàn cục**: khai báo ngoài mọi hàm, truy cập được ở bất kỳ đâu (cẩn trọng khi dùng).
-    </textarea>
-  </section>
-</section>
+        <!-- Slide: Kiểu động (Dynamic Typing) -->
+        <section>
+          <h2>Kiểu động (Dynamic Typing)</h2>
+          <ul>
+            <li>Python <span class="keyword">không cần khai báo kiểu</span> khi tạo biến.</li>
+            <li>Kiểu của biến phụ thuộc vào <span class="keyword">giá trị</span> được gán và có thể thay đổi.</li>
+          </ul>
 
-<!-- 4) Expressions & Operators -->
-<section>
-  <section>
-    <h2 class="r-fit-text">Biểu thức &amp; Toán tử</h2>
-  </section>
+          <pre><code class="language-pycon" data-trim>
+>>> x = 5
+>>> type(x)
+&lt;class 'int'&gt;
+>>> x = "Hello"
+>>> type(x)
+&lt;class 'str'&gt;
+  </code></pre>
+        </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## Biểu thức
-    Biểu thức = Tổ hợp **toán tử** và **toán hạng** tạo ra **giá trị**.  
-    Ví dụ: `x = 3 + 5`, `y = (3*7 + 2) * 0.1`.
-    </textarea>
-  </section>
 
-  <section>
-    <div style="display:flex; gap:2rem; align-items:flex-start;">
-      <div style="flex:1;">
-        <h3>Đơn giản</h3>
-        <pre><code class="language-python">3 + 5
-2 * (3 + 4)</code></pre>
-      </div>
-      <div style="flex:1;">
-        <h3>Phức tạp</h3>
-        <pre><code class="language-python">(a + b) / 2 &gt; 10 and (a*b) % 2 == 0</code></pre>
-      </div>
-    </div>
-  </section>
+        <!-- Slide: Ép kiểu -->
+        <section style="font-size: 0.9em;">
+          <h2>Ép kiểu (Type Casting)</h2>
+          <p><span class="keyword">Ép kiểu</span>:
+            Chuyển đổi giá trị của một kiểu sang kiểu khác</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+s = "5"        # s là str
+x = 5          # x là int
+y = float(x)   # y là float 5.0
+              </code></pre>
+        </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## Toán tử số học
-    `+`, `-`, `*`, `/` *(kết quả float)*, `//` *(chia lấy phần nguyên)*, `%` *(dư)*, `**` *(lũy thừa)*.
-    </textarea>
-  </section>
+        <!-- Slide: Biến cục bộ & Toàn cục -->
+        <section style="font-size: 0.9em;">
+          <h2>Biến cục bộ &amp; Toàn cục</h2>
+          <ul>
+            <li><span class="keyword">Cục bộ</span>: chỉ dùng trong hàm.
+              <pre><code class="language-python" data-trim data-line-numbers="">
+def f():
+    x = 10   # cục bộ
+    print(x)
+f()
+print(x)     # lỗi
+      </code></pre>
+            </li>
+            <li><span class="keyword">Toàn cục</span>: khai báo ngoài hàm, dùng được ở mọi nơi (⚠️ cần cẩn trọng).
+              <pre><code class="language-python" data-trim data-line-numbers="">
+y = 20       # toàn cục
+def g():
+    print(y)
+g()
+print(y)     # ok
+      </code></pre>
+            </li>
+          </ul>
+        </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## So sánh
-    `==`, `!=`, `&lt;`, `&lt;=`, `&gt;`, `&gt;=` → trả về `True/False`.  
-    ⚠️ **Số thực**: so sánh xấp xỉ với `math.isclose(a, b)`.
-    </textarea>
-  </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## So sánh chuỗi &amp; cấu trúc
-    - Chuỗi so sánh theo mã Unicode từng ký tự.  
-    - List/Tuple: so sánh **theo từng phần tử** từ trái sang phải.
-    </textarea>
-  </section>
+      </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## Logic, Bit, Gán, Thành viên
-    - **Logic**: `and`, `or`, `not`  
-    - **Bitwise**: `&amp;`, `|`, `^`, `~`, `&lt;&lt;`, `&gt;&gt;`  
-    - **Gán**: `=`, `+=`, `-=`, `*=`, ...  
-    - **Membership**: `in`, `not in`
-    </textarea>
-  </section>
 
-  <section data-markdown>
-    <textarea data-template>
-## Độ ưu tiên &amp; Kết hợp
-| TT             | Tên                              | Toán tử                          | Thứ tự kết hợp     |
-|----------------|----------------------------------|----------------------------------|--------------------|
-| 1              | Ngoặc                            | `() [] {}`                       | T → P              |
-| 2              | Lũy thừa                         | `**`                             | P → T              |
-| 3              | Cộng/trừ đơn                     | `-a`, `+a`, `~a`                 | T → P              |
-| 4              | Nhân, Chia,                      | `/`, `*`, `//`, `%`              | T → P              |
-| 5              | Cộng & Trừ                       | `+`, `-`                         | T → P              |
-| 6              | Dịch bit (Shift)                 | `<<`, `>>`                       | T → P              |
-| 7              | AND bit                          | `&`                              | T → P              |
+      <!-- 4) Expressions & Operators -->
+      <section>
 
-    </textarea>
-  </section>
+        <!-- Slide: Section Title -->
+        <section>
+          <h1>
+            <span class="text-light">3.</span><br>
+            Biểu thức <br>&amp; Toán tử
+          </h1>
+        </section>
 
-  <section data-markdown>
-    <textarea data-template>
-## Độ ưu tiên &amp; Kết hợp
-| TT             | Tên                              | Toán tử                          | Thứ tự kết hợp     |
-|----------------|----------------------------------|----------------------------------|--------------------|
-| 8              | XOR bit                          | `^`                              | T → P              |
-| 9              | OR bit.                          | `\|`                             | T → P              |
-| 10             | So sánh                          | `>=`, `<=`, `>`, `<`             | T → P              |
-| 11             | So sánh bằng/khác                | `==`, `!=`                       | T → P              |
-| 12             | Gán                              | `=`, `+=`, `-=`, `/=`, `*=`      | T → P              |
-| 13             | Đồng nhất & Thành viên           | `is`, `is not`, `in`, `not in`   | T → P              |
-| 14             | Logic                            | `and`, `or`, `not`               | T → P              |
+        <!-- Slide: Biểu thức -->
+        <section>
+          <h2>Biểu thức</h2>
+          <p><span class="keyword">Biểu thức</span> = tổ hợp <span class="keyword">toán tử</span> và <span
+              class="keyword">toán hạng</span> tạo ra <span class="keyword">giá trị</span>.</p>
+          <div>
+            <strong>Đơn giản</strong>
+            <pre><code class="language-python" data-trim data-line-numbers="">
+3 + 5
+2 * (3 + 4)
+        </code></pre>
+          </div>
 
-    </textarea>
-  </section>
+          <div>
+            <strong>Phức tạp</strong>
+            <pre><code class="language-python" data-trim data-line-numbers="">
+(a + b) / 2 > 10 and (a*b) % 2 == 0
+        </code></pre>
+          </div>
+        </section>
 
-  <section>
-    <h2 class="r-fit-text">Biểu thức trong thực hành</h2>
-    <h3>Trong điều kiện &amp; vòng lặp</h3>
-    <pre><code class="language-python">if (score &gt;= 5) and (absence &lt; 3):
+        <!-- Slide: Toán tử số học -->
+        <section style="font-size: 0.9em;">
+          <h2>Toán tử số học</h2>
+          <table>
+            <tr>
+              <th>Toán tử</th>
+              <th>Mô tả</th>
+            </tr>
+            <tr>
+              <td><span class="inline-code">+</span></td>
+              <td>Cộng</td>
+            </tr>
+            <tr>
+              <td><span class="inline-code">-</span></td>
+              <td>Trừ</td>
+            </tr>
+            <tr>
+              <td><span class="inline-code">*</span></td>
+              <td>Nhân</td>
+            </tr>
+            <tr>
+              <td><span class="inline-code">/</span></td>
+              <td>Chia thường</td>
+            </tr>
+            <tr>
+              <td><span class="inline-code">//</span></td>
+              <td>Chia lấy nguyên</td>
+            </tr>
+            <tr>
+              <td><span class="inline-code">%</span></td>
+              <td>Chia lấy dư</td>
+            </tr>
+            <tr>
+              <td><span class="inline-code">**</span></td>
+              <td>Lũy thừa</td>
+            </tr>
+          </table>
+        </section>
+
+        <section>
+          <h2>Toán tử số học: Ví dụ</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> 3 + 5
+8
+>>> 10 - 2 * 3
+4
+>>> 7 / 2
+3.5
+>>> 7 // 2
+3
+>>> 7 % 2
+1
+>>> 2 ** 3
+8
+    </code></pre>
+        </section>
+
+        <!-- Slide: So sánh -->
+        <section style="font-size: 0.9em;">
+          <h2>Toán tử so sánh</h2>
+          <table>
+            <tr>
+              <th>Toán tử</th>
+              <th>Kết quả</th>
+            </tr>
+            <tr>
+              <td><span class="inline-code">==</span></td>
+              <td>So sánh bằng</td>
+            </tr>
+            <tr>
+              <td><span class="inline-code">!=</span></td>
+              <td>So sánh khác</td>
+            </tr>
+            <tr>
+              <td><span class="inline-code">&lt;</span></td>
+              <td>Nhỏ hơn</td>
+            </tr>
+            <tr>
+              <td><span class="inline-code">&lt;=</span></td>
+              <td>Nhỏ hơn hoặc bằng</td>
+            </tr>
+            <tr>
+              <td><span class="inline-code">&gt;</span></td>
+              <td>Lớn hơn</td>
+            </tr>
+            <tr>
+              <td><span class="inline-code">&gt;=</span></td>
+              <td>Lớn hơn hoặc bằng</td>
+            </tr>
+          </table>
+          <p>⚠️ <strong>Với số thực</strong>: dùng <span class="inline-code">math.isclose(a, b)</span> thay cho <span
+              class="inline-code">==</span>.</p>
+        </section>
+
+        <section>
+          <h2>Toán tử so sánh: Ví dụ</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> 3 == 5
+False
+>>> 3 != 5
+True
+>>> 3 &lt; 5
+True
+>>> 3 &lt;= 3
+True
+>>> 3 &gt; 5
+False
+>>> 3 &gt;= 3
+True
+    </code></pre>
+        </section>
+
+        <!-- Slide: So sánh chuỗi & cấu trúc -->
+        <section>
+          <h2>So sánh chuỗi</h2>
+          <p><span class="keyword">Chuỗi</span>: so sánh từng ký tự theo mã Unicode.</p>
+
+          <pre><code class="language-pycon" data-trim>
+>>> "apple" &lt; "banana"
+True
+>>> "Apple" &lt; "apple"   # chữ hoa &lt; chữ thường
+True
+>>> "abc" &lt; "abcd"      # chuỗi ngắn hơn &lt; chuỗi dài hơn
+True
+    </code></pre>
+        </section>
+
+        <!-- Slide: So sánh chuỗi & cấu trúc -->
+        <section>
+          <h2>So sánh Cấu trúc: List/Tuple</h2>
+          <p><span class="keyword">List/Tuple</span>: so sánh từng phần tử từ trái sang phải.</p>
+          <pre><code class="language-pycon" data-trim>
+>>> [1, 2, 3] == [1, 2, 3]
+True
+>>> (1, 2) != (1, 2, 0)
+True
+>>> [1, 2, 3] &lt; [1, 2, 4]
+True
+>>> (1, 2) &lt; (1, 2, 0)
+True
+>>> [1, 2, 3] &lt; [1, 2]
+False
+    </code></pre>
+        </section>
+
+        <!-- Slide: Logic, Bit, Gán, Thành viên -->
+        <!-- <section>
+          <h2>Các nhóm toán tử</h2>
+          <ul>
+            <li><span class="keyword">Logic</span>: <span class="inline-code">and</span>, <span
+                class="inline-code">or</span>, <span class="inline-code">not</span></li>
+            <li><span class="keyword">Bitwise</span>: <span class="inline-code">&</span>, <span
+                class="inline-code">|</span>, <span class="inline-code">^</span>, <span class="inline-code">~</span>,
+              <span class="inline-code">
+                <<< /span>, <span class="inline-code">>></span>
+            </li>
+            <li><span class="keyword">Gán</span>: <span class="inline-code">=</span>, <span
+                class="inline-code">+=</span>, <span class="inline-code">-=</span>, ...</li>
+            <li><span class="keyword">Membership</span>: <span class="inline-code">in</span>, <span
+                class="inline-code">not in</span></li>
+          </ul>
+        </section> -->
+
+        <!-- Slide: Toán tử Logic -->
+        <section>
+          <h2>Toán tử Logic</h2>
+          <ul>
+            <li><span class="inline-code">and</span>: cả hai điều kiện đều đúng</li>
+            <li><span class="inline-code">or</span>: ít nhất một điều kiện đúng</li>
+            <li><span class="inline-code">not</span>: phủ định giá trị logic</li>
+          </ul>
+
+          <pre><code class="language-pycon" data-trim>
+>>> a = True
+>>> b = False
+>>> a and b
+False
+>>> a or b
+True
+>>> not a
+False
+        </code></pre>
+        </section>
+
+        <!-- Slide: Toán tử Bit (Bitwise) -->
+        <section>
+          <h2>Toán tử Bit (Bitwise)</h2>
+          <ul>
+            <li><span class="keyword">Bitwise</span>: thao tác trên từng bit của số nguyên.</li>
+            <li>Các toán tử:
+              <ul>
+                <li><span class="inline-code">&</span>: AND</li>
+                <li><span class="inline-code">|</span>: OR</li>
+                <li><span class="inline-code">^</span>: XOR</li>
+                <li><span class="inline-code">~</span>: NOT</li>
+                <li><span class="inline-code">&lt;&lt;</span>: dịch trái</li>
+                <li><span class="inline-code">&gt;&gt;</span>: dịch phải</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Toán tử Bit: Ví dụ</h2>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+a = 10         # 1010 (nhị phân)
+b = 4          # 0100
+
+print(a & b)   # 1010 & 0100 = 0000  -> 0
+print(a | b)   # 1010 | 0100 = 1110  -> 14
+print(~a)      # bit NOT của a       -> -11 (dạng bù 2)
+print(a ^ b)   # 1010 ^ 0100 = 1110  -> 14
+print(a &gt;&gt; 2)  # 1010 &gt;&gt; 2  = 0010   -> 2
+print(a &lt;&lt; 2)  # 1010 &lt;&lt; 2  = 101000 -> 40
+    </code></pre>
+        </section>
+
+        <!-- Slide: Toán tử Gán -->
+        <section style="font-size: 0.8em;">
+          <h2>Toán tử Gán</h2>
+          <ul>
+            <li><span class="keyword">Gán</span>: dùng để lưu giá trị cho biến.</li>
+            <li><span class="inline-code">=</span>: gán cơ bản.</li>
+            <li><span class="inline-code">+=</span>, <span class="inline-code">-=</span>, <span
+                class="inline-code">*=</span>, <span class="inline-code">/=</span>, ... : gán kèm tính toán.</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+a = 10
+b = a       # b = 10
+print(b)
+
+b += a      # b = b + a = 20
+print(b)
+
+b -= a      # b = b - a = 10
+print(b)
+
+b *= a      # b = b * a = 100
+print(b)
+
+b &lt;&lt;= a     # dịch trái rồi gán
+print(b)    # 102400
+  </code></pre>
+        </section>
+
+        <!-- Slide: Toán tử Membership -->
+        <section style="font-size: 0.85em;">
+          <h2>Toán tử Thành viên (Membership)</h2>
+          <ul>
+            <li><span class="inline-code">in</span>: kiểm tra giá trị có trong tập hợp/chuỗi không.</li>
+            <li><span class="inline-code">not in</span>: kiểm tra giá trị <strong>không</strong> có trong tập
+              hợp/chuỗi.
+            </li>
+          </ul>
+
+          <pre><code class="language-pycon" data-trim>
+>>> x = 24
+>>> y = 20
+>>> lst = [10, 20, 30, 40, 50]
+>>> x in lst
+False
+>>> y in lst 
+True
+>>> x not in lst
+True
+>>> y not in lst
+False
+>>> "Hello" in "Hello World"
+True
+>>> "Python" not in "Hello World"
+True
+        </code></pre>
+        </section>
+
+        <!-- Slide: Độ ưu tiên & Kết hợp (1) -->
+        <section style="font-size: 0.8em;" data-auto-animate>
+          <h2>Độ ưu tiên &amp; Kết hợp</h2>
+          <table style="width: 100%;">
+            <tr>
+              <th>Thứ tự</th>
+              <th>Tên</th>
+              <th>Toán tử</th>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Ngoặc</td>
+              <td><span class="inline-code">()</span>, <span class="inline-code">[]</span>, <span
+                  class="inline-code">{}</span></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Lũy thừa</td>
+              <td><span class="inline-code">**</span></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Cộng/Trừ đơn</td>
+              <td><span class="inline-code">-a</span>, <span class="inline-code">+a</span>, <span
+                  class="inline-code">~a</span></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Nhân, Chia</td>
+              <td><span class="inline-code">/</span>, <span class="inline-code">*</span>, <span
+                  class="inline-code">//</span>, <span class="inline-code">%</span></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Cộng &amp; Trừ</td>
+              <td><span class="inline-code">+</span>, <span class="inline-code">-</span></td>
+            </tr>
+          </table>
+        </section>
+
+        <!-- Slide: Độ ưu tiên & Kết hợp (2) -->
+        <section style="font-size: 0.8em;" data-auto-animate>
+          <h2>Độ ưu tiên &amp; Kết hợp</h2>
+          <table style="width: 100%;">
+            <tr>
+              <th>Thứ tự</th>
+              <th>Tên</th>
+              <th>Toán tử</th>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Dịch bit</td>
+              <td><span class="inline-code">
+                  &lt;&lt;</span>, <span class="inline-code">&gt;&gt;</span></td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>AND bit</td>
+              <td><span class="inline-code">&</span></td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>XOR bit</td>
+              <td><span class="inline-code">^</span></td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>OR bit</td>
+              <td><span class="inline-code">|</span></td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>So sánh</td>
+              <td><span class="inline-code">>=</span>, <span class="inline-code">
+                  &lt;=</span>, <span class="inline-code">></span>, <span class="inline-code">
+                  &lt;</span>
+              </td>
+            </tr>
+            <tr>
+              <td>11</td>
+              <td>Bằng/Khác</td>
+              <td><span class="inline-code">==</span>, <span class="inline-code">!=</span></td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td>Gán</td>
+              <td><span class="inline-code">=</span>, <span class="inline-code">+=</span>, <span
+                  class="inline-code">-=</span>, ...</td>
+            </tr>
+            <tr>
+              <td>13</td>
+              <td>Đồng nhất &amp; Thành viên</td>
+              <td><span class="inline-code">is</span>, <span class="inline-code">in</span>, ...</td>
+            </tr>
+            <tr>
+              <td>14</td>
+              <td>Logic</td>
+              <td><span class="inline-code">and</span>, <span class="inline-code">or</span>, <span
+                  class="inline-code">not</span></td>
+            </tr>
+          </table>
+        </section>
+
+        <!-- Slide: Biểu thức trong thực hành -->
+        <section data-auto-animate>
+          <h2>Biểu thức trong thực hành</h2>
+          <p>Điều kiện trong câu lệnh rẽ nhánh / vòng lặp</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+if (score >= 5) and (absence &lt; 3):
     print("Qua môn")
 
 x = 0
 while x &lt; 10:
-    x += 1</code></pre>
-  </section>
+    x += 1
+    </code></pre>
+        </section>
 
-  <section>
-    <h3>Tạo danh sách &amp; Hàm</h3>
-    <pre><code class="language-python">squares = [x**2 for x in range(10) if x % 2 == 0]
+        <section data-auto-animate>
+          <h2>Biểu thức trong thực hành</h2>
 
+          <p>Điều kiện trong danh sách</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+squares = [x**2 for x in range(10) if x % 2 == 0]
+</code></pre>
+
+          <p>Biểu thức trong hàm</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
 def square(x):
     return x**2
+</code></pre>
 
-ok = max(a, b, c) &gt; 10 and (a + b) % 2 == 0</code></pre>
-  </section>
-</section>
+          <p>Biểu thức phức tạp</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+ok = max(a, b, c) &gt; 10 and (a + b) % 2 == 0
+    </code></pre>
+        </section>
 
-<!-- 6) Input & Output -->
-<section>
-  <section>
-    <h2 class="r-fit-text">Nhập &amp; Xuất trong Python</h2>
-  </section>
+      </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## Nhập dữ liệu: `input()`
-    - Luôn trả về **chuỗi** (`str`).  
-    - Ép kiểu khi cần: `int(input(...))`, `float(input(...))`.
-    </textarea>
-  </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## Nhập nhiều giá trị trên một dòng
-    ```python
-    a, b = input().split()      # tách theo khoảng trắng
-    x, y = map(int, input().split())
-    ```
-    </textarea>
-  </section>
+      <!-- 4) Input & Output -->
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">4.</span><br>
+            Nhập &amp; Xuất <br> trong Python
+          </h1>
+        </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## Lỗi thường gặp khi nhập
-    Quên ép kiểu → nối chuỗi với số gây `TypeError`.  
-    ✅ Dùng `str()` hoặc f-string.
-    </textarea>
-  </section>
+        <!-- Slide: Nhập dữ liệu với input() -->
+        <section>
+          <h2>Nhập dữ liệu với <span class="inline-code">input()</span></h2>
+          <ul>
+            <li><span class="inline-code">input()</span>: nhận dữ liệu từ người dùng.</li>
+            <li>Trả về giá trị dạng <span class="keyword">chuỗi</span> (<span class="inline-code">str</span>).</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> name = input("Nhập tên của bạn: ")
+Nhập tên của bạn: Alice
+>>> print("Xin chào,", name, "! Chào mừng bạn!")
+Xin chào, Alice ! Chào mừng bạn!
+        </code></pre>
+        </section>
 
-  <section data-markdown>
-    <textarea data-template>
-    ## In ra màn hình: `print()`
-    - In văn bản, biến, biểu thức.  
-    - Dùng **f-string**: `print(f"Total: {total:.2f}")`  
-    - Hoặc `.format()`: `"Total: {:.2f}".format(total)`
-    </textarea>
-  </section>
-</section>
+        <!-- Slide: Nhập nhiều giá trị -->
+        <section>
+          <h2>Nhập nhiều giá trị</h2>
+          <ul>
+            <li>Dùng <span class="inline-code">split()</span> để tách nhiều giá trị nhập cùng lúc.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> x, y = input("Nhập 2 số: ").split()
+Nhập 2 số: 10 20
+>>> print("Số thứ nhất:", x)
+Số thứ nhất: 10
+>>> print("Số thứ hai:", y)
+Số thứ hai: 20
+    </code></pre>
+        </section>
 
-<!-- 7) Summary -->
-<section data-markdown>
-  <textarea data-template>
-  ## Tổng kết
-  - **Biến**: tên gắn với **giá trị**.  
-  - **Kiểu** quy định thao tác hợp lệ;
-    - Kiểu động: thay đổi trong quá trình chạy.
-  - **Biểu thức** = toán tử + toán hạng → tạo giá trị.  
-  - **Toán tử**: số học, so sánh, logic, bit, gán, kiểm tra phần tử; chú ý **thứ tự ưu tiên**.  
-  - **I/O**: `input()` trả về chuỗi; dùng `print()` với f-string hoặc `.format()`.
-  </textarea>
-</section>
+        <!-- Slide: Ép kiểu khi nhập -->
+        <section>
+          <h2>Ép kiểu khi nhập</h2>
+          <ul>
+            <li>Giá trị từ <span class="inline-code">input()</span> luôn là <span class="keyword">chuỗi</span> (<span
+                class="inline-code">str</span>).</li>
+            <li>Dùng <span class="inline-code">int()</span> hoặc <span class="inline-code">float()</span> để chuyển
+              đổi
+              sang
+              số nguyên hoặc số thực khi cần thiết.
+            </li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> n = int(input("Có bao nhiêu bông hoa? "))
+Có bao nhiêu bông hoa? 5
+>>> print(n)
+5
+>>> price = float(input("Giá mỗi bông hoa: "))
+Giá mỗi bông hoa: 2.5
+>>> print(price)
+2.5
+        </code></pre>
+        </section>
+
+        <!-- Slide: Lỗi thường gặp khi nhập -->
+        <section>
+          <h2>Lỗi thường gặp khi nhập</h2>
+          <ul>
+            <li>Quên ép kiểu → kết quả sai hoặc lỗi.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> n = input("Nhập số: ")
+Nhập số: 5
+>>> print(n * 2)  # lặp chuỗi, không phải nhân số
+55
+>>> price = int(input("Giá: "))  # nhập 2.5 sẽ gây lỗi 
+Giá: 2.5
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ValueError: invalid literal for int() with base 10: '2.5'
+        </code></pre>
+        </section>
+
+        <!-- Slide: Xuất dữ liệu với print() -->
+        <section>
+          <h2>Xuất dữ liệu với <span class="inline-code">print()</span></h2>
+          <ul>
+            <li><span class="inline-code">print()</span>: hiển thị văn bản, biến, biểu thức.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> name = input("Nhập tên: ")
+Nhập tên: Alice
+>>> print("Xin chào,", name, "! Chào mừng bạn!")
+Xin chào, Alice ! Chào mừng bạn!
+          </code></pre>
+        </section>
+
+        <!-- Slide: Xuất với .format() -->
+        <section>
+          <h2>Xuất với <span class="inline-code">.format()</span></h2>
+          <ul>
+            <li>Dùng <span class="inline-code">.format()</span> để chèn biến vào chuỗi mẫu.</li>
+            <li>Thứ tự chèn theo vị trí của dấu <span class="inline-code">{}</span>.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> name = "UET-FIT" 
+>>> age = 30
+>>> print("Xin chào, tôi là {} và {} tuổi.".format(name, age))
+Xin chào, tôi là UET-FIT và 30 tuổi.
+            </code></pre>
+        </section>
+
+        <!-- Slide: Xuất với f-string -->
+        <section>
+          <h2>Xuất với <span class="inline-code">f-string</span></h2>
+          <ul>
+            <li><span class="inline-code">f-string</span>: định dạng chuỗi dễ dàng hơn.</li>
+            <li>Chèn biến trực tiếp trong dấu <span class="inline-code">{}</span>.</li>
+            <li>Hỗ trợ biểu thức và định dạng nâng cao.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> import datetime
+>>> today = datetime.date.today()
+>>> print(f"Hôm nay: {today:%d-%m-%Y}")
+Hôm nay: 05-03-2024
+>>> name = "UET-FIT"
+>>> age = 30 
+>>> print(f"Xin chào, tôi là {name}, {age} tuổi.")
+Xin chào, tôi là UET-FIT, 30 tuổi.
+          </code></pre>
+        </section>
+
+      </section>
+
+      <!-- 7) Summary -->
+      <section>
+        <h2>Tổng kết</h2>
+        <ul>
+          <li><strong>Biến</strong>: tên gắn với <strong>giá trị</strong>.</li>
+          <li><strong>Kiểu</strong> quy định thao tác hợp lệ;
+            <ul>
+              <li>Kiểu động: thay đổi trong quá trình chạy.</li>
+            </ul>
+          </li>
+          <li><strong>Biểu thức</strong> = toán tử + toán hạng → tạo giá trị.</li>
+          <li><strong>Toán tử</strong>: số học, so sánh, logic, bit, gán, kiểm tra phần tử; chú ý <strong>thứ tự ưu
+              tiên</strong>.</li>
+          <li><strong>I/O</strong>: <span class="inline-code">input()</span> trả về chuỗi; dùng <span
+              class="inline-code">print()</span> với f-string hoặc <span class="inline-code">.format()</span>.</li>
+        </ul>
+      </section>
 
     </div>
   </div>
@@ -340,4 +911,5 @@ ok = max(a, b, c) &gt; 10 and (a + b) % 2 == 0</code></pre>
     });
   </script>
 </body>
+
 </html>
