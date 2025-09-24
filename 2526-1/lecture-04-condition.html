@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="vi">
+<!-- Nguồn nội dung chuyển đổi từ PPTX: :contentReference[oaicite:0]{index=0}. Định dạng Reveal.js tham chiếu: :contentReference[oaicite:1]{index=1} -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Bài 4: Câu lệnh if, Rẽ nhánh &amp; Luồng điều khiển</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====================== TIÊU ĐỀ ====================== -->
+      <!-- Title -->
+      <section>
+        <h2 class="r-fit-text">Tư duy Tính toán</h2>
+        <p style="font-size:1.3em; margin:.4em 0 0;">Rẽ nhánh (<span class="keyword">Conditionals</span>) &amp; Luồng điều khiển</p>
+        <p>Trường Đại học Công nghệ – ĐẠI HỌC QUỐC GIA HÀ NỘI</p>
+      </section>
+
+      <!-- Outline -->
+      <section>
+        <h2>Nội dung</h2>
+        <ol>
+          <li><span class="keyword">If</span> cơ bản</li>
+          <li><span class="keyword">If–elif–else</span> &amp; lồng nhau</li>
+          <li>Gỡ lỗi: <span class="keyword">trace</span> &amp; <span class="keyword">watch</span></li>
+          <li>Kiểm thử: <span class="keyword">độ bao phủ</span> (code coverage)</li>
+          <li>Thoáng qua về <span class="keyword">hàm</span></li>
+        </ol>
+      </section>
+
+      <!-- ====================== PHẦN I: IF & LUỒNG ====================== -->
+      <!-- Program Flow (động lực) -->
+      <section>
+        <h2>Luồng chương trình &amp; nhu cầu rẽ nhánh</h2>
+        <ul>
+          <li>Chương trình đơn giản: lệnh chạy <span class="keyword">cố định thứ tự</span> qua mỗi lần chạy.</li>
+          <li>Thực tế cần <span class="keyword">lựa chọn</span> dựa trên dữ liệu vào.</li>
+          <li>Ví dụ: “Nếu đang ở <span class="keyword">bông hoa</span> thì hút mật, <span class="keyword">ngược lại</span> làm mật ong.”:contentReference[oaicite:2]{index=2}</li>
+          <li>Ví dụ Python: nếu <span class="inline-code">x</span> chẵn thì in <span class="inline-code">'even'</span>, nếu không thì không làm gì.:contentReference[oaicite:3]{index=3}</li>
+        </ul>
+      </section>
+
+      <!-- If statement: cú pháp -->
+      <section>
+        <h2>Câu lệnh <span class="keyword">if</span></h2>
+        <p><span class="keyword">Cú pháp</span>:</p>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+if &lt;biểu-thức-Boolean&gt;:
+    &lt;statement&gt;
+    ...
+        </code></pre>
+        <p><span class="keyword">Ví dụ</span>:</p>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+x = 10
+if x % 2 == 0:
+    print('even')
+        </code></pre>
+        <!-- Nguồn: :contentReference[oaicite:4]{index=4} -->
+      </section>
+
+      <!-- Boolean examples -->
+      <section>
+        <h2>Ví dụ về giá trị <span class="keyword">Boolean</span></h2>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+is_rainy = False
+is_windy = True
+temp = 12
+        </code></pre>
+        <!-- Nguồn: :contentReference[oaicite:5]{index=5} -->
+      </section>
+
+      <!-- If-else -->
+      <section>
+        <h2><span class="keyword">if–else</span></h2>
+        <p><span class="keyword">Cú pháp</span>:</p>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+if &lt;biểu-thức-Boolean&gt;:
+    &lt;statement&gt;
+    ...
+else:
+    &lt;statement&gt;
+    ...
+        </code></pre>
+        <p><span class="keyword">Ví dụ</span>:</p>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+if x % 2 == 0:
+    print('even')
+else:
+    print('odd')
+        </code></pre>
+        <!-- Nguồn: :contentReference[oaicite:6]{index=6} -->
+      </section>
+
+      <!-- Structure vs Flow -->
+      <section>
+        <h2><span class="keyword">Cấu trúc</span> vs. <span class="keyword">Luồng</span></h2>
+        <div style="display:flex; gap:2rem; align-items:flex-start;">
+          <div style="flex:1;">
+            <h3>Cấu trúc chương trình</h3>
+            <ul>
+              <li>Cách mã được <span class="keyword">trình bày</span> trong tệp.</li>
+              <li>Thứ tự dòng, mức <span class="keyword">thụt lề</span>.</li>
+              <li>Định nghĩa các <span class="keyword">khả năng</span> qua nhiều lần chạy.</li>
+            </ul>
+          </div>
+          <div style="flex:1;">
+            <h3>Luồng chương trình</h3>
+            <ul>
+              <li>Thứ tự <span class="keyword">thực thi</span> lệnh khi chạy.</li>
+              <li>Không trùng với cấu trúc; có thể <span class="keyword">bỏ qua</span> nhánh.</li>
+              <li>Định nghĩa điều gì xảy ra trong <span class="keyword">một lần chạy</span>.</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Nguồn: :contentReference[oaicite:7]{index=7} -->
+      </section>
+
+      <!-- Example program: structure vs flow -->
+      <section>
+        <h2>Ví dụ: Cấu trúc vs. Luồng</h2>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+# odd_even.py
+x = 10
+if x % 2 == 0:
+    print('even')
+else:
+    print('odd')
+        </code></pre>
+        <pre><code class="language-pycon" data-trim>
+&gt; python odd_even.py
+even
+        </code></pre>
+        <p>Chuỗi <span class="inline-code">print('odd')</span> <em>tồn tại</em> trong <span class="keyword">cấu trúc</span> nhưng có thể <span class="keyword">không chạy</span> trong <span class="keyword">luồng</span>.:contentReference[oaicite:8]{index=8}</p>
+      </section>
+
+      <!-- Flowcharts -->
+      <section>
+        <h2>If tác động tới luồng</h2>
+        <ul>
+          <li><span class="keyword">Điểm rẽ</span> → đánh giá điều kiện, chọn nhánh.</li>
+          <li><span class="keyword">Flowchart</span> minh họa đường đi của chương trình.</li>
+          <li>Mỗi lần chạy chỉ đi <span class="keyword">một đường</span> → có phần sẽ không được thực thi.:contentReference[oaicite:9]{index=9}</li>
+        </ul>
+      </section>
+
+      <!-- Variables lifespan -->
+      <section>
+        <h2>Biến &amp; khối <span class="keyword">if</span></h2>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+a = 0
+if a == 0:
+    b = a + 1   # b được tạo ở đây nếu nhánh này chạy
+print(b)        # b vẫn tồn tại sau if nếu đã được gán
+        </code></pre>
+        <p>Biến được tạo <em>chỉ khi</em> lệnh gán tương ứng thực sự được thực thi.:contentReference[oaicite:10]{index=10}</p>
+      </section>
+
+      <!-- ====================== IF-ELIF-ELSE ====================== -->
+      <!-- Syntax -->
+      <section>
+        <h2>Nhiều lựa chọn: <span class="keyword">if–elif–else</span></h2>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+if &lt;biểu-thức&gt;:
+    ...
+elif &lt;biểu-thức&gt;:
+    ...
+elif &lt;biểu-thức&gt;:
+    ...
+else:
+    ...
+        </code></pre>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+score = 80
+if score >= 90:
+    print("Excellent!")
+elif score >= 70:
+    print("Good job!")
+elif score >= 50:
+    print("Pass.")
+else:
+    print("Fail.")
+        </code></pre>
+        <!-- Nguồn: :contentReference[oaicite:11]{index=11} -->
+      </section>
+
+      <!-- Notes on use -->
+      <section>
+        <h2>Lưu ý khi dùng <span class="keyword">elif</span></h2>
+        <ul>
+          <li>Số lượng <span class="keyword">elif</span> không giới hạn; <span class="keyword">else</span> là tùy chọn.</li>
+          <li>Điều kiện được kiểm tra <span class="keyword">theo thứ tự</span>; gặp điều kiện <span class="keyword">đúng</span> thì bỏ qua phần sau.</li>
+          <li><span class="keyword">else</span> có nghĩa là “<span class="keyword">tất cả</span> điều kiện đều <span class="keyword">sai</span>”.:contentReference[oaicite:12]{index=12}</li>
+        </ul>
+      </section>
+
+      <!-- If vs If-Elif -->
+      <section>
+        <h2><span class="keyword">Nhiều if</span> liên tiếp vs. <span class="keyword">if–elif</span></h2>
+        <div style="display:flex; gap:2rem;">
+          <div style="flex:1;">
+            <h3>Nhiều <span class="inline-code">if</span></h3>
+            <pre><code class="language-python" data-trim data-line-numbers="">
+x = 0
+if x == 0:
+    print("x is 0!")
+if x == 0:
+    print("still 0!")
+if x == 0:
+    print("even still 0")
+            </code></pre>
+          </div>
+          <div style="flex:1;">
+            <h3><span class="inline-code">if–elif</span></h3>
+            <pre><code class="language-python" data-trim data-line-numbers="">
+x = 0
+if x == 0:
+    print("x is 0!")
+elif x == 0:
+    print("still 0!")
+elif x == 0:
+    print("even still 0")
+            </code></pre>
+          </div>
+        </div>
+        <p><em>Chuỗi <span class="keyword">if–elif</span> đảm bảo chỉ một nhánh được chọn.</em>:contentReference[oaicite:13]{index=13}</p>
+      </section>
+
+      <!-- ====================== NESTED ====================== -->
+      <!-- Combined conditions -->
+      <section>
+        <h2>Điều kiện kết hợp</h2>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+# mặc gì?
+if raining and freezing:
+    print('Wear a waterproof coat.')
+elif raining and not freezing:
+    print('Bring an umbrella.')
+elif not raining and freezing:
+    print('Wear a warm coat!')
+else:
+    print('A sweater will suffice.')
+        </code></pre>
+        <!-- Nguồn: :contentReference[oaicite:14]{index=14} -->
+      </section>
+
+      <!-- Nested if -->
+      <section>
+        <h2><span class="keyword">if</span> lồng nhau</h2>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+if raining:
+    if freezing:
+        print('Wear a waterproof coat.')
+    else:
+        print('Bring an umbrella.')
+else:
+    if freezing:
+        print('Wear a warm coat!')
+    else:
+        print('A sweater will suffice.')
+        </code></pre>
+        <!-- Nguồn: :contentReference[oaicite:15]{index=15} -->
+      </section>
+
+      <!-- ====================== DEBUGGING ====================== -->
+      <!-- Debugging intro -->
+      <section>
+        <h2>Gỡ lỗi: <span class="keyword">trace</span> &amp; <span class="keyword">watch</span></h2>
+        <p>Dùng <span class="inline-code">print</span> để theo dõi <span class="keyword">luồng</span> và <span class="keyword">giá trị</span>.:contentReference[oaicite:16]{index=16}</p>
+      </section>
+
+      <!-- Simple winner -->
+      <section>
+        <h2>Ví dụ: xác định người thắng</h2>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+# determine winner
+if x_score > y_score:
+    winner = "x"
+else:
+    winner = "y"
+        </code></pre>
+        <p>Chèn <span class="keyword">trace</span> để biết nhánh nào chạy.</p>
+      </section>
+
+      <!-- Trace prints -->
+      <section>
+        <h2><span class="keyword">Trace</span> prints</h2>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+print('before if')
+if x_score > y_score:
+    print('inside if')
+    winner = "x"
+else:
+    print('inside else')
+    winner = "y"
+print('after if')
+        </code></pre>
+        <pre><code class="language-pycon" data-trim>
+before if
+inside if
+after if
+        </code></pre>
+        <p>→ Suy ra <span class="keyword">x_score &gt; y_score</span>.:contentReference[oaicite:17]{index=17}</p>
+      </section>
+
+      <!-- Trace vs Watch -->
+      <section>
+        <h2><span class="keyword">Trace</span> vs. <span class="keyword">Watch</span></h2>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+print('before if')
+if x_score > y_score:
+    print('inside if')
+    winner = "x"
+    print('winner = ' + winner)   # WATCH: in giá trị sau gán
+else:
+    print('inside else')
+    winner = "y"
+    print('winner = ' + winner)
+print('after if')
+        </code></pre>
+        <ul>
+          <li><span class="keyword">Trace</span>: theo dõi <em>luồng</em> — khối nào được chạy.</li>
+          <li><span class="keyword">Watch</span>: theo dõi <em>dữ liệu</em> — biến có giá trị gì sau khi gán.:contentReference[oaicite:18]{index=18}</li>
+        </ul>
+      </section>
+
+      <!-- ====================== TESTING / COVERAGE ====================== -->
+      <!-- Inspiration -->
+      <section>
+        <h2>Gợi ý thiết kế ca kiểm thử</h2>
+        <ul>
+          <li>Quy tắc 1–2–0; trường hợp phổ biến &amp; biên.</li>
+          <li>Với <span class="keyword">if</span>: tạo ca kiểm thử để <span class="keyword">mỗi nhánh</span> đều được chạy (kể cả lồng nhau).:contentReference[oaicite:19]{index=19}</li>
+        </ul>
+      </section>
+
+      <!-- Testing if-elif -->
+      <section>
+        <h2>Kiểm thử câu lệnh <span class="keyword">if–elif–else</span></h2>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+if score >= 90:
+    print("Excellent!")
+elif score >= 70:
+    print("Good job!")
+elif score >= 50:
+    print("Pass.")
+else:
+    print("Fail.")
+        </code></pre>
+        <p>Thiết kế <span class="keyword">4</span> ca: ví dụ <span class="inline-code">91</span>, <span class="inline-code">80</span>, <span class="inline-code">55</span>, <span class="inline-code">40</span>.:contentReference[oaicite:20]{index=20}</p>
+      </section>
+
+      <!-- Testing nested -->
+      <section>
+        <h2>Kiểm thử <span class="keyword">if</span> lồng nhau</h2>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+if raining:
+    if freezing:
+        print('Wear a waterproof coat.')
+    else:
+        print('Bring an umbrella.')
+else:
+    if freezing:
+        print('Wear a warm coat!')
+    else:
+        print('A sweater will suffice.')
+        </code></pre>
+        <p>Cần 4 ca kiểm thử (tổ hợp True/False của <span class="inline-code">raining</span> và <span class="inline-code">freezing</span>).:contentReference[oaicite:21]{index=21}</p>
+      </section>
+
+      <!-- Black-box vs Glass-box -->
+      <section>
+        <h2><span class="keyword">Hộp đen</span> vs. <span class="keyword">Hộp kính</span></h2>
+        <div style="display:flex; gap:2rem;">
+          <div style="flex:1;">
+            <h3>Black Box</h3>
+            <p>Thiết kế ca kiểm thử dựa trên <span class="keyword">đặc tả</span>.</p>
+          </div>
+          <div style="flex:1;">
+            <h3>Glass Box</h3>
+            <p>Nhìn mã nguồn: đảm bảo <span class="keyword">mọi nhánh</span> đều được bao phủ.:contentReference[oaicite:22]{index=22}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================== FUNCTIONS (A LITTLE BIT) ====================== -->
+      <!-- Intro to functions -->
+      <section>
+        <h2>Thoáng qua về <span class="keyword">hàm</span></h2>
+        <ul>
+          <li>Trong trò chơi Scratch có sẵn <span class="inline-code">move forward</span>, <span class="inline-code">turn left</span>.</li>
+          <li>Python thì <span class="keyword">tự định nghĩa</span> các hành động này → <span class="keyword">hàm</span>.:contentReference[oaicite:23]{index=23}</li>
+        </ul>
+      </section>
+
+      <!-- Function definitions / calls -->
+      <section>
+        <h2>Định nghĩa &amp; gọi hàm</h2>
+        <div style="display:flex; gap:2rem;">
+          <div style="flex:1;">
+            <h3>Định nghĩa</h3>
+            <pre><code class="language-python" data-trim data-line-numbers="">
+def move_forward():
+    print("go 1 step")
+def turn_left():
+    print("turn left")
+            </code></pre>
+          </div>
+          <div style="flex:1;">
+            <h3>Gọi hàm</h3>
+            <pre><code class="language-python" data-trim data-line-numbers="">
+move_forward()
+turn_left()
+            </code></pre>
+          </div>
+        </div>
+        <p>Mỗi lần gọi → thân hàm chạy một lần.:contentReference[oaicite:24]{index=24}</p>
+      </section>
+
+      <!-- Functions with arguments -->
+      <section>
+        <h2>Hàm có đối số</h2>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+def what_to_wear(raining, freezing):
+    if raining:
+        if freezing:
+            ...
+    else:
+        if freezing:
+            ...
+what_to_wear(True, False)
+what_to_wear(True, True)
+what_to_wear(False, False)
+what_to_wear(raining=False, freezing=True)
+        </code></pre>
+        <p>Thiết kế kiểm thử kiểu “<span class="keyword">hộp đen</span>” nếu chưa nhìn mã trong hàm.:contentReference[oaicite:25]{index=25}</p>
+      </section>
+
+      <!-- Functions that return values -->
+      <section>
+        <h2>Hàm <span class="keyword">trả về</span> giá trị</h2>
+        <pre><code class="language-python" data-trim data-line-numbers="">
+def what_to_wear(raining, freezing):
+    if raining:
+        if freezing:
+            return 'Waterproof coat'
+        else:
+            return 'Umbrella'
+    else:
+        if freezing:
+            return 'Warm coat'
+        else:
+            return 'Sweater'
+
+today_outfit = what_to_wear(True, False)
+sunny_day_outfit = what_to_wear(False, False)
+        </code></pre>
+        <p>Thường gọi để <span class="keyword">tính giá trị</span> rồi gán vào biến dùng sau.:contentReference[oaicite:26]{index=26}</p>
+      </section>
+
+      <!-- Calling from a module -->
+      <section>
+        <h2>Gọi hàm từ <span class="keyword">module</span></h2>
+        <div style="display:flex; gap:2rem;">
+          <div style="flex:1;">
+            <h3><span class="inline-code">sample_functions.py</span></h3>
+            <pre><code class="language-python" data-trim data-line-numbers="">
+def what_to_wear(raining, freezing):
+    if raining:
+        if freezing:
+            return 'Waterproof coat'
+        else:
+            return 'Umbrella'
+    else:
+        ...
+            </code></pre>
+          </div>
+          <div style="flex:1;">
+            <h3>Trong tệp khác</h3>
+            <pre><code class="language-pycon" data-trim>
+&gt;&gt;&gt; from sample_functions import what_to_wear
+&gt;&gt;&gt; print(what_to_wear(True, False))
+Wear a waterproof coat.
+            </code></pre>
+          </div>
+        </div>
+        <!-- Nguồn: (điều chỉnh cách trình bày từ) :contentReference[oaicite:27]{index=27} -->
+      </section>
+
+      <!-- Printing version function -->
+      <section>
+        <h2>Hàm in kết quả</h2>
+        <div style="display:flex; gap:2rem;">
+          <div style="flex:1;">
+            <h3><span class="inline-code">sample_functions.py</span></h3>
+            <pre><code class="language-python" data-trim data-line-numbers="">
+def print_what_to_wear(raining, freezing):
+    if raining:
+        if freezing:
+            print('Wear a waterproof coat.')
+        else:
+            print('Bring an umbrella.')
+    else:
+        ...
+            </code></pre>
+          </div>
+          <div style="flex:1;">
+            <h3>Chế độ tương tác</h3>
+            <pre><code class="language-pycon" data-trim>
+&gt;&gt;&gt; from sample_functions import print_what_to_wear
+&gt;&gt;&gt; print_what_to_wear(True, True)
+Wear a waterproof coat.
+            </code></pre>
+          </div>
+        </div>
+        <!-- Nguồn: :contentReference[oaicite:28]{index=28} -->
+      </section>
+
+      <!-- ====================== TỔNG KẾT ====================== -->
+      <section>
+        <h2>Tổng kết</h2>
+        <ul>
+          <li><span class="keyword">if / if–else / if–elif–else</span> điều khiển <span class="keyword">luồng</span> thực thi.</li>
+          <li>Biến tạo trong nhánh tồn tại sau khối <span class="inline-code">if</span> nếu đã được gán.</li>
+          <li>Gỡ lỗi bằng <span class="keyword">trace</span> (luồng) &amp; <span class="keyword">watch</span> (giá trị).</li>
+          <li>Kiểm thử bao phủ <span class="keyword">mọi nhánh</span>, kể cả <span class="keyword">if lồng nhau</span>.</li>
+          <li>Hàm: định nghĩa, đối số, trả về, dùng từ <span class="keyword">module</span>.</li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    Tư duy tính toán. (HK 1 2025–2026) §4: Rẽ nhánh &amp; Luồng điều khiển
+  </div>
+
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+</html>
