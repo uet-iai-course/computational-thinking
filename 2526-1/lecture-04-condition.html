@@ -1097,7 +1097,7 @@ else:
         </section>
 
         <!-- Gỡ lỗi luồng với print -->
-        <section style="font-size: 0.9em;">
+        <section style="font-size: 0.8em;" data-auto-animate>
           <h2>Dùng <span class="inline-code">print()</span> để truy vết</h2>
           <div>
             <div>
@@ -1110,8 +1110,8 @@ else:
       </code></pre>
             </div>
             <div>
-              <p>Có thể dùng <span class="inline-code">print()</span> để theo dõi <span class="keyword">luồng chương
-                  trình</span> và <span class="keyword">giá trị biến</span>:</p>
+              <p>Có thể dùng <span class="inline-code">print()</span> để truy vết <span class="keyword">luồng chương
+                  trình</span> và theo dõi <span class="keyword">giá trị biến</span>:</p>
               <ul>
                 <li>Đặt <span class="inline-code">print()</span> tại <strong>đầu khối</strong> để biết khối có chạy
                   không.</li>
@@ -1122,19 +1122,19 @@ else:
         </section>
 
         <!-- "Trace" prints -->
-        <section style="font-size: 0.8em;">
+        <section style="font-size: 0.8em;" data-auto-animate>
           <h2>Dùng <span class="inline-code">print()</span> để truy vết</h2>
           <p><span class="keyword">Truy vết (Trace)</span> = in ra “dấu vết”.</p>
           <div>
             <div>
               <pre><code class="language-python" data-trim data-line-numbers="">
 # determine winner
-print('before if')        # TRACE
+print('before if')        # TRACE: truy vết vị trí trước if
 if x_score > y_score:
-    print('inside if')    # TRACE
+    print('inside if')    # TRACE: truy vết vị trí trong if
     winner = "x"
 else:
-    print('inside else')  # TRACE
+    print('inside else')  # TRACE: truy vết vị trí trong else
     winner = "y"
 print('after if')
       </code></pre>
@@ -1175,13 +1175,14 @@ print('after if')               # TRACE: truy vết vị trí sau if
             </div>
             <div>
               <ul>
-                <li><span class="keyword">TRACE</span>: theo dõi <strong>luồng</strong> — đặt ở <strong>đầu
+                <li><span class="keyword">TRACE</span>: truy vết <strong>luồng</strong> — đặt ở <strong>đầu
                     khối</strong> có thể bị bỏ qua.</li>
                 <li><span class="keyword">WATCH</span>: theo dõi <strong>dữ liệu</strong> — đặt <strong>sau lệnh
                     gán</strong> để xem giá trị biến.</li>
               </ul>
-              <p><strong>Mục tiêu:</strong> Biết <strong>khối nào chạy</strong> và <strong>biến đang mang giá trị
-                  gì</strong>.</p>
+              <p>&rarr; Dùng cả 2 để biết <span class="keyword">khối nào chạy</span> và <span
+                  class="keyword">biến đang mang giá trị
+                  gì</span>.</p>
             </div>
           </div>
         </section>
