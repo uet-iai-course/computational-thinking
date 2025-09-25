@@ -589,7 +589,7 @@ even
 
             </svg>
             <div class="caption" style="margin-top:0!important;">
-              <span class="keyword">Flowchart</span> minh họa đường đi của chương trình.
+              <span class="keyword">Lưu đồ (Flowchart)</span> minh họa đường đi của chương trình.
             </div>
           </div>
         </section>
@@ -898,7 +898,7 @@ else:
                   stroke-width: 1.5;
                 }
 
-                .conn {
+                .conn-wear {
                   fill: none;
                   stroke: #333;
                   stroke-width: 1.5;
@@ -920,46 +920,46 @@ else:
               </style>
 
               <!-- Starting point -->
-              <path class="conn" d="M 260,-10 V 15" />
+              <path class="conn-wear" d="M 260,-10 V 15" />
 
               <!-- Raining decision -->
               <polygon class="decision" points="260,30 320,70 260,110 200,70" />
               <text class="t" x="260" y="70">raining</text>
 
               <!-- Left branch: not raining -> freezing -->
-              <path class="conn" d="M 200,70 H 120 V 125" />
+              <path class="conn-wear" d="M 200,70 H 120 V 125" />
               <text class="lbl" x="180" y="62">False</text>
 
               <polygon class="decision" points="120,140 180,180 120,220 60,180" />
               <text class="t" x="120" y="180">freezing</text>
 
               <!-- Left-left: not freezing -> sweater -->
-              <path class="conn" d="M 60,180 H 30 V 225" />
+              <path class="conn-wear" d="M 60,180 H 30 V 225" />
               <text class="lbl" x="40" y="170">False</text>
               <rect class="process" x="-20" y="240" width="100" height="44" rx="10" />
               <text class="t" x="30" y="262">... sweater</text>
 
               <!-- Left-right: freezing -> warm coat -->
-              <path class="conn" d="M 180,180 H 210 V 225" />
+              <path class="conn-wear" d="M 180,180 H 210 V 225" />
               <text class="lbl" x="200" y="170">True</text>
               <rect class="process" x="150" y="240" width="100" height="44" rx="10" />
               <text class="t" x="200" y="262">... warm coat</text>
 
               <!-- Right branch: raining -> freezing -->
-              <path class="conn" d="M 320,70 H 400 V 120" />
+              <path class="conn-wear" d="M 320,70 H 400 V 120" />
               <text class="lbl" x="340" y="62">True</text>
 
               <polygon class="decision" points="400,140 460,180 400,220 340,180" />
               <text class="t" x="400" y="180">freezing</text>
 
               <!-- Right-left: not freezing -> umbrella -->
-              <path class="conn" d="M 340,180 H 310 V 225" />
+              <path class="conn-wear" d="M 340,180 H 310 V 225" />
               <text class="lbl" x="320" y="170">False</text>
               <rect class="process" x="260" y="240" width="100" height="44" rx="10" />
               <text class="t" x="310" y="262">... umbrella</text>
 
               <!-- Right-right: freezing -> waterproof coat -->
-              <path class="conn" d="M 460,180 H 500 V 225" />
+              <path class="conn-wear" d="M 460,180 H 500 V 225" />
               <text class="lbl" x="475" y="170">True</text>
               <rect class="process" x="430" y="240" width="140" height="44" rx="10" />
               <text class="t" x="500" y="262">... waterproof coat</text>
@@ -1014,7 +1014,7 @@ else:
                     stroke-width: 1.5;
                   }
 
-                  .conn {
+                  .conn-nested {
                     fill: none;
                     stroke: #333;
                     stroke-width: 1.5;
@@ -1036,46 +1036,46 @@ else:
                 </style>
 
                 <!-- Starting point -->
-                <path class="conn" d="M 260,-10 V 15" />
+                <path class="conn-nested" d="M 260,-10 V 15" />
 
                 <!-- Raining decision -->
                 <polygon class="decision" points="260,30 320,70 260,110 200,70" />
                 <text class="t" x="260" y="70">raining</text>
 
                 <!-- Left branch: not raining -> freezing -->
-                <path class="conn" d="M 200,70 H 120 V 125" />
+                <path class="conn-nested" d="M 200,70 H 120 V 125" />
                 <text class="lbl" x="180" y="62">False</text>
 
                 <polygon class="decision" points="120,140 180,180 120,220 60,180" />
                 <text class="t" x="120" y="180">freezing</text>
 
                 <!-- Left-left: not freezing -> sweater -->
-                <path class="conn" d="M 60,180 H 30 V 225" />
+                <path class="conn-nested" d="M 60,180 H 30 V 225" />
                 <text class="lbl" x="40" y="170">False</text>
                 <rect class="process" x="-20" y="240" width="100" height="44" rx="10" />
                 <text class="t" x="30" y="262">... sweater</text>
 
                 <!-- Left-right: freezing -> warm coat -->
-                <path class="conn" d="M 180,180 H 210 V 225" />
+                <path class="conn-nested" d="M 180,180 H 210 V 225" />
                 <text class="lbl" x="200" y="170">True</text>
                 <rect class="process" x="150" y="240" width="100" height="44" rx="10" />
                 <text class="t" x="200" y="262">... warm coat</text>
 
                 <!-- Right branch: raining -> freezing -->
-                <path class="conn" d="M 320,70 H 400 V 120" />
+                <path class="conn-nested" d="M 320,70 H 400 V 120" />
                 <text class="lbl" x="340" y="62">True</text>
 
                 <polygon class="decision" points="400,140 460,180 400,220 340,180" />
                 <text class="t" x="400" y="180">freezing</text>
 
                 <!-- Right-left: not freezing -> umbrella -->
-                <path class="conn" d="M 340,180 H 310 V 225" />
+                <path class="conn-nested" d="M 340,180 H 310 V 225" />
                 <text class="lbl" x="320" y="170">False</text>
                 <rect class="process" x="260" y="240" width="100" height="44" rx="10" />
                 <text class="t" x="310" y="262">... umbrella</text>
 
                 <!-- Right-right: freezing -> waterproof coat -->
-                <path class="conn" d="M 460,180 H 500 V 225" />
+                <path class="conn-nested" d="M 460,180 H 500 V 225" />
                 <text class="lbl" x="475" y="170">True</text>
                 <rect class="process" x="430" y="240" width="140" height="44" rx="10" />
                 <text class="t" x="500" y="262">... waterproof coat</text>
