@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="vi">
-<!-- Nguồn nội dung chuyển đổi từ PPTX: :contentReference[oaicite:0]{index=0}. Định dạng Reveal.js tham chiếu: :contentReference[oaicite:1]{index=1} -->
+<!-- Nguồn nội dung chuyển đổi từ PPTX: . Định dạng Reveal.js tham chiếu:  -->
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -17,172 +18,750 @@
 <body>
   <div class="reveal">
     <div class="slides">
-<section>
-      <!-- ====================== TIÊU ĐỀ ====================== -->
-      <!-- Title -->
       <section>
-        <h2 class="r-fit-text">Tư duy Tính toán</h2>
-        <p style="font-size:1.3em; margin:.4em 0 0;">Rẽ nhánh (<span class="keyword">Conditionals</span>) &amp; Luồng điều khiển</p>
-        <p>Trường Đại học Công nghệ – ĐẠI HỌC QUỐC GIA HÀ NỘI</p>
+        <!-- ====================== TIÊU ĐỀ ====================== -->
+        <!-- Title -->
+        <section>
+          <h2 class="r-fit-text">Tư duy Tính toán</h2>
+          <h2>Rẽ nhánh &amp; Luồng điều khiển</h2>
+          <p>Trường ĐH Công nghệ – Đại học Quốc gia Hà Nội</p>
+        </section>
+
+        <!-- Outline -->
+        <section>
+          <h2>Nội dung</h2>
+          <ol>
+            <li><span>Rẽ nhánh</span> cơ bản</li>
+            <li>Rẽ nhánh lồng nhau</li>
+            <li><span>Truy vết lỗi</span></li>
+            <li><span>Kiểm thử</span></li>
+            <li>Giới thiệu sơ lược về <span class="">hàm</span></li>
+          </ol>
+        </section>
       </section>
 
-      <!-- Outline -->
-      <section>
-        <h2>Nội dung</h2>
-        <ol>
-          <li><span class="keyword">If</span> cơ bản</li>
-          <li><span class="keyword">If–elif–else</span> &amp; lồng nhau</li>
-          <li>Gỡ lỗi: <span class="keyword">trace</span> &amp; <span class="keyword">watch</span></li>
-          <li>Kiểm thử: <span class="keyword">độ bao phủ</span> (code coverage)</li>
-          <li>Thoáng qua về <span class="keyword">hàm</span></li>
-        </ol>
-      </section>
-</section>
-
-<section>
       <!-- ====================== PHẦN I: IF & LUỒNG ====================== -->
-      <!-- Program Flow (động lực) -->
       <section>
-        <h2>Luồng chương trình &amp; nhu cầu rẽ nhánh</h2>
-        <ul>
-          <li>Chương trình đơn giản: lệnh chạy <span class="keyword">cố định thứ tự</span> qua mỗi lần chạy.</li>
-          <li>Thực tế cần <span class="keyword">lựa chọn</span> dựa trên dữ liệu vào.</li>
-          <li>Ví dụ: “Nếu đang ở <span class="keyword">bông hoa</span> thì hút mật, <span class="keyword">ngược lại</span> làm mật ong.”:contentReference[oaicite:2]{index=2}</li>
-          <li>Ví dụ Python: nếu <span class="inline-code">x</span> chẵn thì in <span class="inline-code">'even'</span>, nếu không thì không làm gì.:contentReference[oaicite:3]{index=3}</li>
-        </ul>
-      </section>
+        <section>
+          <h1>
+            <span class="text-light">1.</span>
+            <br>
+            Rẽ nhánh <br> cơ bản
+          </h1>
+        </section>
 
-      <!-- If statement: cú pháp -->
-      <section>
-        <h2>Câu lệnh <span class="keyword">if</span></h2>
-        <p><span class="keyword">Cú pháp</span>:</p>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+        <!-- Program Flow (động lực) -->
+        <section>
+          <h2>Luồng chương trình</h2>
+          <p>Chương trình đơn giản: Các lệnh chạy <span class="keyword">cố định thứ tự</span> qua mỗi lần chạy.</p>
+          <div style="display: flex; gap:2rem; align-items:center; justify-content:center;">
+            <div style="text-align: center;">
+              <img src="img/lec04/01-program-flow-scratch.png" alt="program flow in Scratch" style="height: 360px;">
+            </div>
+            <div style="text-align: center;">
+              <svg height="360" viewBox="40 0 170 620" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+                <defs>
+                  <marker id="arrowhead0" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+                  </marker>
+                </defs>
+
+                <style>
+                  .start-node {
+                    fill: #E1F0FF;
+                    stroke: #555;
+                    stroke-width: 1.5;
+                  }
+
+                  .process {
+                    fill: #D0E3F4;
+                    stroke: #555;
+                    stroke-width: 1.5;
+                  }
+
+                  .connector0 {
+                    fill: none;
+                    stroke: #333;
+                    stroke-width: 1.5;
+                    marker-end: url(#arrowhead0);
+                  }
+
+                  .flow-text {
+                    font-size: 18px;
+                    text-anchor: middle;
+                    dominant-baseline: middle;
+                    fill: #222;
+                  }
+                </style>
+
+                <circle class="start-node" cx="125" cy="40" r="20" />
+
+                <path class="connector0" d="M 125,60 V 100" />
+                <rect class="process" x="50" y="100" width="150" height="60" rx="10" />
+                <text class="flow-text" x="125" y="130">Tiến lên</text>
+
+                <path class="connector0" d="M 125,160 V 200" />
+                <rect class="process" x="50" y="200" width="150" height="60" rx="10" />
+                <text class="flow-text" x="125" y="230">Tiến lên</text>
+
+                <path class="connector0" d="M 125,260 V 300" />
+                <rect class="process" x="50" y="300" width="150" height="60" rx="10" />
+                <text class="flow-text" x="125" y="330">Quay trái</text>
+
+                <path class="connector0" d="M 125,360 V 400" />
+                <rect class="process" x="50" y="400" width="150" height="60" rx="10" />
+                <text class="flow-text" x="125" y="430">Tiến lên</text>
+
+                <path class="connector0" d="M 125,460 V 500" />
+                <rect class="process" x="50" y="500" width="150" height="60" rx="10" />
+                <text class="flow-text" x="125" y="530">Tiến lên</text>
+
+                <path class="connector0" d="M 125,560 V 590" />
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Nhu cầu rẽ nhánh</h2>
+          <p><strong>Thực tế:</strong> Ta cần <span class="keyword">lựa chọn</span> dựa trên dữ liệu vào.</p>
+          <p>Nếu đang <span class="keyword">ở vị trí hoa</span> thì hút mật, <span class="keyword">ngược
+              lại</span> làm mật.</p>
+
+          <!-- two columns -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:center;">
+            <div style="text-align: center;">
+              <img src="img/lec04/02-bee-if-scratch.png" alt="bee if in Scratch">
+            </div>
+            <div style="text-align: center;">
+              <svg width="450" viewBox="0 0 450 340" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+                <defs>
+                  <marker id="arrowhead1" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+                  </marker>
+                </defs>
+
+                <style>
+                  .decision {
+                    fill: #E1F0FF;
+                    stroke: #555;
+                    stroke-width: 1.5;
+                  }
+
+                  .process {
+                    fill: #D0E3F4;
+                    stroke: #555;
+                    stroke-width: 1.5;
+                  }
+
+                  .connector1 {
+                    fill: none;
+                    stroke: #333;
+                    stroke-width: 1.5;
+                    marker-end: url(#arrowhead1);
+                  }
+
+                  .line {
+                    fill: none;
+                    stroke: #333;
+                    stroke-width: 1.5;
+                  }
+
+                  .flow-text {
+                    font-size: 16px;
+                    text-anchor: middle;
+                    dominant-baseline: middle;
+                    fill: #222;
+                  }
+
+                  .label-text {
+                    font-size: 15px;
+                    text-anchor: middle;
+                    fill: #222;
+                  }
+                </style>
+
+                <path class="connector1" d="M 225,0 V 30" />
+
+                <polygon class="decision" points="225,45 295,95 225,145 155,95" />
+                <text class="flow-text" x="225" y="90">Ở vị trí</text>
+                <text class="flow-text" x="225" y="108">hoa</text>
+
+                <rect class="process" x="275" y="180" width="140" height="60" rx="10" />
+                <text class="flow-text" x="345" y="210">Lấy mật</text>
+
+                <rect class="process" x="35" y="180" width="140" height="60" rx="10" />
+                <text class="flow-text" x="105" y="210">Làm mật</text>
+
+                <path class="connector1" d="M 295,95 H 345 V 165" />
+                <text class="label-text" x="315" y="90">Đúng</text>
+
+                <path class="connector1" d="M 155,95 H 105 V 165" />
+                <text class="label-text" x="135" y="90">Sai</text>
+
+                <path class="line" d="M 105,240 V 270 H 345 V 240" />
+
+                <path class="connector1" d="M 225,270 V 310" />
+
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- If statement: cú pháp -->
+        <section style="font-size: 0.9em;">
+          <h2>Câu lệnh <span class="inline-code">if</span> trong Python</h2>
+          <p><strong>Cú pháp</strong></p>
+          <pre><code class="language-python" data-trim>
 if &lt;biểu-thức-Boolean&gt;:
-    &lt;statement&gt;
+    &lt;câu-lệnh-1&gt;
+    &lt;câu-lệnh-2&gt;
     ...
+    &lt;câu-lệnh-n&gt;
         </code></pre>
-        <p><span class="keyword">Ví dụ</span>:</p>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+          <p>
+            Nếu <span class="inline-code">&lt;biểu-thức-Boolean&gt;</span> <span class="keyword">đúng (True)</span>:
+            Thực hiện tất cả các
+            <span class="inline-code">&lt;câu-lệnh-i&gt;</span> trong <strong>khối lệnh</strong>.
+          </p>
+          <p><span class="keyword">Ngược lại</span>: Bỏ qua khối lệnh.</p>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Câu lệnh <span class="inline-code">if</span>: Ví dụ</h2>
+          <p>Nếu <span class="inline-code">x</span> <span class="keyword">chẵn</span> thì in <span
+              class="inline-code">even</span>, <span class="keyword">ngược lại</span> không làm gì.</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:center;">
+            <div>
+              <pre><code class="language-python" data-trim data-line-numbers="">
 x = 10
 if x % 2 == 0:
     print('even')
         </code></pre>
-        <!-- Nguồn: :contentReference[oaicite:4]{index=4} -->
-      </section>
+            </div>
+            <div>
+              <svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"
+                font-family="sans-serif">
+                <defs>
+                  <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+                  </marker>
+                </defs>
 
-      <!-- Boolean examples -->
-      <section>
-        <h2>Ví dụ về giá trị <span class="keyword">Boolean</span></h2>
-        <pre><code class="language-python" data-trim data-line-numbers="">
-is_rainy = False
-is_windy = True
-temp = 12
+                <style>
+                  .decision {
+                    fill: #E1F0FF;
+                    stroke: #555;
+                    stroke-width: 1.5;
+                  }
+
+                  .process {
+                    fill: #D0E3F4;
+                    stroke: #555;
+                    stroke-width: 1.5;
+                  }
+
+                  .connector2 {
+                    fill: none;
+                    stroke: #333;
+                    stroke-width: 1.5;
+                    marker-end: url(#arrowhead2);
+                  }
+
+                  .line {
+                    fill: none;
+                    stroke: #333;
+                    stroke-width: 1.5;
+                  }
+
+                  .flow-text {
+                    font-size: 16px;
+                    text-anchor: middle;
+                    dominant-baseline: middle;
+                    fill: #222;
+                  }
+
+                  .label-text {
+                    font-size: 15px;
+                    text-anchor: middle;
+                    fill: #222;
+                  }
+                </style>
+
+                <path class="connector2" d="M 200,0 V 25" />
+
+                <polygon class="decision" points="200,40 270,90 200,140 130,90" />
+                <text class="flow-text" x="200" y="85">x là</text>
+                <text class="flow-text" x="200" y="103">số chẵn</text>
+
+                <rect class="process" x="250" y="170" width="120" height="50" rx="10" />
+                <text class="flow-text" x="310" y="195">In ra 'even'</text>
+
+                <path class="connector2" d="M 270,90 H 310 V 155" />
+                <text class="label-text" x="290" y="80">Đúng</text>
+
+                <path class="line" d="M 200,140 V 250" />
+                <path class="line" d="M 310,220 V 250 H 200" />
+
+                <path class="connector2" d="M 200,250 V 275" />
+                <text class="label-text" x="180" y="160">Sai</text>
+
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- Boolean examples -->
+        <section style="font-size: 0.7em;">
+          <h2>Ví dụ về giá trị <span class="">Boolean</span></h2>
+          <p><strong>Khai báo các biến:</strong></p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+is_rainy = False  # Giá trị kiểu Boolean
+is_windy = True   # Giá trị kiểu Boolean
+temp = 12         # Giá trị kiểu số nguyên
         </code></pre>
-        <!-- Nguồn: :contentReference[oaicite:5]{index=5} -->
-      </section>
 
-      <!-- If-else -->
-      <section>
-        <h2><span class="keyword">if–else</span></h2>
-        <p><span class="keyword">Cú pháp</span>:</p>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+          <p><strong>Biến Boolean:</strong></p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+if is_rainy:
+    print("Hãy mang ô!")
+        </code></pre>
+
+          <p><strong>Phép toán Boolean:</strong></p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+if is_windy and not is_rainy:
+    print("Đi thả diều nào!")
+        </code></pre>
+
+          <p><strong>Toán tử so sánh:</strong></p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+if temp &lt; 10 and is_rainy:
+    print("Hãy mặc áo khoác chống thấm nước!")
+
+if temp &gt;= 30:
+    print("Uống nhiều nước!")
+        </code></pre>
+        </section>
+
+        <!-- If-else -->
+        <section>
+          <h2>Câu lệnh <span class="inline-code">if</span> &mdash; <span class="inline-code">else</span></h2>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:center;">
+            <div>
+              <p><strong>Cú pháp</strong>:</p>
+              <pre><code class="language-python" data-trim>
 if &lt;biểu-thức-Boolean&gt;:
-    &lt;statement&gt;
+    &lt;câu-lệnh&gt;
     ...
 else:
-    &lt;statement&gt;
+    &lt;câu-lệnh&gt;
     ...
         </code></pre>
-        <p><span class="keyword">Ví dụ</span>:</p>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+              <p><strong>Ví dụ</strong>:</p>
+              <pre><code class="language-python" data-trim data-line-numbers="">
 if x % 2 == 0:
     print('even')
 else:
     print('odd')
         </code></pre>
-        <!-- Nguồn: :contentReference[oaicite:6]{index=6} -->
-      </section>
+            </div>
+            <div>
+              <svg width="450" viewBox="0 0 450 340" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+                <defs>
+                  <marker id="arrowhead3" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+                  </marker>
+                </defs>
 
-      <!-- Structure vs Flow -->
-      <section>
-        <h2><span class="keyword">Cấu trúc</span> vs. <span class="keyword">Luồng</span></h2>
-        <div style="display:flex; gap:2rem; align-items:flex-start;">
-          <div style="flex:1;">
-            <h3>Cấu trúc chương trình</h3>
-            <ul>
-              <li>Cách mã được <span class="keyword">trình bày</span> trong tệp.</li>
-              <li>Thứ tự dòng, mức <span class="keyword">thụt lề</span>.</li>
-              <li>Định nghĩa các <span class="keyword">khả năng</span> qua nhiều lần chạy.</li>
-            </ul>
-          </div>
-          <div style="flex:1;">
-            <h3>Luồng chương trình</h3>
-            <ul>
-              <li>Thứ tự <span class="keyword">thực thi</span> lệnh khi chạy.</li>
-              <li>Không trùng với cấu trúc; có thể <span class="keyword">bỏ qua</span> nhánh.</li>
-              <li>Định nghĩa điều gì xảy ra trong <span class="keyword">một lần chạy</span>.</li>
-            </ul>
-          </div>
-        </div>
-        <!-- Nguồn: :contentReference[oaicite:7]{index=7} -->
-      </section>
+                <style>
+                  .decision {
+                    fill: #E1F0FF;
+                    stroke: #555;
+                    stroke-width: 1.5;
+                  }
 
-      <!-- Example program: structure vs flow -->
-      <section>
-        <h2>Ví dụ: Cấu trúc vs. Luồng</h2>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+                  .process {
+                    fill: #D0E3F4;
+                    stroke: #555;
+                    stroke-width: 1.5;
+                  }
+
+                  .connector3 {
+                    fill: none;
+                    stroke: #333;
+                    stroke-width: 1.5;
+                    marker-end: url(#arrowhead3);
+                  }
+
+                  .line {
+                    fill: none;
+                    stroke: #333;
+                    stroke-width: 1.5;
+                  }
+
+                  .flow-text {
+                    font-size: 16px;
+                    text-anchor: middle;
+                    dominant-baseline: middle;
+                    fill: #222;
+                  }
+
+                  .label-text {
+                    font-size: 15px;
+                    text-anchor: middle;
+                    fill: #222;
+                  }
+                </style>
+
+                <path class="connector3" d="M 225,0 V 30" />
+
+                <polygon class="decision" points="225,45 295,95 225,145 155,95" />
+                <text class="flow-text" x="225" y="90">x là</text>
+                <text class="flow-text" x="225" y="108">số chẵn</text>
+
+                <rect class="process" x="275" y="180" width="140" height="60" rx="10" />
+                <text class="flow-text" x="345" y="210">In ra "even"</text>
+
+                <rect class="process" x="35" y="180" width="140" height="60" rx="10" />
+                <text class="flow-text" x="105" y="210">In ra "odd"</text>
+
+                <path class="connector3" d="M 295,95 H 345 V 165" />
+                <text class="label-text" x="315" y="90">Đúng</text>
+
+                <path class="connector3" d="M 155,95 H 105 V 165" />
+                <text class="label-text" x="135" y="90">Sai</text>
+
+                <path class="line" d="M 105,240 V 270 H 345 V 240" />
+
+                <path class="connector3" d="M 225,270 V 310" />
+
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- Structure vs Flow -->
+        <section style="font-size: 0.8em;">
+          <h2>Cấu trúc vs. Luồng chương trình</h2>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Cấu trúc chương trình</th>
+                <th>Luồng chương trình</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Định nghĩa</strong></td>
+                <td>Cách mã được <span class="keyword">trình bày</span> trong tệp.</td>
+                <td>Thứ tự <span class="keyword">thực thi</span> lệnh khi chạy.</td>
+              </tr>
+              <tr>
+                <td><strong>Thứ tự / Nhánh</strong></td>
+                <td>Thứ tự dòng, mức <span class="keyword">thụt lề</span>.</td>
+                <td>Không trùng với cấu trúc; có thể <span class="keyword">bỏ qua</span> nhánh.</td>
+              </tr>
+              <tr>
+                <td><strong>Phạm vi</strong></td>
+                <td>Định nghĩa các <span class="keyword">khả năng</span> qua nhiều lần chạy.</td>
+                <td>Định nghĩa điều gì xảy ra trong <span class="keyword">một lần chạy</span>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+
+        <!-- Example program: structure vs flow -->
+        <section style="font-size: 0.9em;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
+            <div>
+              <h3>Cấu trúc</h3>
+              <pre><code class="language-python" data-trim data-line-numbers="">
 # odd_even.py
 x = 10
 if x % 2 == 0:
-    print('even')
+    print("even")
 else:
-    print('odd')
-        </code></pre>
-        <pre><code class="language-pycon" data-trim>
-&gt; python odd_even.py
+    print("odd")
+      </code></pre>
+              <p><span class="inline-code">print("odd")</span> xuất hiện trong <span class="keyword">cấu trúc</span>
+                chương trình.</p>
+            </div>
+            <div>
+              <h3>Luồng</h3>
+              <pre><code class="language-shell" data-trim>
+$ python odd_even.py
 even
-        </code></pre>
-        <p>Chuỗi <span class="inline-code">print('odd')</span> <em>tồn tại</em> trong <span class="keyword">cấu trúc</span> nhưng có thể <span class="keyword">không chạy</span> trong <span class="keyword">luồng</span>.:contentReference[oaicite:8]{index=8}</p>
-      </section>
+      </code></pre>
+              <p><span class="keyword">Luồng</span> chạy khiến <span class="inline-code">print("odd")</span> được
+                thực thi <span class="keyword">0 lần</span>.</p>
+            </div>
+          </div>
+        </section>
 
-      <!-- Flowcharts -->
-      <section>
-        <h2>If tác động tới luồng</h2>
-        <ul>
-          <li><span class="keyword">Điểm rẽ</span> → đánh giá điều kiện, chọn nhánh.</li>
-          <li><span class="keyword">Flowchart</span> minh họa đường đi của chương trình.</li>
-          <li>Mỗi lần chạy chỉ đi <span class="keyword">một đường</span> → có phần sẽ không được thực thi.:contentReference[oaicite:9]{index=9}</li>
-        </ul>
-      </section>
+        <!-- Flowcharts -->
+        <section style="font-size: 0.8em;">
+          <h2>Tác động của <span class="inline-code">if</span> tới luồng</h2>
+          <ul>
+            <li><span class="keyword">Điểm rẽ</span> → đánh giá điều kiện, chọn nhánh.</li>
+            <li>Mỗi lần chạy chỉ đi <span class="keyword">một đường</span> → có phần sẽ không được thực
+              thi.</li>
+          </ul>
 
-      <!-- Variables lifespan -->
-      <section>
-        <h2>Biến &amp; khối <span class="keyword">if</span></h2>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+          <div style="text-align: center;">
+            <svg width="450" viewBox="0 0 450 340" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+              <defs>
+                <marker id="arrowhead4" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+                </marker>
+                <marker id="arrowhead41" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="green" />
+                </marker>
+              </defs>
+
+              <style>
+                .decision {
+                  fill: #E1F0FF;
+                  stroke: #555;
+                  stroke-width: 1.5;
+                }
+
+                .process {
+                  fill: #D0E3F4;
+                  stroke: #555;
+                  stroke-width: 1.5;
+                }
+
+                .connector4,
+                .connector41 {
+                  fill: none;
+                  stroke: #333;
+                  stroke-width: 1.5;
+                  marker-end: url(#arrowhead4);
+                }
+
+                .line {
+                  fill: none;
+                  stroke: #333;
+                  stroke-width: 1.5;
+                }
+
+                .flow-text {
+                  font-size: 16px;
+                  text-anchor: middle;
+                  dominant-baseline: middle;
+                  fill: #222;
+                }
+
+                .label-text {
+                  font-size: 15px;
+                  text-anchor: middle;
+                  fill: #222;
+                }
+              </style>
+
+              <path class="connector4" d="M 225,0 V 30" />
+
+              <polygon class="decision" points="225,45 295,95 225,145 155,95" />
+              <text class="flow-text" x="225" y="90">x là</text>
+              <text class="flow-text" x="225" y="108">số chẵn</text>
+
+              <rect class="process" x="275" y="180" width="140" height="60" rx="10" />
+              <text class="flow-text" x="345" y="210">In ra "even"</text>
+
+              <rect class="process" x="35" y="180" width="140" height="60" rx="10" />
+              <text class="flow-text" x="105" y="210">In ra "odd"</text>
+
+              <path class="connector4" d="M 295,95 H 345 V 165" />
+              <text class="label-text" x="315" y="90">Đúng</text>
+
+              <path class="connector4" d="M 155,95 H 105 V 165" />
+              <text class="label-text" x="135" y="90">Sai</text>
+
+              <path class="line" d="M 105,240 V 270 H 345 V 240" />
+
+              <path class="connector4" d="M 225,270 V 310" />
+
+              <path d="M 400,20 H 300 L 270,85" fill="none" stroke="green" stroke-width="1.5" stroke-dasharray="5,5"
+                marker-end="url(#arrowhead41)" />
+              <text x="350" y="15" font-size="14px" fill="green">Điểm rẽ</text>
+
+            </svg>
+            <div class="caption" style="margin-top:0!important;">
+              <span class="keyword">Flowchart</span> minh họa đường đi của chương trình.
+            </div>
+          </div>
+        </section>
+
+        <!-- Variables lifespan -->
+        <section>
+          <h2>Luồng chương trình &amp; Biến</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
 a = 0
 if a == 0:
     b = a + 1   # b được tạo ở đây nếu nhánh này chạy
 print(b)        # b vẫn tồn tại sau if nếu đã được gán
         </code></pre>
-        <p>Biến được tạo <em>chỉ khi</em> lệnh gán tương ứng thực sự được thực thi.:contentReference[oaicite:10]{index=10}</p>
-      </section>
+          <p>Biến được tạo <span class="keyword">chỉ khi</span> lệnh gán tương ứng thực sự được thực
+            thi.</p>
+        </section>
 
-      <!-- ====================== IF-ELIF-ELSE ====================== -->
-      <!-- Syntax -->
-      <section>
-        <h2>Nhiều lựa chọn: <span class="keyword">if–elif–else</span></h2>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+        <!-- ====================== IF-ELIF-ELSE ====================== -->
+
+        <section style="font-size: 0.9em;">
+          <h2>Nhiều lựa chọn</h2>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:center;">
+            <div>
+              <ul>
+                <li>
+                  <strong>Ví dụ:</strong> Xếp loại học lực dựa trên điểm số:
+                  <ul>
+                    <li>90-100: Xuất sắc</li>
+                    <li>70-89: Giỏi</li>
+                    <li>50-69: Đạt</li>
+                    <li>Dưới 50: Trượt</li>
+                </li>
+              </ul>
+            </div>
+
+            <div style="text-align: center;">
+              <svg height="450" viewBox="-50 -50 600 500" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+                <defs>
+                  <marker id="arrowhead5" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+                  </marker>
+                </defs>
+
+                <style>
+                  .decision {
+                    fill: #E1F0FF;
+                    stroke: #555;
+                    stroke-width: 1.5;
+                  }
+
+                  .process {
+                    fill: #D0E3F4;
+                    stroke: #555;
+                    stroke-width: 1.5;
+                  }
+
+                  .terminator {
+                    fill: #D0E3F4;
+                    stroke: #555;
+                    stroke-width: 1.5;
+                  }
+
+                  .connector5 {
+                    fill: none;
+                    stroke: #333;
+                    stroke-width: 1.5;
+                    marker-end: url(#arrowhead5);
+                  }
+
+                  .line {
+                    fill: none;
+                    stroke: #333;
+                    stroke-width: 1.5;
+                  }
+
+                  .flow-text {
+                    font-size: 14px;
+                    text-anchor: middle;
+                    dominant-baseline: middle;
+                    fill: #222;
+                  }
+
+                  .label-text {
+                    font-size: 13px;
+                    text-anchor: middle;
+                    fill: #222;
+                  }
+                </style>
+
+                <path class="connector5" d="M 100,-50 V -15" />
+
+                <polygon class="decision" points="100,0 170,30 100,60 30,30" />
+                <text class="flow-text" x="100" y="30">Điểm &ge; 90</text>
+
+                <polygon class="decision" points="250,90 320,120 250,150 180,120" />
+                <text class="flow-text" x="250" y="120">Điểm &ge; 70</text>
+
+                <polygon class="decision" points="370,200 440,230 370,260 300,230" />
+                <text class="flow-text" x="370" y="230">Điểm &ge; 50</text>
+
+                <rect class="process" x="-30" y="100" width="100" height="50" rx="10" />
+                <text class="flow-text" x="20" y="125">Xuất sắc</text>
+
+                <rect class="process" x="110" y="200" width="100" height="50" rx="10" />
+                <text class="flow-text" x="160" y="225">Giỏi</text>
+
+                <rect class="process" x="230" y="300" width="100" height="50" rx="10" />
+                <text class="flow-text" x="280" y="325">Đạt</text>
+
+                <rect class="process" x="430" y="300" width="90" height="50" rx="10" />
+                <text class="flow-text" x="475" y="325">Trượt</text>
+
+                <rect class="terminator" x="430" y="400" width="90" height="40" rx="20" />
+
+                <path class="connector5" d="M 30,30 H 20 V 85" />
+                <text class="label-text" x="10" y="25">Đúng</text>
+
+                <path class="connector5" d="M 170,30 H 250 V 75" />
+                <text class="label-text" x="190" y="25">Sai</text>
+
+                <path class="connector5" d="M 180,120 H 160 V 185" />
+                <text class="label-text" x="160" y="115">Đúng</text>
+
+                <path class="connector5" d="M 320,120 H 370 V 185" />
+                <text class="label-text" x="340" y="115">Sai</text>
+
+                <path class="connector5" d="M 300,230 H 280 V 285" />
+                <text class="label-text" x="290" y="225">Đúng</text>
+
+                <path class="connector5" d="M 440,230 H 475 V 285" />
+                <text class="label-text" x="460" y="225">Sai</text>
+
+                <path class="connector5" d="M 20,150 V 420 H 415" />
+                <path class="line" d="M 160,250 V 420 H 415" />
+                <path class="line" d="M 280,350 V 420 H 415" />
+                <path class="connector5" d="M 475,350 V 385" />
+
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- Syntax -->
+        <section>
+          <h2><span class="inline-code">if</span> &mdash; <span class="inline-code">elif</span> &mdash;
+            <span class="inline-code">else</span>
+          </h2>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
+            <div style="text-align: center;">
+              <strong>Cú pháp</strong>
+              <pre><code class="language-python" data-trim>
 if &lt;biểu-thức&gt;:
+    &lt;câu-lệnh&gt;
     ...
 elif &lt;biểu-thức&gt;:
+    &lt;câu-lệnh&gt;
     ...
 elif &lt;biểu-thức&gt;:
+    &lt;câu-lệnh&gt;
     ...
 else:
+    &lt;câu-lệnh&gt;
     ...
         </code></pre>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+            </div>
+            <div style="text-align: center;">
+              <strong>Ví dụ</strong>
+              <pre><code class="language-python" data-trim data-line-numbers="">
 score = 80
+
 if score >= 90:
     print("Excellent!")
 elif score >= 70:
@@ -192,26 +771,37 @@ elif score >= 50:
 else:
     print("Fail.")
         </code></pre>
-        <!-- Nguồn: :contentReference[oaicite:11]{index=11} -->
-      </section>
+            </div>
+          </div>
+        </section>
 
-      <!-- Notes on use -->
-      <section>
-        <h2>Lưu ý khi dùng <span class="keyword">elif</span></h2>
-        <ul>
-          <li>Số lượng <span class="keyword">elif</span> không giới hạn; <span class="keyword">else</span> là tùy chọn.</li>
-          <li>Điều kiện được kiểm tra <span class="keyword">theo thứ tự</span>; gặp điều kiện <span class="keyword">đúng</span> thì bỏ qua phần sau.</li>
-          <li><span class="keyword">else</span> có nghĩa là “<span class="keyword">tất cả</span> điều kiện đều <span class="keyword">sai</span>”.:contentReference[oaicite:12]{index=12}</li>
-        </ul>
-      </section>
+        <!-- Notes on use -->
+        <section style="font-size: 0.9em;">
+          <h2>Lưu ý khi dùng <span class="inline-code">elif</span></h2>
+          <ul>
+            <li><span class="inline-code">if</span> chỉ xuất hiện <span class="keyword">một lần</span> ở đầu chuỗi.</li>
+            <li><span class="inline-code">elif</span> <span class="keyword">không giới hạn</span> số lượng, chỉ ở
+              giữa <span class="inline-code">if</span> và <span class="inline-code">else</span>.</li>
+            <li><span class="inline-code">else</span> là <span class="keyword">tùy chọn</span>: Không bắt buộc phải có.
+            </li>
+            <li>Điều kiện được kiểm tra <span class="keyword">theo thứ tự</span>:
+              <ul>
+                <li>Gặp điều kiện <strong>đúng</strong> thì bỏ qua phần sau.</li>
+                <li><span class="inline-code">else</span> tương đương: <strong>Tất cả</strong> điều kiện đều
+                  <strong>sai</strong>.
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </section>
 
-      <!-- If vs If-Elif -->
-      <section>
-        <h2><span class="keyword">Nhiều if</span> liên tiếp vs. <span class="keyword">if–elif</span></h2>
-        <div style="display:flex; gap:2rem;">
-          <div style="flex:1;">
-            <h3>Nhiều <span class="inline-code">if</span></h3>
-            <pre><code class="language-python" data-trim data-line-numbers="">
+        <!-- If vs If-Elif -->
+        <section>
+          </h2>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
+            <div style="text-align: center;">
+              <h3>Nhiều <span class="inline-code">if</span></h3>
+              <pre><code class="language-python" data-trim data-line-numbers="">
 x = 0
 if x == 0:
     print("x is 0!")
@@ -220,10 +810,18 @@ if x == 0:
 if x == 0:
     print("even still 0")
             </code></pre>
-          </div>
-          <div style="flex:1;">
-            <h3><span class="inline-code">if–elif</span></h3>
-            <pre><code class="language-python" data-trim data-line-numbers="">
+              <div>
+                <strong>Kết quả:</strong> <br>
+                <pre><code class="language-plain" data-trim>
+x is 0!
+still 0!
+even still 0
+              </code></pre>
+              </div>
+            </div>
+            <div style="text-align: center;">
+              <h3><span class="inline-code">if–elif</span></h3>
+              <pre><code class="language-python" data-trim data-line-numbers="">
 x = 0
 if x == 0:
     print("x is 0!")
@@ -232,21 +830,35 @@ elif x == 0:
 elif x == 0:
     print("even still 0")
             </code></pre>
+              <div>
+                <strong>Kết quả:</strong> <br>
+                <pre><code class="language-plain" data-trim>
+x is 0!
+              </code></pre>
+              </div>
+            </div>
           </div>
-        </div>
-        <p><em>Chuỗi <span class="keyword">if–elif</span> đảm bảo chỉ một nhánh được chọn.</em>:contentReference[oaicite:13]{index=13}</p>
+          <p><span>Chuỗi <span class="inline-code">if</span> & <span class="inline-code">elif</span> đảm bảo chỉ <span
+                class="keyword">một nhánh</span> được chọn.</span></p>
+        </section>
+
       </section>
 
-</section>
-
-<section>
-      <!-- ====================== NESTED ====================== -->
-
-      <!-- Combined conditions -->
+      <!-- ====================== Phần II: NESTED ====================== -->
       <section>
-        <h2>Điều kiện kết hợp</h2>
-        <pre><code class="language-python" data-trim data-line-numbers="">
-# mặc gì?
+        <section>
+          <h1>
+            <span class="text-light">2.</span>
+            <br>
+            Rẽ nhánh <br> lồng nhau
+          </h1>
+        </section>
+
+        <!-- Logic có thể phức tạp hơn (mã + lưu đồ) -->
+        <section style="font-size: 0.8em;">
+          <h2>Logic có thể phức tạp hơn</h2>
+          <div>
+            <pre><code class="language-python" data-trim data-line-numbers="">
 if raining and freezing:
     print('Wear a waterproof coat.')
 elif raining and not freezing:
@@ -255,13 +867,112 @@ elif not raining and freezing:
     print('Wear a warm coat!')
 else:
     print('A sweater will suffice.')
-        </code></pre>
-        <!-- Nguồn: :contentReference[oaicite:14]{index=14} -->
-      </section>
-      <!-- Nested if -->
-      <section>
-        <h2><span class="keyword">if</span> lồng nhau</h2>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+      </code></pre>
+          </div>
+          <div style="text-align:center;">
+            <!-- Lưu đồ: raining + freezing -->
+            <svg width="520" viewBox="-30 -30 610 360" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif"
+              aria-label="Flowchart what to wear">
+              <defs>
+                <marker id="arrowhead-wear" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+                </marker>
+              </defs>
+
+              <style>
+                .decision {
+                  fill: #E1F0FF;
+                  stroke: #555;
+                  stroke-width: 1.5;
+                }
+
+                .process {
+                  fill: #D0E3F4;
+                  stroke: #555;
+                  stroke-width: 1.5;
+                }
+
+                .line {
+                  fill: none;
+                  stroke: #333;
+                  stroke-width: 1.5;
+                }
+
+                .conn {
+                  fill: none;
+                  stroke: #333;
+                  stroke-width: 1.5;
+                  marker-end: url(#arrowhead-wear);
+                }
+
+                .t {
+                  font-size: 14px;
+                  text-anchor: middle;
+                  dominant-baseline: middle;
+                  fill: #222;
+                }
+
+                .lbl {
+                  font-size: 13px;
+                  text-anchor: middle;
+                  fill: #222;
+                }
+              </style>
+
+              <!-- Starting point -->
+              <path class="conn" d="M 260,-10 V 15" />
+
+              <!-- Raining decision -->
+              <polygon class="decision" points="260,30 320,70 260,110 200,70" />
+              <text class="t" x="260" y="70">raining</text>
+
+              <!-- Left branch: not raining -> freezing -->
+              <path class="conn" d="M 200,70 H 120 V 125" />
+              <text class="lbl" x="180" y="62">False</text>
+
+              <polygon class="decision" points="120,140 180,180 120,220 60,180" />
+              <text class="t" x="120" y="180">freezing</text>
+
+              <!-- Left-left: not freezing -> sweater -->
+              <path class="conn" d="M 60,180 H 30 V 225" />
+              <text class="lbl" x="40" y="170">False</text>
+              <rect class="process" x="-20" y="240" width="100" height="44" rx="10" />
+              <text class="t" x="30" y="262">... sweater</text>
+
+              <!-- Left-right: freezing -> warm coat -->
+              <path class="conn" d="M 180,180 H 210 V 225" />
+              <text class="lbl" x="200" y="170">True</text>
+              <rect class="process" x="150" y="240" width="100" height="44" rx="10" />
+              <text class="t" x="200" y="262">... warm coat</text>
+
+              <!-- Right branch: raining -> freezing -->
+              <path class="conn" d="M 320,70 H 400 V 120" />
+              <text class="lbl" x="340" y="62">True</text>
+
+              <polygon class="decision" points="400,140 460,180 400,220 340,180" />
+              <text class="t" x="400" y="180">freezing</text>
+
+              <!-- Right-left: not freezing -> umbrella -->
+              <path class="conn" d="M 340,180 H 310 V 225" />
+              <text class="lbl" x="320" y="170">False</text>
+              <rect class="process" x="260" y="240" width="100" height="44" rx="10" />
+              <text class="t" x="310" y="262">... umbrella</text>
+
+              <!-- Right-right: freezing -> waterproof coat -->
+              <path class="conn" d="M 460,180 H 500 V 225" />
+              <text class="lbl" x="475" y="170">True</text>
+              <rect class="process" x="430" y="240" width="140" height="44" rx="10" />
+              <text class="t" x="500" y="262">... waterproof coat</text>
+            </svg>
+          </div>
+        </section>
+
+        <!-- Điều kiện lồng nhau -->
+        <section style="font-size: 0.9em;">
+          <h2>Điều kiện lồng nhau</h2>
+          <div>
+            <div>
+              <pre><code class="language-python" data-trim data-line-numbers="">
 if raining:
     if freezing:
         print('Wear a waterproof coat.')
@@ -272,92 +983,290 @@ else:
         print('Wear a warm coat!')
     else:
         print('A sweater will suffice.')
-        </code></pre>
-        <!-- Nguồn: :contentReference[oaicite:15]{index=15} -->
+      </code></pre>
+            </div>
+            <div style="text-align:center;">
+              <!-- Tái sử dụng lưu đồ như trên để minh họa nhánh lồng nhau -->
+              <svg width="520" viewBox="-30 -30 610 360" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif"
+                aria-label="Flowchart what to wear">
+                <defs>
+                  <marker id="arrowhead-nested" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+                  </marker>
+                </defs>
+
+                <style>
+                  .decision {
+                    fill: #E1F0FF;
+                    stroke: #555;
+                    stroke-width: 1.5;
+                  }
+
+                  .process {
+                    fill: #D0E3F4;
+                    stroke: #555;
+                    stroke-width: 1.5;
+                  }
+
+                  .line {
+                    fill: none;
+                    stroke: #333;
+                    stroke-width: 1.5;
+                  }
+
+                  .conn {
+                    fill: none;
+                    stroke: #333;
+                    stroke-width: 1.5;
+                    marker-end: url(#arrowhead-nested);
+                  }
+
+                  .t {
+                    font-size: 14px;
+                    text-anchor: middle;
+                    dominant-baseline: middle;
+                    fill: #222;
+                  }
+
+                  .lbl {
+                    font-size: 13px;
+                    text-anchor: middle;
+                    fill: #222;
+                  }
+                </style>
+
+                <!-- Starting point -->
+                <path class="conn" d="M 260,-10 V 15" />
+
+                <!-- Raining decision -->
+                <polygon class="decision" points="260,30 320,70 260,110 200,70" />
+                <text class="t" x="260" y="70">raining</text>
+
+                <!-- Left branch: not raining -> freezing -->
+                <path class="conn" d="M 200,70 H 120 V 125" />
+                <text class="lbl" x="180" y="62">False</text>
+
+                <polygon class="decision" points="120,140 180,180 120,220 60,180" />
+                <text class="t" x="120" y="180">freezing</text>
+
+                <!-- Left-left: not freezing -> sweater -->
+                <path class="conn" d="M 60,180 H 30 V 225" />
+                <text class="lbl" x="40" y="170">False</text>
+                <rect class="process" x="-20" y="240" width="100" height="44" rx="10" />
+                <text class="t" x="30" y="262">... sweater</text>
+
+                <!-- Left-right: freezing -> warm coat -->
+                <path class="conn" d="M 180,180 H 210 V 225" />
+                <text class="lbl" x="200" y="170">True</text>
+                <rect class="process" x="150" y="240" width="100" height="44" rx="10" />
+                <text class="t" x="200" y="262">... warm coat</text>
+
+                <!-- Right branch: raining -> freezing -->
+                <path class="conn" d="M 320,70 H 400 V 120" />
+                <text class="lbl" x="340" y="62">True</text>
+
+                <polygon class="decision" points="400,140 460,180 400,220 340,180" />
+                <text class="t" x="400" y="180">freezing</text>
+
+                <!-- Right-left: not freezing -> umbrella -->
+                <path class="conn" d="M 340,180 H 310 V 225" />
+                <text class="lbl" x="320" y="170">False</text>
+                <rect class="process" x="260" y="240" width="100" height="44" rx="10" />
+                <text class="t" x="310" y="262">... umbrella</text>
+
+                <!-- Right-right: freezing -> waterproof coat -->
+                <path class="conn" d="M 460,180 H 500 V 225" />
+                <text class="lbl" x="475" y="170">True</text>
+                <rect class="process" x="430" y="240" width="140" height="44" rx="10" />
+                <text class="t" x="500" y="262">... waterproof coat</text>
+              </svg>
+            </div>
+          </div>
+        </section>
+
       </section>
 
-</section>
-
-<section>
-      <!-- ====================== DEBUGGING ====================== -->
-      <!-- Debugging intro -->
+      <!-- ====================== Phần III: DEBUGGING ====================== -->
       <section>
-        <h2>Gỡ lỗi: <span class="keyword">trace</span> &amp; <span class="keyword">watch</span></h2>
-        <p>Dùng <span class="inline-code">print</span> để theo dõi <span class="keyword">luồng</span> và <span class="keyword">giá trị</span>.:contentReference[oaicite:16]{index=16}</p>
-      </section>
+        <section>
+          <h1>
+            <span class="text-light">3.</span>
+            <br>
+            Truy vết lỗi
+          </h1>
+        </section>
 
-      <!-- Simple winner -->
-      <section>
-        <h2>Ví dụ: xác định người thắng</h2>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+        <!-- Gỡ lỗi luồng với print -->
+        <section style="font-size: 0.9em;">
+          <h2>Dùng <span class="inline-code">print()</span> để truy vết</h2>
+          <div>
+            <div>
+              <pre><code class="language-python" data-trim data-line-numbers="">
 # determine winner
 if x_score > y_score:
     winner = "x"
 else:
     winner = "y"
-        </code></pre>
-        <p>Chèn <span class="keyword">trace</span> để biết nhánh nào chạy.</p>
-      </section>
+      </code></pre>
+            </div>
+            <div>
+              <p>Có thể dùng <span class="inline-code">print()</span> để theo dõi <span class="keyword">luồng chương
+                  trình</span> và <span class="keyword">giá trị biến</span>:</p>
+              <ul>
+                <li>Đặt <span class="inline-code">print()</span> tại <strong>đầu khối</strong> để biết khối có chạy
+                  không.</li>
+                <li>Đặt <span class="inline-code">print()</span> sau khi <strong>gán</strong> để xem giá trị.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
 
-      <!-- Trace prints -->
-      <section>
-        <h2><span class="keyword">Trace</span> prints</h2>
-        <pre><code class="language-python" data-trim data-line-numbers="">
-print('before if')
+        <!-- "Trace" prints -->
+        <section style="font-size: 0.8em;">
+          <h2>Dùng <span class="inline-code">print()</span> để truy vết</h2>
+          <p><span class="keyword">Truy vết (Trace)</span> = in ra “dấu vết”.</p>
+          <div>
+            <div>
+              <pre><code class="language-python" data-trim data-line-numbers="">
+# determine winner
+print('before if')        # TRACE
 if x_score > y_score:
-    print('inside if')
+    print('inside if')    # TRACE
     winner = "x"
 else:
-    print('inside else')
+    print('inside else')  # TRACE
     winner = "y"
 print('after if')
-        </code></pre>
-        <pre><code class="language-pycon" data-trim>
+      </code></pre>
+            </div>
+            <div>
+              <p><strong>Kết quả mẫu:</strong></p>
+              <pre><code class="language-plain" data-trim>
 before if
 inside if
 after if
-        </code></pre>
-        <p>→ Suy ra <span class="keyword">x_score &gt; y_score</span>.:contentReference[oaicite:17]{index=17}</p>
-      </section>
+      </code></pre>
+              <p>Từ dấu vết trên, suy ra: <span class="inline-code">x_score &gt; y_score</span>.</p>
+            </div>
+          </div>
+        </section>
 
-      <!-- Trace vs Watch -->
-      <section>
-        <h2><span class="keyword">Trace</span> vs. <span class="keyword">Watch</span></h2>
-        <pre><code class="language-python" data-trim data-line-numbers="">
-print('before if')
+        <!-- "Trace" vs "Watch" prints -->
+        <section style="font-size: 0.8em;">
+          <h2>Truy vết <span class="text-light"> (Trace)</span> VS. Theo dõi <span class="text-light">(Watch)</span>
+          </h2>
+          <div>
+            <div>
+              <pre><code class="language-python" data-trim data-line-numbers="">
+# determine winner
+print('before if')              # TRACE: truy vết vị trí trước if
+
 if x_score > y_score:
-    print('inside if')
+    print('inside if')          # TRACE: truy vết vị trí trong if
     winner = "x"
-    print('winner = ' + winner)   # WATCH: in giá trị sau gán
+    print('winner =', winner)   # WATCH: xem giá trị winner
 else:
-    print('inside else')
+    print('inside else')        # TRACE: truy vết vị trí trong else
     winner = "y"
-    print('winner = ' + winner)
-print('after if')
-        </code></pre>
-        <ul>
-          <li><span class="keyword">Trace</span>: theo dõi <em>luồng</em> — khối nào được chạy.</li>
-          <li><span class="keyword">Watch</span>: theo dõi <em>dữ liệu</em> — biến có giá trị gì sau khi gán.:contentReference[oaicite:18]{index=18}</li>
-        </ul>
+    print('winner =', winner)   # WATCH: xem giá trị winner
+
+print('after if')               # TRACE: truy vết vị trí sau if
+      </code></pre>
+            </div>
+            <div>
+              <ul>
+                <li><span class="keyword">TRACE</span>: theo dõi <strong>luồng</strong> — đặt ở <strong>đầu
+                    khối</strong> có thể bị bỏ qua.</li>
+                <li><span class="keyword">WATCH</span>: theo dõi <strong>dữ liệu</strong> — đặt <strong>sau lệnh
+                    gán</strong> để xem giá trị biến.</li>
+              </ul>
+              <p><strong>Mục tiêu:</strong> Biết <strong>khối nào chạy</strong> và <strong>biến đang mang giá trị
+                  gì</strong>.</p>
+            </div>
+          </div>
+        </section>
+
       </section>
 
-</section>
-
-<section>
-      <!-- ====================== TESTING / COVERAGE ====================== -->
-      <!-- Inspiration -->
+      <!-- ====================== Phần IV: TESTING: CODE COVERAGE ====================== -->
       <section>
-        <h2>Gợi ý thiết kế ca kiểm thử</h2>
-        <ul>
-          <li>Quy tắc 1–2–0; trường hợp phổ biến &amp; biên.</li>
-          <li>Với <span class="keyword">if</span>: tạo ca kiểm thử để <span class="keyword">mỗi nhánh</span> đều được chạy (kể cả lồng nhau).:contentReference[oaicite:19]{index=19}</li>
-        </ul>
-      </section>
+        <!-- Title slide -->
+        <section>
+          <h1>
+            <span class="text-light">4.</span>
+            <br>
+            Kiểm thử
+          </h1>
+        </section>
 
-      <!-- Testing if-elif -->
-      <section>
-        <h2>Kiểm thử câu lệnh <span class="keyword">if–elif–else</span></h2>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+        <!-- Kiểm thử là gì? -->
+        <section>
+          <h2>Kiểm thử là gì?</h2>
+          <p><span class="keyword">Kiểm thử</span> = chạy chương trình với dữ liệu cụ thể để:</p>
+          <ul>
+            <li>Quan sát <span class="keyword">kết quả thực tế</span></li>
+            <li>So sánh với <span class="keyword">kết quả mong đợi</span></li>
+            <li>Phát hiện sự khác biệt (nếu có)</li>
+          </ul>
+        </section>
+
+        <!-- Tại sao cần kiểm thử? -->
+        <section>
+          <h2>Tại sao cần kiểm thử?</h2>
+          <ul>
+            <li><span class="keyword">Phát hiện lỗi</span> trước khi chương trình chạy sai trong thực tế.</li>
+            <li><span class="keyword">Xác nhận</span> chương trình làm đúng như mong đợi.</li>
+            <li><span class="keyword">Bảo trì dễ dàng</span> khi thay đổi mã nguồn.</li>
+            <li><span class="keyword">Tự tin</span> hơn khi phát triển tính năng mới.</li>
+          </ul>
+        </section>
+
+        <!-- Nguồn ý tưởng ca kiểm thử (phần 1) -->
+        <section style="font-size: 0.85em;">
+          <h2>Quy tắc thiết kế ca kiểm thử <span class="keyword">1–2–0</span></h2>
+          <ul>
+            <li><span class="keyword">0</span> — Trường hợp điển hình (happy path)
+              <ul>
+                <li><em>Kiểm thử kịch bản phổ biến, thường xảy ra nhất.</em></li>
+              </ul>
+            </li>
+            <li><span class="keyword">1</span> — Trường hợp cơ bản (base case)
+              <ul>
+                <li><em>Xác minh logic cốt lõi trong tình huống đơn giản nhất.</em></li>
+              </ul>
+            </li>
+            <li><span class="keyword">2</span> — Điều kiện biên (boundary conditions)
+              <ul>
+                <li><em>Thử ở ranh giới để dễ lộ lỗi.</em>
+                  <ul>
+                    <li>Ngay trong phạm vi hợp lệ</li>
+                    <li>Ngay ngoài phạm vi hợp lệ</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+
+
+        <!-- Nguồn ý tưởng ca kiểm thử (phần 2) -->
+        <section style="font-size: 0.9em;">
+          <h2>Với <span class="inline-code">if</span>, cần thêm gì?</h2>
+          <ul>
+            <li>Tạo đủ ca kiểm thử để <span class="keyword">mọi nhánh</span> trong
+              <span class="inline-code">if</span> &mdash; <span class="inline-code">elif</span> &mdash; <span
+                class="inline-code">else</span> được chạy.
+            </li>
+            <li>Tương tự với các lệnh <span class="inline-code">if</span> <span class="keyword">lồng nhau</span>.</li>
+          </ul>
+        </section>
+
+        <!-- Kiểm thử câu lệnh if: ví dụ điểm số -->
+        <section style="font-size: 0.9em;">
+          <h2>Kiểm thử câu lệnh <span class="inline-code">if</span></h2>
+          <div>
+            <pre><code class="language-python" data-trim data-line-numbers="">
 if score >= 90:
     print("Excellent!")
 elif score >= 70:
@@ -366,14 +1275,20 @@ elif score >= 50:
     print("Pass.")
 else:
     print("Fail.")
-        </code></pre>
-        <p>Thiết kế <span class="keyword">4</span> ca: ví dụ <span class="inline-code">91</span>, <span class="inline-code">80</span>, <span class="inline-code">55</span>, <span class="inline-code">40</span>.:contentReference[oaicite:20]{index=20}</p>
-      </section>
+      </code></pre>
+            <p><strong>Thiết kế test:</strong> 4 ca, mỗi ca dẫn đến <span class="keyword">một nhánh</span> khác nhau.
+            </p>
+            <p>Ví dụ: <span class="inline-code">91</span>, <span class="inline-code">80</span>, <span
+                class="inline-code">55</span>, <span class="inline-code">40</span>.
+            </p>
+          </div>
+        </section>
 
-      <!-- Testing nested -->
-      <section>
-        <h2>Kiểm thử <span class="keyword">if</span> lồng nhau</h2>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+        <!-- Kiểm thử if lồng nhau -->
+        <section style="font-size: 0.9em;">
+          <h2>Kiểm thử <span class="inline-code">if</span> lồng nhau</h2>
+          <div>
+            <pre><code class="language-python" data-trim data-line-numbers="">
 if raining:
     if freezing:
         print('Wear a waterproof coat.')
@@ -384,176 +1299,262 @@ else:
         print('Wear a warm coat!')
     else:
         print('A sweater will suffice.')
-        </code></pre>
-        <p>Cần 4 ca kiểm thử (tổ hợp True/False của <span class="inline-code">raining</span> và <span class="inline-code">freezing</span>).:contentReference[oaicite:21]{index=21}</p>
-      </section>
-
-      <!-- Black-box vs Glass-box -->
-      <section>
-        <h2><span class="keyword">Hộp đen</span> vs. <span class="keyword">Hộp kính</span></h2>
-        <div style="display:flex; gap:2rem;">
-          <div style="flex:1;">
-            <h3>Black Box</h3>
-            <p>Thiết kế ca kiểm thử dựa trên <span class="keyword">đặc tả</span>.</p>
+      </code></pre>
+            <p><strong>Thiết kế test:</strong> 4 ca tương ứng mọi kết hợp:
+              <br>
+              <span class="inline-code">(raining, freezing)</span> =
+              <br>
+              <span class="inline-code">(True, True)</span>, <span class="inline-code">(True, False)</span>,
+              <br>
+              <span class="inline-code">(False, True)</span>, <span class="inline-code">(False, False)</span>.
+            </p>
           </div>
-          <div style="flex:1;">
-            <h3>Glass Box</h3>
-            <p>Nhìn mã nguồn: đảm bảo <span class="keyword">mọi nhánh</span> đều được bao phủ.:contentReference[oaicite:22]{index=22}</p>
+        </section>
+
+        <!-- Black Box vs Glass Box -->
+        <section style="font-size: 0.8em;">
+          <h2>Hai kiểu Kiểm thử</h2>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
+            <div>
+              <h3>Hộp đen (Black Box)</h3>
+              <ul>
+                <li><span class="keyword">Không biết</span> nội dung hàm.</li>
+                <li>Tạo ca kiểm thử dựa <strong>chỉ</strong> vào <span class="keyword">đặc tả</span> chương trình.</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Hộp kính (Glass Box)</h3>
+              <ul>
+                <li><span class="keyword">Biết</span> nội dung hàm.</li>
+                <li>Tạo ca kiểm thử dựa cả <span class="keyword">đặc tả</span> lẫn <span class="keyword">
+                    mã nguồn</span>.</li>
+              </ul>
+            </div>
           </div>
-        </div>
+        </section>
       </section>
 
-      <!-- ====================== FUNCTIONS (A LITTLE BIT) ====================== -->
-      <!-- Intro to functions -->
-      <section>
-        <h2>Thoáng qua về <span class="keyword">hàm</span></h2>
-        <ul>
-          <li>Trong trò chơi Scratch có sẵn <span class="inline-code">move forward</span>, <span class="inline-code">turn left</span>.</li>
-          <li>Python thì <span class="keyword">tự định nghĩa</span> các hành động này → <span class="keyword">hàm</span>.:contentReference[oaicite:23]{index=23}</li>
-        </ul>
-      </section>
 
-      <!-- Function definitions / calls -->
+      <!-- ====================== Phần V: FUNCTIONS (A LITTLE BIT) ====================== -->
       <section>
-        <h2>Định nghĩa &amp; gọi hàm</h2>
-        <div style="display:flex; gap:2rem;">
-          <div style="flex:1;">
-            <h3>Định nghĩa</h3>
-            <pre><code class="language-python" data-trim data-line-numbers="">
+        <section>
+          <h1>
+            <span class="text-light">5.</span>
+            <br>
+            Sơ lược về hàm
+          </h1>
+        </section>
+
+        <!-- Giới thiệu bằng game Scratch -->
+        <section style="font-size: 0.8em;">
+          <h2>Một chút về hàm</h2>
+          <p>Bạn có nhớ trò chơi Scratch nho nhỏ này?</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:center;">
+            <div style="text-align:center;">
+              <img src="img/lec04/03-scratch-functions.png" alt="Scratch function blocks" style="height:250px;">
+            </div>
+            <div>
+              <pre><code class="language-python" data-trim data-line-numbers="">
 def move_forward():
-    print("go 1 step")
+    print("move forward")
+
 def turn_left():
-    print("turn left")
-            </code></pre>
-          </div>
-          <div style="flex:1;">
-            <h3>Gọi hàm</h3>
-            <pre><code class="language-python" data-trim data-line-numbers="">
+    print("turn_left")
+
+move_forward()
 move_forward()
 turn_left()
-            </code></pre>
+move_forward()
+move_forward()
+        </code></pre>
+            </div>
           </div>
-        </div>
-        <p>Mỗi lần gọi → thân hàm chạy một lần.:contentReference[oaicite:24]{index=24}</p>
-      </section>
+          <ul>
+            <li>
+              Scratch có sẵn lệnh <span class="keyword">move forward</span>, <span class="keyword">turn
+                left</span>.
+            </li>
+            <li>
+              Python chưa có &rarr; ta <span class="keyword">tự định nghĩa</span>, được gọi là <span
+                class="keyword">hàm</span>.
+            </li>
+          </ul>
+        </section>
 
-      <!-- Functions with arguments -->
-      <section>
-        <h2>Hàm có đối số</h2>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+        <!-- Định nghĩa & gọi hàm -->
+        <section style="font-size: 0.8em;">
+          <h2>Định nghĩa &amp; Gọi hàm</h2>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:end;">
+            <div>
+              <p><span class="keyword">Định nghĩa hàm</span></p>
+              <pre><code class="language-python" data-trim data-line-numbers="">
+def move_forward():
+    print("move forward")
+
+def turn_left():
+    print("turn_left")
+        </code></pre>
+              <p><span class="keyword">Gọi hàm</span></p>
+              <pre><code class="language-python" data-trim data-line-numbers="" data-ln-start-from="6">
+move_forward()
+move_forward()
+turn_left()
+move_forward()
+move_forward()
+        </code></pre>
+            </div>
+            <div>
+              <p>
+                <strong>Kết quả</strong>: Mỗi lần gọi hàm sẽ <span class="keyword">thực thi khối lệnh</span> bên trong
+                hàm đó.
+              </p>
+              <pre><code class="language-plain" data-trim>
+move forward
+move forward
+turn_left
+move forward
+move forward
+        </code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Hàm với tham số -->
+        <section style="font-size: 0.8em;">
+          <h2>Hàm với tham số</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
 def what_to_wear(raining, freezing):
     if raining:
         if freezing:
-            ...
+            # ... truncated
     else:
         if freezing:
-            ...
+            # ... truncated
+    </code></pre>
+
+          <p><span class="keyword">Tham số</span>: giá trị truyền vào hàm khi gọi.</p>
+          <p>Hàm <span class="inline-code">what_to_wear</span> có hai tham số: <span class="inline-code">raining</span>
+            và <span class="inline-code">freezing</span>.</p>
+
+          <pre><code class="language-python" data-trim data-line-numbers="" data-ln-start-from="8">
 what_to_wear(True, False)
 what_to_wear(True, True)
 what_to_wear(False, False)
 what_to_wear(raining=False, freezing=True)
-        </code></pre>
-        <p>Thiết kế kiểm thử kiểu “<span class="keyword">hộp đen</span>” nếu chưa nhìn mã trong hàm.:contentReference[oaicite:25]{index=25}</p>
-      </section>
+    </code></pre>
+        </section>
 
-      <!-- Functions that return values -->
-      <section>
-        <h2>Hàm <span class="keyword">trả về</span> giá trị</h2>
-        <pre><code class="language-python" data-trim data-line-numbers="">
+        <section style="font-size: 0.8em;">
+          <h2>Hàm trả về giá trị</h2>
+          <ul>
+            <li>Dùng <span class="inline-code">return</span> để <span class="keyword">trả về</span> kết quả từ hàm.</li>
+            <li>Thường dùng để <span class="keyword">tính toán</span> rồi gán cho biến.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
 def what_to_wear(raining, freezing):
     if raining:
         if freezing:
-            return 'Waterproof coat'
+            return "Waterproof coat"
         else:
-            return 'Umbrella'
+            return "Umbrella"
     else:
         if freezing:
-            return 'Warm coat'
+            return "Warm coat"
         else:
-            return 'Sweater'
+            return "Sweater"
 
 today_outfit = what_to_wear(True, False)
 sunny_day_outfit = what_to_wear(False, False)
-        </code></pre>
-        <p>Thường gọi để <span class="keyword">tính giá trị</span> rồi gán vào biến dùng sau.:contentReference[oaicite:26]{index=26}</p>
-      </section>
+  </code></pre>
+        </section>
 
-      <!-- Calling from a module -->
-      <section>
-        <h2>Gọi hàm từ <span class="keyword">module</span></h2>
-        <div style="display:flex; gap:2rem;">
-          <div style="flex:1;">
-            <h3><span class="inline-code">sample_functions.py</span></h3>
-            <pre><code class="language-python" data-trim data-line-numbers="">
+        <!-- Gọi hàm trong module -->
+        <section style="font-size: 0.9em;">
+          <h2>Gọi hàm trong module</h2>
+          <p><span class="keyword">Module</span> = tập hợp hàm (và biến) trong một file <span
+              class="keyword">.py</span>.</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# sample_functions.py
 def what_to_wear(raining, freezing):
     if raining:
         if freezing:
-            return 'Waterproof coat'
+            return "Waterproof coat"
         else:
-            return 'Umbrella'
+            return "Umbrella"
     else:
-        ...
-            </code></pre>
-          </div>
-          <div style="flex:1;">
-            <h3>Trong tệp khác</h3>
-            <pre><code class="language-pycon" data-trim>
-&gt;&gt;&gt; from sample_functions import what_to_wear
-&gt;&gt;&gt; print(what_to_wear(True, False))
-Wear a waterproof coat.
-            </code></pre>
-          </div>
-        </div>
-        <!-- Nguồn: (điều chỉnh cách trình bày từ) :contentReference[oaicite:27]{index=27} -->
-      </section>
-
-      <!-- Printing version function -->
-      <section>
-        <h2>Hàm in kết quả</h2>
-        <div style="display:flex; gap:2rem;">
-          <div style="flex:1;">
-            <h3><span class="inline-code">sample_functions.py</span></h3>
+        # ... truncated
+    </code></pre>
+          <div class="fragment">
+            <p>Dùng <span class="inline-code">import</span> để <span class="keyword">nhập</span> module vào chương
+              trình.
+            </p>
             <pre><code class="language-python" data-trim data-line-numbers="">
-def print_what_to_wear(raining, freezing):
-    if raining:
-        if freezing:
-            print('Wear a waterproof coat.')
-        else:
-            print('Bring an umbrella.')
-    else:
-        ...
-            </code></pre>
+from sample_functions import what_to_wear
+
+today_outfit = what_to_wear(True, False)
+    </code></pre>
           </div>
-          <div style="flex:1;">
-            <h3>Chế độ tương tác</h3>
-            <pre><code class="language-pycon" data-trim>
-&gt;&gt;&gt; from sample_functions import print_what_to_wear
-&gt;&gt;&gt; print_what_to_wear(True, True)
+        </section>
+
+        <!-- Gọi hàm trong chế độ tương tác -->
+        <section style="font-size: 0.8em;">
+          <h2>Gọi hàm trong Interactive Shell</h2>
+          <ul>
+            <li>Gõ lệnh và <span class="keyword">xem kết quả ngay</span></li>
+            <li>Thử nhanh hàm hoặc đoạn mã nhỏ</li>
+            <li><strong>Cách dùng:</strong> Gõ <em>python</em> trong terminal</li>
+          </ul>
+
+          <pre><code class="language-shell" data-trim>
+$ python
+Python 3.13.7 | packaged by conda-forge | (main, Sep  3 2025, 14:33:26) [Clang 19.1.7 ] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+ </code></pre>
+
+          <ul>
+            <li>
+              <strong>Giao diện:</strong> Nhập hàm từ module rồi gọi
+            </li>
+          </ul>
+
+          <pre><code class="language-pycon" data-trim>
+>>> from sample_functions import what_to_wear
+>>> print_what_to_wear(True, False)
 Wear a waterproof coat.
-            </code></pre>
-          </div>
-        </div>
-        <!-- Nguồn: :contentReference[oaicite:28]{index=28} -->
+    </code></pre>
+        </section>
+
+        <!-- Kết thúc phần hàm -->
+        <section>
+          <h2>Một chút về hàm: Tổng kết</h2>
+          <ul>
+            <li>Hàm là những <span class="keyword">viên gạch</span> để xây nên chương trình.</li>
+            <li>Chúng ta sẽ sử dụng hàm <span class="keyword">rất nhiều</span> từ bây giờ.</li>
+            <li>Sẽ học sâu hơn về hàm trong các bài sau.</li>
+          </ul>
+        </section>
+
       </section>
 
-</section>
       <!-- ====================== TỔNG KẾT ====================== -->
-      <section>
+      <section style="font-size: 0.8em;">
         <h2>Tổng kết</h2>
-        <ul>
-          <li><span class="keyword">if / if–else / if–elif–else</span> điều khiển <span class="keyword">luồng</span> thực thi.</li>
-          <li>Biến tạo trong nhánh tồn tại sau khối <span class="inline-code">if</span> nếu đã được gán.</li>
-          <li>Gỡ lỗi bằng <span class="keyword">trace</span> (luồng) &amp; <span class="keyword">watch</span> (giá trị).</li>
-          <li>Kiểm thử bao phủ <span class="keyword">mọi nhánh</span>, kể cả <span class="keyword">if lồng nhau</span>.</li>
-          <li>Hàm: định nghĩa, đối số, trả về, dùng từ <span class="keyword">module</span>.</li>
-        </ul>
+        <ol>
+          <li><strong>Rẽ nhánh</strong> với <span class="inline-code">if</span>, <span class="inline-code">elif</span>,
+            <span class="inline-code">else</span>
+          </li>
+          <li>Rẽ nhánh <strong>lồng nhau</strong></li>
+          <li><strong>Truy vết lỗi</strong> với <span class="inline-code">print()</span></li>
+          <li><strong>Kiểm thử</strong> để đảm bảo mọi nhánh đều chạy</li>
+          <li>Một chút về <strong>hàm</strong>: định nghĩa, tham số, trả về giá trị, gọi hàm trong module và interactive
+            shell</li>
+        </ol>
       </section>
 
+      <div class="footer">
+        Tư duy tính toán (HK 1 2025–2026) §4: Rẽ nhánh &amp; Luồng điều khiển
+      </div>
     </div>
-  </div>
-
-  <div class="footer">
-    Tư duy tính toán. (HK 1 2025–2026) §4: Rẽ nhánh &amp; Luồng điều khiển
   </div>
 
   <script src="revealjs/dist/reveal.js"></script>
@@ -571,4 +1572,5 @@ Wear a waterproof coat.
     });
   </script>
 </body>
+
 </html>
