@@ -86,8 +86,8 @@
                     marker-end: url(#arrowhead0);
                   }
 
-                  .flow-text {
-                    font-size: 18px;
+                  .flow-text0 {
+                    font-size: 24px;
                     text-anchor: middle;
                     dominant-baseline: middle;
                     fill: #222;
@@ -98,23 +98,23 @@
 
                 <path class="connector0" d="M 125,60 V 100" />
                 <rect class="process" x="50" y="100" width="150" height="60" rx="10" />
-                <text class="flow-text" x="125" y="130">Tiến lên</text>
+                <text class="flow-text0" x="125" y="130">Tiến lên</text>
 
                 <path class="connector0" d="M 125,160 V 200" />
                 <rect class="process" x="50" y="200" width="150" height="60" rx="10" />
-                <text class="flow-text" x="125" y="230">Tiến lên</text>
+                <text class="flow-text0" x="125" y="230">Tiến lên</text>
 
                 <path class="connector0" d="M 125,260 V 300" />
                 <rect class="process" x="50" y="300" width="150" height="60" rx="10" />
-                <text class="flow-text" x="125" y="330">Quay trái</text>
+                <text class="flow-text0" x="125" y="330">Quay trái</text>
 
                 <path class="connector0" d="M 125,360 V 400" />
                 <rect class="process" x="50" y="400" width="150" height="60" rx="10" />
-                <text class="flow-text" x="125" y="430">Tiến lên</text>
+                <text class="flow-text0" x="125" y="430">Tiến lên</text>
 
                 <path class="connector0" d="M 125,460 V 500" />
                 <rect class="process" x="50" y="500" width="150" height="60" rx="10" />
-                <text class="flow-text" x="125" y="530">Tiến lên</text>
+                <text class="flow-text0" x="125" y="530">Tiến lên</text>
 
                 <path class="connector0" d="M 125,560 V 590" />
               </svg>
@@ -167,15 +167,15 @@
                     stroke-width: 1.5;
                   }
 
-                  .flow-text {
-                    font-size: 16px;
+                  .flow-text1 {
+                    font-size: 20px;
                     text-anchor: middle;
                     dominant-baseline: middle;
                     fill: #222;
                   }
 
-                  .label-text {
-                    font-size: 15px;
+                  .label-text1 {
+                    font-size: 20px;
                     text-anchor: middle;
                     fill: #222;
                   }
@@ -184,20 +184,20 @@
                 <path class="connector1" d="M 225,0 V 30" />
 
                 <polygon class="decision" points="225,45 295,95 225,145 155,95" />
-                <text class="flow-text" x="225" y="90">Ở vị trí</text>
-                <text class="flow-text" x="225" y="108">hoa</text>
+                <text class="flow-text1" x="225" y="90">Ở vị trí</text>
+                <text class="flow-text1" x="225" y="108">hoa</text>
 
                 <rect class="process" x="275" y="180" width="140" height="60" rx="10" />
-                <text class="flow-text" x="345" y="210">Lấy mật</text>
+                <text class="flow-text1" x="345" y="210">Lấy mật</text>
 
                 <rect class="process" x="35" y="180" width="140" height="60" rx="10" />
-                <text class="flow-text" x="105" y="210">Làm mật</text>
+                <text class="flow-text1" x="105" y="210">Làm mật</text>
 
                 <path class="connector1" d="M 295,95 H 345 V 165" />
-                <text class="label-text" x="315" y="90">Đúng</text>
+                <text class="label-text1" x="315" y="90">Đúng</text>
 
                 <path class="connector1" d="M 155,95 H 105 V 165" />
-                <text class="label-text" x="135" y="90">Sai</text>
+                <text class="label-text1" x="135" y="90">Sai</text>
 
                 <path class="line" d="M 105,240 V 270 H 345 V 240" />
 
@@ -219,12 +219,20 @@ if &lt;biểu-thức-Boolean&gt;:
     ...
     &lt;câu-lệnh-n&gt;
         </code></pre>
-          <p>
-            Nếu <span class="inline-code">&lt;biểu-thức-Boolean&gt;</span> <span class="keyword">đúng (True)</span>:
-            Thực hiện tất cả các
-            <span class="inline-code">&lt;câu-lệnh-i&gt;</span> trong <strong>khối lệnh</strong>.
-          </p>
-          <p><span class="keyword">Ngược lại</span>: Bỏ qua khối lệnh.</p>
+
+          <ul>
+            <li>
+              Nếu <span class="inline-code">&lt;biểu-thức-Boolean&gt;</span> <span class="keyword">đúng (True)</span>:
+              <ul>
+                <li>
+                  Thực hiện tất cả các
+                  <span class="inline-code">&lt;câu-lệnh-i&gt;</span> trong <strong>khối lệnh</strong>.
+                </li>
+              </ul>
+            </li>
+            <li><span class="keyword">Ngược lại</span>: Bỏ qua khối lệnh.</li>
+          </ul>
+
         </section>
 
         <section data-auto-animate>
@@ -274,15 +282,15 @@ if x % 2 == 0:
                     stroke-width: 1.5;
                   }
 
-                  .flow-text {
-                    font-size: 16px;
+                  .flow-text2 {
+                    font-size: 20px;
                     text-anchor: middle;
                     dominant-baseline: middle;
                     fill: #222;
                   }
 
-                  .label-text {
-                    font-size: 15px;
+                  .label-text2 {
+                    font-size: 20px;
                     text-anchor: middle;
                     fill: #222;
                   }
@@ -291,28 +299,28 @@ if x % 2 == 0:
                 <path class="connector2" d="M 200,0 V 25" />
 
                 <polygon class="decision" points="200,40 270,90 200,140 130,90" />
-                <text class="flow-text" x="200" y="85">x là</text>
-                <text class="flow-text" x="200" y="103">số chẵn</text>
+                <text class="flow-text2" x="200" y="85">x là</text>
+                <text class="flow-text2" x="200" y="103">số chẵn</text>
 
                 <rect class="process" x="250" y="170" width="120" height="50" rx="10" />
-                <text class="flow-text" x="310" y="195">In ra 'even'</text>
+                <text class="flow-text2" x="310" y="195">In ra 'even'</text>
 
                 <path class="connector2" d="M 270,90 H 310 V 155" />
-                <text class="label-text" x="290" y="80">Đúng</text>
+                <text class="label-text2" x="290" y="80">Đúng</text>
 
                 <path class="line" d="M 200,140 V 250" />
                 <path class="line" d="M 310,220 V 250 H 200" />
 
                 <path class="connector2" d="M 200,250 V 275" />
-                <text class="label-text" x="180" y="160">Sai</text>
+                <text class="label-text2" x="180" y="160">Sai</text>
 
               </svg>
             </div>
           </div>
         </section>
 
-        <!-- Boolean examples -->
-        <section style="font-size: 0.7em;">
+        <!-- Boolean examples (1) -->
+        <section data-auto-animate>
           <h2>Ví dụ về giá trị <span class="">Boolean</span></h2>
           <p><strong>Khai báo các biến:</strong></p>
           <pre><code class="language-python" data-trim data-line-numbers="">
@@ -322,19 +330,25 @@ temp = 12         # Giá trị kiểu số nguyên
         </code></pre>
 
           <p><strong>Biến Boolean:</strong></p>
-          <pre><code class="language-python" data-trim data-line-numbers="">
+          <pre><code class="language-python" data-trim data-line-numbers="" data-ln-start-from="4">
 if is_rainy:
     print("Hãy mang ô!")
         </code></pre>
 
+        </section>
+
+        <!-- Boolean examples (2) -->
+        <section data-auto-animate>
+          <h2>Ví dụ về giá trị <span class="">Boolean</span></h2>
+
           <p><strong>Phép toán Boolean:</strong></p>
-          <pre><code class="language-python" data-trim data-line-numbers="">
+          <pre><code class="language-python" data-trim data-line-numbers="" data-ln-start-from="6">
 if is_windy and not is_rainy:
     print("Đi thả diều nào!")
         </code></pre>
 
           <p><strong>Toán tử so sánh:</strong></p>
-          <pre><code class="language-python" data-trim data-line-numbers="">
+          <pre><code class="language-python" data-trim data-line-numbers="" data-ln-start-from="8">
 if temp &lt; 10 and is_rainy:
     print("Hãy mặc áo khoác chống thấm nước!")
 
@@ -399,15 +413,15 @@ else:
                     stroke-width: 1.5;
                   }
 
-                  .flow-text {
-                    font-size: 16px;
+                  .flow-text3 {
+                    font-size: 20px;
                     text-anchor: middle;
                     dominant-baseline: middle;
                     fill: #222;
                   }
 
-                  .label-text {
-                    font-size: 15px;
+                  .label-text3 {
+                    font-size: 20px;
                     text-anchor: middle;
                     fill: #222;
                   }
@@ -416,20 +430,20 @@ else:
                 <path class="connector3" d="M 225,0 V 30" />
 
                 <polygon class="decision" points="225,45 295,95 225,145 155,95" />
-                <text class="flow-text" x="225" y="90">x là</text>
-                <text class="flow-text" x="225" y="108">số chẵn</text>
+                <text class="flow-text3" x="225" y="90">x là</text>
+                <text class="flow-text3" x="225" y="108">số chẵn</text>
 
                 <rect class="process" x="275" y="180" width="140" height="60" rx="10" />
-                <text class="flow-text" x="345" y="210">In ra "even"</text>
+                <text class="flow-text3" x="345" y="210">In ra "even"</text>
 
                 <rect class="process" x="35" y="180" width="140" height="60" rx="10" />
-                <text class="flow-text" x="105" y="210">In ra "odd"</text>
+                <text class="flow-text3" x="105" y="210">In ra "odd"</text>
 
                 <path class="connector3" d="M 295,95 H 345 V 165" />
-                <text class="label-text" x="315" y="90">Đúng</text>
+                <text class="label-text3" x="315" y="90">Đúng</text>
 
                 <path class="connector3" d="M 155,95 H 105 V 165" />
-                <text class="label-text" x="135" y="90">Sai</text>
+                <text class="label-text3" x="135" y="90">Sai</text>
 
                 <path class="line" d="M 105,240 V 270 H 345 V 240" />
 
@@ -547,15 +561,15 @@ even
                   stroke-width: 1.5;
                 }
 
-                .flow-text {
-                  font-size: 16px;
+                .flow-text4 {
+                  font-size: 20px;
                   text-anchor: middle;
                   dominant-baseline: middle;
                   fill: #222;
                 }
 
-                .label-text {
-                  font-size: 15px;
+                .label-text4 {
+                  font-size: 20px;
                   text-anchor: middle;
                   fill: #222;
                 }
@@ -564,28 +578,28 @@ even
               <path class="connector4" d="M 225,0 V 30" />
 
               <polygon class="decision" points="225,45 295,95 225,145 155,95" />
-              <text class="flow-text" x="225" y="90">x là</text>
-              <text class="flow-text" x="225" y="108">số chẵn</text>
+              <text class="flow-text4" x="225" y="90">x là</text>
+              <text class="flow-text4" x="225" y="108">số chẵn</text>
 
               <rect class="process" x="275" y="180" width="140" height="60" rx="10" />
-              <text class="flow-text" x="345" y="210">In ra "even"</text>
+              <text class="flow-text4" x="345" y="210">In ra "even"</text>
 
               <rect class="process" x="35" y="180" width="140" height="60" rx="10" />
-              <text class="flow-text" x="105" y="210">In ra "odd"</text>
+              <text class="flow-text4" x="105" y="210">In ra "odd"</text>
 
               <path class="connector4" d="M 295,95 H 345 V 165" />
-              <text class="label-text" x="315" y="90">Đúng</text>
+              <text class="label-text4" x="315" y="90">Đúng</text>
 
               <path class="connector4" d="M 155,95 H 105 V 165" />
-              <text class="label-text" x="135" y="90">Sai</text>
+              <text class="label-text4" x="135" y="90">Sai</text>
 
               <path class="line" d="M 105,240 V 270 H 345 V 240" />
 
               <path class="connector4" d="M 225,270 V 310" />
 
-              <path d="M 400,20 H 300 L 270,85" fill="none" stroke="green" stroke-width="1.5" stroke-dasharray="5,5"
+              <path d="M 420,25 H 300 L 270,85" fill="none" stroke="green" stroke-width="1.5" stroke-dasharray="5,5"
                 marker-end="url(#arrowhead41)" />
-              <text x="350" y="15" font-size="14px" fill="green">Điểm rẽ</text>
+              <text x="350" y="20" font-size="20px" fill="green">Điểm rẽ</text>
 
             </svg>
             <div class="caption" style="margin-top:0!important;">
@@ -666,15 +680,15 @@ print(b)        # b vẫn tồn tại sau if nếu đã được gán
                     stroke-width: 1.5;
                   }
 
-                  .flow-text {
-                    font-size: 14px;
+                  .flow-text5 {
+                    font-size: 18px;
                     text-anchor: middle;
                     dominant-baseline: middle;
                     fill: #222;
                   }
 
-                  .label-text {
-                    font-size: 13px;
+                  .label-text5 {
+                    font-size: 18px;
                     text-anchor: middle;
                     fill: #222;
                   }
@@ -683,45 +697,45 @@ print(b)        # b vẫn tồn tại sau if nếu đã được gán
                 <path class="connector5" d="M 100,-50 V -15" />
 
                 <polygon class="decision" points="100,0 170,30 100,60 30,30" />
-                <text class="flow-text" x="100" y="30">Điểm &ge; 90</text>
+                <text class="flow-text5" x="100" y="30">Điểm &ge; 90</text>
 
                 <polygon class="decision" points="250,90 320,120 250,150 180,120" />
-                <text class="flow-text" x="250" y="120">Điểm &ge; 70</text>
+                <text class="flow-text5" x="250" y="120">Điểm &ge; 70</text>
 
                 <polygon class="decision" points="370,200 440,230 370,260 300,230" />
-                <text class="flow-text" x="370" y="230">Điểm &ge; 50</text>
+                <text class="flow-text5" x="370" y="230">Điểm &ge; 50</text>
 
                 <rect class="process" x="-30" y="100" width="100" height="50" rx="10" />
-                <text class="flow-text" x="20" y="125">Xuất sắc</text>
+                <text class="flow-text5" x="20" y="125">Xuất sắc</text>
 
                 <rect class="process" x="110" y="200" width="100" height="50" rx="10" />
-                <text class="flow-text" x="160" y="225">Giỏi</text>
+                <text class="flow-text5" x="160" y="225">Giỏi</text>
 
                 <rect class="process" x="230" y="300" width="100" height="50" rx="10" />
-                <text class="flow-text" x="280" y="325">Đạt</text>
+                <text class="flow-text5" x="280" y="325">Đạt</text>
 
                 <rect class="process" x="430" y="300" width="90" height="50" rx="10" />
-                <text class="flow-text" x="475" y="325">Trượt</text>
+                <text class="flow-text5" x="475" y="325">Trượt</text>
 
                 <rect class="terminator" x="430" y="400" width="90" height="40" rx="20" />
 
                 <path class="connector5" d="M 30,30 H 20 V 85" />
-                <text class="label-text" x="10" y="25">Đúng</text>
+                <text class="label-text5" x="10" y="25">Đúng</text>
 
                 <path class="connector5" d="M 170,30 H 250 V 75" />
-                <text class="label-text" x="190" y="25">Sai</text>
+                <text class="label-text5" x="190" y="25">Sai</text>
 
                 <path class="connector5" d="M 180,120 H 160 V 185" />
-                <text class="label-text" x="160" y="115">Đúng</text>
+                <text class="label-text5" x="160" y="115">Đúng</text>
 
                 <path class="connector5" d="M 320,120 H 370 V 185" />
-                <text class="label-text" x="340" y="115">Sai</text>
+                <text class="label-text5" x="340" y="115">Sai</text>
 
                 <path class="connector5" d="M 300,230 H 280 V 285" />
-                <text class="label-text" x="290" y="225">Đúng</text>
+                <text class="label-text5" x="280" y="225">Đúng</text>
 
                 <path class="connector5" d="M 440,230 H 475 V 285" />
-                <text class="label-text" x="460" y="225">Sai</text>
+                <text class="label-text5" x="460" y="225">Sai</text>
 
                 <path class="connector5" d="M 20,150 V 420 H 415" />
                 <path class="line" d="M 160,250 V 420 H 415" />
@@ -1096,6 +1110,20 @@ else:
           </h1>
         </section>
 
+        <!-- Tổng quan -->
+        <section>
+          <h2>Debugging: Tổng quan</h2>
+          <ul>
+            <li><strong>Mục tiêu:</strong> xác định và sửa lỗi.</li>
+            <li><strong>Công cụ:</strong> Debugger (breakpoint/step/watch), Logging (levels), Tests/Assertions.</li>
+            <li><strong>Quy trình:</strong> tái hiện lỗi → giả thuyết → thử nhanh → sửa → thêm test.</li>
+            <li><strong>Dùng <span class="inline-code">print()</span>:</strong> kiểm tra nhanh, đoạn mã nhỏ.</li>
+            <li><strong>Tránh <span class="inline-code">print()</span>:</strong> hệ thống lớn → ưu tiên
+              debugger + logging.</li>
+          </ul>
+        </section>
+
+
         <!-- Gỡ lỗi luồng với print -->
         <section style="font-size: 0.8em;" data-auto-animate>
           <h2>Dùng <span class="inline-code">print()</span> để truy vết</h2>
@@ -1180,8 +1208,8 @@ print('after if')               # TRACE: truy vết vị trí sau if
                 <li><span class="keyword">WATCH</span>: theo dõi <strong>dữ liệu</strong> — đặt <strong>sau lệnh
                     gán</strong> để xem giá trị biến.</li>
               </ul>
-              <p>&rarr; Dùng cả 2 để biết <span class="keyword">khối nào chạy</span> và <span
-                  class="keyword">biến đang mang giá trị
+              <p>&rarr; Dùng cả 2 để biết <span class="keyword">khối nào chạy</span> và <span class="keyword">biến đang
+                  mang giá trị
                   gì</span>.</p>
             </div>
           </div>
@@ -1349,7 +1377,11 @@ else:
         <!-- Giới thiệu bằng game Scratch -->
         <section style="font-size: 0.8em;">
           <h2>Một chút về hàm</h2>
-          <p>Bạn có nhớ trò chơi Scratch nho nhỏ này?</p>
+          <p>
+            <em>
+              Bạn có nhớ trò chơi Scratch nho nhỏ này?
+            </em>
+          </p>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:center;">
             <div style="text-align:center;">
               <img src="img/lec04/03-scratch-functions.png" alt="Scratch function blocks" style="height:250px;">
@@ -1423,6 +1455,9 @@ move forward
         <!-- Hàm với tham số -->
         <section style="font-size: 0.8em;">
           <h2>Hàm với tham số</h2>
+
+          <p><span class="keyword">Tham số</span>: giá trị truyền vào hàm khi gọi.</p>
+
           <pre><code class="language-python" data-trim data-line-numbers="">
 def what_to_wear(raining, freezing):
     if raining:
@@ -1432,8 +1467,6 @@ def what_to_wear(raining, freezing):
         if freezing:
             # ... truncated
     </code></pre>
-
-          <p><span class="keyword">Tham số</span>: giá trị truyền vào hàm khi gọi.</p>
           <p>Hàm <span class="inline-code">what_to_wear</span> có hai tham số: <span class="inline-code">raining</span>
             và <span class="inline-code">freezing</span>.</p>
 
