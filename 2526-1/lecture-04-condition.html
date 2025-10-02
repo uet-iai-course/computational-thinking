@@ -1251,32 +1251,45 @@ print('after if')               # TRACE: truy vết vị trí sau if
         </section>
 
         <!-- Nguồn ý tưởng ca kiểm thử (phần 1) -->
-        <section style="font-size: 0.85em;">
-          <h2>Quy tắc thiết kế ca kiểm thử <span class="keyword">1–2–0</span></h2>
-          <ul>
-            <li><span class="keyword">0</span> — Trường hợp điển hình (happy path)
+        <section style="font-size: 0.9em;">
+          <h2>Quy tắc kiểm thử <span class="keyword">1–2–0</span></h2>
+          <ul style="margin:0;">
+            <li><span class="keyword">1</span> — Base (happy path): kịch bản phổ biến nhất, xác minh logic cốt lõi.</li>
+            <li><span class="keyword">2</span> — Boundary:<em>Thử ở ranh giới nơi lỗi dễ xuất hiện.</em>
               <ul>
-                <li><em>Kiểm thử kịch bản phổ biến, thường xảy ra nhất.</em></li>
+                <li>Tại ranh giới hợp lệ (ví dụ: tại min/max)</li>
+                <li>Ngay ngoài phạm vi hợp lệ (ví dụ: min−1 hoặc max+1)</li>
               </ul>
             </li>
-            <li><span class="keyword">1</span> — Trường hợp cơ bản (base case)
-              <ul>
-                <li><em>Xác minh logic cốt lõi trong tình huống đơn giản nhất.</em></li>
-              </ul>
-            </li>
-            <li><span class="keyword">2</span> — Điều kiện biên (boundary conditions)
-              <ul>
-                <li><em>Thử ở ranh giới để dễ lộ lỗi.</em>
-                  <ul>
-                    <li>Ngay trong phạm vi hợp lệ</li>
-                    <li>Ngay ngoài phạm vi hợp lệ</li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
+            <li><span class="keyword">0</span> — Outliers: tạm bỏ qua các trường hợp hiếm/không hợp lệ; bổ sung sau nếu
+              cần.</li>
           </ul>
+          <p style="margin:6px 0 0 0;"><em>Mục tiêu: bao phủ nhanh, bắt lỗi ngưỡng, tối ưu công sức.</em></p>
         </section>
 
+        <section style="font-size: 0.9em;">
+          <h2>Ví dụ 1–2–0</h2>
+          <p><strong>Quy tắc</strong>: Trả bình thường ≤ 40h; phần vượt 40h trả 1.5×.</p>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def weekly_pay(hours, rate):
+    if hours &lt;= 40:
+        return hours * rate
+    overtime = hours - 40
+    return 40 * rate + overtime * rate * 1.5
+</code></pre>
+
+          <ul style="margin: 6px 0 0 0;">
+            <li><span class="keyword">1 — Base</span>: <span class="inline-code">weekly_pay(36, 20) == 720</span></li>
+            <li><span class="keyword">2 — Boundary</span>:
+              <ul>
+                <li>Tại ngưỡng: <span class="inline-code">weekly_pay(40, 20) == 800</span></li>
+                <li>Ngay ngoài: <span class="inline-code">weekly_pay(41, 20) == 830</span></li>
+              </ul>
+            </li>
+            <li><span class="keyword">0 — Outliers</span>: bỏ qua (giờ âm/không số, rate 0, cực lớn...).</li>
+          </ul>
+        </section>
 
 
         <!-- Nguồn ý tưởng ca kiểm thử (phần 2) -->
