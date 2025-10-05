@@ -1,0 +1,1972 @@
+<!doctype html>
+<html lang="vi">
+<!-- Nguồn nội dung chuyển đổi từ PPTX: . Định dạng Reveal.js tham chiếu:  -->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Bài 5: Vòng lặp (Loops)</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <!-- ====================== TIÊU ĐỀ ====================== -->
+        <!-- Title -->
+        <section>
+          <h2 class="r-fit-text">Tư duy Tính toán</h2>
+          <h2>Vòng lặp (Loops)</h2>
+          <p>Trường ĐH Công nghệ – Đại học Quốc gia Hà Nội</p>
+        </section>
+
+        <!-- Outline -->
+        <section>
+          <h2>Nội dung</h2>
+          <ol>
+            <li>Vòng lặp <span class="inline-code">for</span></li>
+            <li>Mẫu tích luỹ (<em>Accumulator Pattern</em>)</li>
+            <li>Dải số (range)</li>
+            <li>Lặp theo chỉ số (vs. theo phần tử)</li>
+            <li>Danh sách lồng nhau &amp; vòng lặp <span class="inline-code">for</span> lồng nhau</li>
+            <li>Thao tác trên danh sách lồng nhau</li>
+            <li>Dữ liệu dạng bảng như danh sách lồng nhau</li>
+        </section>
+      </section>
+
+      <!-- ====================== PHẦN I: VÒNG LẶP for ====================== -->
+      <section>
+        <!-- Title slide for the section -->
+        <section>
+          <h1>
+            <span class="text-light">1.</span>
+            <br>
+            Vòng lặp for
+          </h1>
+        </section>
+
+        <!-- Remember this game? -->
+        <section>
+          <h2>Bạn còn nhớ trò chơi này?</h2>
+          <p>Đưa chú chim tới chú heo và tránh thuốc nổ TNT:</p>
+          <div class="text-center">
+            <div style="display: inline-block;">
+              <img src="img/lec05/01-loops-game.png" height="200px" />
+            </div>
+            <div class="fragment" style="display: inline-block;">
+              <img src="img/lec05/02-loops-game-flow.png" height="200px" />
+            </div>
+          </div>
+          <div class="fragment">
+            <p>Vòng lặp <span class="inline-code">for</span> trong Python:</p>
+            <pre><code class="language-python" data-trim data-line-numbers>
+for i in range(3):
+    move_forward()
+        </code></pre>
+          </div>
+        </section>
+
+        <!-- Naive printing -->
+        <section>
+          <h2>Ví dụ</h2>
+          <p>In từng phần tử của danh sách <span class="inline-code">lst</span></p>
+          <pre><code class="language-python" data-trim data-line-numbers>
+print("The list contains:")
+print(lst[0])   # in phần tử ở chỉ số 0
+print(lst[1])   # in phần tử ở chỉ số 1
+# ...
+    </code></pre>
+
+          <p><strong>‼️ Vấn đề:</strong> Ta không biết phải dừng lại ở đâu!</p>
+        </section>
+
+        <!-- We need repetition -->
+        <section style="font-size: 0.9em;">
+          <h2>Chúng ta cần lặp lại</h2>
+          <p>Ta thường cần <span class="keyword">lặp lại</span> hành động:</p>
+          <ul style="font-style: italic;">
+            <li>In mọi phần tử của danh sách (kích thước chưa biết)</li>
+            <li>Gửi email cho toàn bộ khách hàng</li>
+            <li>Kiểm tra chính tả cho mọi từ trong tài liệu</li>
+            <li>Di chuyển tất cả quân cờ trên bàn chơi</li>
+          </ul>
+          <p>&rarr; Cần một cách <strong>kiểm soát</strong> việc lặp dựa trên dữ liệu vào…</p>
+        </section>
+
+        <!-- For loop: syntax + example -->
+        <section style="font-size: 0.8em;">
+          <h2>Vòng lặp for</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+              <strong>Cú pháp</strong>
+              <pre><code class="language-python" data-trim>
+for &lt;biến&gt; in &lt;dãy&gt;:
+    &lt;câu-lệnh-1&gt;
+    ...
+    &lt;câu-lệnh-n&gt;
+        </code></pre>
+            </div>
+            <div>
+              <strong>Ví dụ</strong>
+              <pre><code class="language-python" data-trim data-line-numbers>
+for item in lst:
+    print(item)
+        </code></pre>
+            </div>
+          </div>
+
+          <div>
+            <em>Mô tả:</em>
+            <ul>
+              <li>Gán phần tử thứ nhất trong danh sách <span class="inline-code">lst</span> cho biến <span
+                  class="inline-code">item</span>. Thực thi <span class="inline-code">print(item)</span></li>
+              <li>Lặp lại với phần tử thứ hai, thứ ba, … cho tới phần tử cuối cùng trong <span
+                  class="inline-code">lst</span></li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Terminology -->
+        <section style="font-size: 0.9em;">
+          <h2>Thuật ngữ</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+              <strong>Cú pháp</strong>
+              <pre><code class="language-python" data-trim>
+for &lt;biến&gt; in &lt;dãy&gt;:
+    &lt;câu-lệnh-1&gt;
+    ...
+    &lt;câu-lệnh-n&gt;
+        </code></pre>
+            </div>
+            <div>
+              <strong>Ví dụ</strong>
+              <pre><code class="language-python" data-trim data-line-numbers>
+for item in lst:
+    print(item)
+        </code></pre>
+            </div>
+          </div>
+
+          <ul>
+            <li><strong>Biến vòng lặp</strong>: <span class="inline-code">&lt;biến&gt;</span> / <span
+                class="inline-code">item</span></li>
+            <li><strong>Dãy để lặp</strong>: <span class="inline-code">&lt;dãy&gt;</span> / <span
+                class="inline-code">lst</span></li>
+            <li><strong>Thân vòng lặp</strong>: các câu lệnh thụt lề sau dấu hai chấm</li>
+          </ul>
+        </section>
+
+        <!-- Execution flowchart -->
+        <section>
+          <h2>Cách thực thi chi tiết hơn</h2>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;">
+            <div>
+              <pre><code class="language-python" data-trim>
+for x in seq:
+    body
+        </code></pre>
+            </div>
+
+            <div class="text-center">
+              <svg viewBox="0 0 600 300" height="300" role="img" aria-label="Sơ đồ thực thi vòng lặp for">
+                <defs>
+                  <style>
+                    .edge-arrow0 {
+                      stroke: #333;
+                      stroke-width: 2;
+                      fill: none;
+                      marker-end: url(#arrow0);
+                    }
+
+                    .border {
+                      fill: #fff;
+                      stroke: #7b5e57;
+                      stroke-width: 2;
+                    }
+
+                    .t-center {
+                      text-anchor: middle;
+                    }
+                  </style>
+                  <marker id="arrow0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+                    orient="auto-start-reverse">
+                    <path d="M0 0 L10 5 L0 10 Z" fill="#333"></path>
+                  </marker>
+                </defs>
+
+                <!-- start -->
+                <path d="M260,20 L260,78" class="edge-arrow0"></path>
+
+                <!-- decision diamond -->
+                <polygon class="border" points="180,120 260,80 340,120 260,160"></polygon>
+                <text x="260" y="110" class="t-center" style="font-size: 18px;">seq còn</text>
+                <text x="260" y="134" class="t-center" style="font-size: 18px;">phần tử?</text>
+
+                <!-- True arrow to assign -->
+                <line x1="340" y1="120" x2="418" y2="120" class="edge-arrow0"></line>
+                <text x="360" y="110" style="font-size: 18px;">Đúng</text>
+                <rect x="420" y="95" width="120" height="50" rx="8" ry="8" class="border"></rect>
+                <text x="480" y="115" class="t-center" style="font-size: 18px;">gán phần tử</text>
+                <text x="480" y="137" class="t-center" style="font-size: 18px;">tiếp theo cho x</text>
+
+                <!-- body box -->
+                <line x1="480" y1="145" x2="480" y2="188" class="edge-arrow0"></line>
+                <rect x="420" y="190" width="120" height="50" rx="8" ry="8" class="border"></rect>
+                <text x="480" y="220" class="t-center" style="font-size: 18px;">thực thi body</text>
+
+                <!-- back to check -->
+                <path d="M540,215 H 580 V 50 H 262" class="edge-arrow0"></path>
+
+                <!-- False exit -->
+                <line x1="260" y1="160" x2="260" y2="240" class="edge-arrow0"></line>
+                <text x="270" y="180" style="font-size: 18px;">Sai</text>
+              </svg>
+            </div>
+          </div>
+
+          <div>Phép kiểm tra “còn phần tử?”:
+            <ul>
+              <li>Diễn ra <span class="inline-code">n+1</span> lần nếu có
+                <span class="inline-code">n</span> phần tử.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Strings are sequences -->
+        <section>
+          <h2>Chuỗi cũng là dãy (sequence)</h2>
+          <pre><code class="language-python" data-trim data-line-numbers>
+print("The string contains:")
+
+# in mỗi ký tự của chuỗi s trên một dòng
+for char in s:
+    print(char)
+    </code></pre>
+
+          <p>💡 Các ký tự trong chuỗi được xem như là các phần tử của một dãy.</p>
+
+        </section>
+
+        <!-- Multiple choice question -->
+        <section style="font-size: 0.9em;">
+          <div class="question-box">
+            <div class="question-title">Câu hỏi</div>
+            <p><strong>Hàng số 3</strong> sẽ được thực thi bao nhiêu lần?</p>
+
+            <pre><code class="language-python" data-trim data-line-numbers>
+# Cho s là một chuỗi
+for v in 'aeiou':
+    if v in s:
+        return True
+return False
+    </code></pre>
+
+            <ul style="margin-top: 0; margin-bottom: 0;">
+              <li><strong>(A)</strong> Chính xác 5 lần</li>
+              <li><strong>(B)</strong> Từ 1 đến 5 lần</li>
+              <li><strong>(C)</strong> Chính xác <span class=" inline-code">len(s)</span> lần</li>
+              <li><strong>(D)</strong> Từ 1 đến <span class="inline-code">len(s)</span> lần</li>
+              <li><strong>(E)</strong> Không bao giờ</li>
+            </ul>
+          </div>
+        </section>
+      </section>
+
+      <!-- ====================== PHẦN II: MẪU TÍCH LUỸ ====================== -->
+      <section>
+        <!-- Title slide for the section -->
+        <section>
+          <h1>
+            <span class="text-light">2.</span>
+            <br>
+            Mẫu tích luỹ
+          </h1>
+        </section>
+
+        <!-- Pseudocode spec -->
+        <section style="font-size: 0.8em;" data-auto-animate>
+          <h2>Tính trung bình của danh sách số</h2>
+          <h4>Diễn tả thuật toán bằng <span class="keyword">giả mã</span> (pseudocode)</h4>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def avg(lst):
+    """Trả về: trung bình của tất cả phần tử trong lst.
+    Điều kiện: lst là danh sách không rỗng
+    và mỗi phần tử là float hoặc int."""
+
+    # 1. Gán num bằng tổng của tất cả phần tử trong lst
+
+    # 2. Gán den bằng số lượng phần tử của lst
+
+    # 3. Trả về num/den
+    return 0
+        </code></pre>
+        </section>
+
+        <!-- Iterative coding -->
+        <section style="font-size: 0.8em;" data-auto-animate>
+          <h2>Tính trung bình của danh sách số</h2>
+          <h4>Mở rộng thành code: <span class="keyword">làm dần</span> (iteratively)</h4>
+          <pre><code class="language-python" data-trim data-line-numbers="7,9">
+def avg(lst):
+    """Trả về: trung bình của tất cả phần tử trong lst.
+    Điều kiện: lst là danh sách không rỗng
+    và mỗi phần tử là float hoặc int."""
+
+    # 1. Gán num bằng tổng của tất cả phần tử trong lst
+    num = 0   # TODO
+    # 2. Gán den bằng số lượng phần tử của lst
+    den = len(lst)
+    # 3. Trả về num/den
+    return 0
+    </code></pre>
+          <p>💡 Làm phần nào chắc chắn trước. Phần chưa rõ: đặt biến tạm thời.</p>
+        </section>
+
+        <!-- Focus on sum step -->
+        <section style="font-size: 0.8em;" data-auto-animate>
+          <h2>Tính trung bình của danh sách số</h2>
+          <h4>Mở rộng code: <span class="keyword">tập trung</span> vào bước tính tổng</h4>
+          <pre><code class="language-python" data-trim>
+# ...
+# 1. Gán num bằng tổng của tất cả phần tử trong lst
+num = 0
+for x in lst:
+    num = num + x
+# 2. ...
+    </code></pre>
+
+          <p><strong>Thực thi:</strong></p>
+          <ul>
+            <li>Gán phần tử <em>thứ nhất</em> của <span class="inline-code">lst</span> cho <span
+                class="inline-code">x</span>. Cộng <span class="inline-code">x</span> vào <span
+                class="inline-code">num</span>.</li>
+            <li>Gán phần tử <em>thứ hai</em> của <span class="inline-code">lst</span> cho <span
+                class="inline-code">x</span>. Cộng <span class="inline-code">x</span> vào <span
+                class="inline-code">num</span>.</li>
+            <li>…</li>
+            <li>Gán phần tử <em>cuối cùng</em> của <span class="inline-code">lst</span> cho <span
+                class="inline-code">x</span>. Cộng <span class="inline-code">x</span> vào <span
+                class="inline-code">num</span>.</li>
+          </ul>
+        </section>
+
+        <!-- Finished code -->
+        <section style="font-size: 0.8em;" data-auto-animate>
+          <h2>Tính trung bình của danh sách số</h2>
+          <h4><span class="keyword">Hoàn thiện</span></h4>
+          <pre><code class="language-python" data-trim data-line-numbers>
+def avg(lst):
+    """Trả về: trung bình của tất cả phần tử trong lst.
+    Điều kiện: lst là danh sách không rỗng
+    và mỗi phần tử là float hoặc int."""
+
+    # 1. Gán num bằng tổng của tất cả phần tử trong lst
+    num = 0
+    for x in lst:
+        num = num + x
+
+    # 2. Gán den bằng số lượng phần tử của lst
+    den = len(lst)
+
+    # 3. Trả về num/den
+    return num/den
+    </code></pre>
+        </section>
+
+        <!-- Callout: accumulator -->
+        <section style="font-size: 0.8em;" data-auto-animate>
+          <h2>Tính trung bình của danh sách số</h2>
+          <h4><span class="keyword">Tích luỹ</span> (Accumulator)</h4>
+          <pre><code class="language-python" data-trim data-line-numbers>
+def avg(lst):
+    """Trả về: trung bình của tất cả phần tử trong lst.
+    Điều kiện: lst là danh sách không rỗng
+    và mỗi phần tử là float hoặc int."""
+
+    num = 0          # biến tích luỹ (accumulator)
+    for x in lst:
+        num = num + x
+    den = len(lst)
+    return num/den
+    </code></pre>
+
+          <div class="text-center" style="margin-top: .5rem;">
+            <span
+              style="display:inline-block;border:2px solid #111;padding:.3rem .8rem;border-radius:.4rem;background:#fff;">
+              <span class="inline-code">num</span> là một <strong>biến tích luỹ</strong> (<em>accumulator</em>)
+            </span>
+          </div>
+        </section>
+
+        <!-- Accumulator pattern (template + mini example) -->
+        <section style="font-size: 0.8em;" data-auto-animate>
+          <h2>Mẫu tích luỹ (Accumulator Pattern)</h2>
+          <div>
+            Biến tích luỹ (<strong>accumulator</strong>) là biến mà vòng lặp dùng để <span class="keyword">tính dồn giá
+              trị</span>, mỗi lần một phần tử.</div>
+          <pre><code class="language-python" data-trim>
+biến_tích_luỹ = &lt;giá-trị-ban-đầu&gt;
+for item in seq:
+    ...
+    biến_tích_luỹ = biến_tích_luỹ &lt;toán-tử&gt; item
+    ...
+# biến_tích_luỹ bây giờ chứa giá trị tích luỹ
+    </code></pre>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+num = 0
+for x in lst:
+    num = num + x
+# num bây giờ chứa tổng các phần tử trong lst
+    </code></pre>
+        </section>
+
+        <!-- More examples -->
+        <section>
+          <h2>Thêm ví dụ về accumulator</h2>
+          <p>Xem file <strong>accumulators.py</strong></p>
+          <ul>
+            <li>Tính <em>tổng</em> của một danh sách</li>
+            <li>Tính <em>tích</em> của một danh sách</li>
+            <li>Loại bỏ khoảng trắng khỏi chuỗi</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ====================== PHẦN III: DẢI SỐ (RANGE) ====================== -->
+      <section>
+        <!-- Title slide for the section -->
+        <section>
+          <h1>
+            <span class="text-light">3.</span>
+            <br>
+            Dải số (range)
+          </h1>
+        </section>
+
+        <!-- Pseudocode: print 1..n -->
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <h2>Làm sao in các số từ 1 đến n?</h2>
+          <h4>Diễn tả thuật toán bằng <span class="keyword">giả mã</span> (pseudocode)</h4>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def count(n):
+    """In các số 1, 2, ..., n; mỗi số trên một dòng.
+    Điều kiện: n là số nguyên >= 1."""
+
+    # Tạo danh sách 1..n
+
+    # Lặp qua danh sách và in từng phần tử
+
+    pass
+  </code></pre>
+        </section>
+
+        <!-- Iteratively build the solution -->
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <h2>Làm sao in các số từ 1 đến n?</h2>
+          <h4>Mở rộng thành code: <span class="keyword">làm dần</span> (iteratively)</h4>
+          <pre><code class="language-python" data-trim data-line-numbers="6,9,10">
+def count(n):
+    """In các số 1, 2, ..., n; mỗi số trên một dòng.
+    Điều kiện: n là số nguyên >= 1."""
+
+    # Tạo danh sách [1, 2, ..., n]
+    nums = [1]   # TODO
+
+    # Lặp qua danh sách và in từng phần tử
+    for num in nums:
+        print(num)
+    </code></pre>
+          <p>💡 Làm phần nào chắc chắn trước. Phần chưa rõ: đặt biến tạm thời.</p>
+        </section>
+
+        <!-- Focus on building nums -->
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <h2>Làm sao in các số từ 1 đến n?</h2>
+          <h4>Mở rộng code: <span class="keyword">tập trung</span> biến <span class="inline-code">nums</span></h4>
+          <pre><code class="language-python" data-trim>
+# Tạo danh sách [1, 2, ..., n]
+nums = [1]  # TODO
+    </code></pre>
+        </section>
+
+        <!-- Question: why this fails -->
+        <section style="font-size: 0.7em;">
+          <div class="question-box">
+            <div class="question-title">Câu hỏi</div>
+            Vì sao cách thử sau chạy không đúng?
+            <pre><code class="language-python" data-trim>
+# Tạo danh sách [1, 2, ..., n]
+nums = []
+for i in n:
+    nums.append(i)
+      </code></pre>
+            <ul style="margin-top: 0; margin-bottom: 0;">
+              <li><strong>(A)</strong> Vì ta cần chuyển biến <span class="inline-code">n</span> sang chuỗi.</li>
+              <li><strong>(B)</strong> Vì số nguyên <em>không</em> phải là một dãy (sequence).</li>
+              <li><strong>(C)</strong> Vì <span class="inline-code">append()</span> không nhận biến vòng
+                lặp làm tham số.</li>
+              <li><strong>(D)</strong> Vì <span class="inline-code">nums</span> là biến tích luỹ, nhưng ta không gán giá
+                trị cho nó
+                trong thân vòng lặp.</li>
+              <li><strong>(E)</strong> Thực ra đoạn code trên chạy đúng.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- What is a range? -->
+        <section style="font-size: 0.75em;" data-auto-animate>
+          <h2><span class="inline-code">range</span> là gì?</h2>
+
+          <div>
+            Một <span class="inline-code">range</span> là <strong>dãy số</strong> (sequence). Vì là <em>dãy số</em>, nó
+            hỗ trợ:
+            <ul>
+              <li>lặp (iteration)</li>
+              <li>chuyển sang danh sách (<span class="inline-code">list</span>)</li>
+              <li>độ dài (<span class="inline-code">len()</span>)</li>
+              <li>chỉ mục (indexing)</li>
+              <li>cắt lát (slicing)</li>
+            </ul>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+            <div>
+              <pre><code class="language-pycon" data-trim>
+>>> r = range(3)
+>>> r
+range(0, 3)
+>>> list(r)
+[0, 1, 2]
+>>> list(range(1, 3))
+[1, 2]
+>>> len(r)
+3
+      </code></pre>
+            </div>
+
+            <div>
+              <pre><code class="language-pycon" data-trim>
+>>> r.start 
+0
+>>> r.stop
+3
+>>> r[0]
+0
+>>> r[1]
+1
+      </code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Build nums with range -->
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <h2>Làm sao in các số từ 1 đến n?</h2>
+          <h4>Mở rộng code: hoàn thiện biến <span class="inline-code">nums</span></h4>
+          <pre><code class="language-python" data-trim>
+# Tạo danh sách [1, 2, ..., n]
+nums = list(range(1, n+1))
+    </code></pre>
+        </section>
+
+        <!-- Finished version -->
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <h2>Làm sao in các số từ 1 đến n?</h2>
+          <h4>Hoàn thiện code</h4>
+          <pre><code class="language-python" data-trim data-line-numbers>
+def count(n):
+    """In các số 1, 2, ..., n; mỗi số trên một dòng.
+    Điều kiện: n là số nguyên >= 1."""
+
+    # Tạo danh sách [1, 2, ..., n]
+    nums = list(range(1, n+1))
+
+    # Lặp qua danh sách và in từng phần tử
+    for num in nums:
+        print(num)
+    </code></pre>
+        </section>
+
+        <!-- Simplified code: option 1 -->
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <h2>Làm sao in các số từ 1 đến n?</h2>
+          <h4>Code rút gọn (cách 1): không cần biến <span class="inline-code">nums</span></h4>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def count(n):
+    """In các số 1, 2, ..., n; mỗi số trên một dòng.
+    Điều kiện: n là số nguyên >= 1."""
+
+    # Tạo dãy số từ 1 đến n và in từng số
+    for num in range(1, n+1):
+        print(num)
+    </code></pre>
+        </section>
+
+        <!-- Simplified code: option 2 -->
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <h2>Làm sao in các số từ 1 đến n?</h2>
+          <h4>Code rút gọn (cách 2): dùng hàm phụ để in</h4>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def count(n):
+    """In các số 1, 2, ..., n; mỗi số trên một dòng.
+    Điều kiện: n là số nguyên >= 1."""
+
+    # Tạo danh sách [1, 2, ..., n]
+    nums = list(range(1, n+1))
+
+    # In danh sách
+    print_list(nums)  # gọi hàm phụ
+    </code></pre>
+        </section>
+
+        <!-- Simplified code: option 3 -->
+        <section style="font-size: 0.8em;">
+          <h2>Làm sao in các số từ 1 đến n?</h2>
+          <h4>Code rút gọn (cách 3): kết hợp hai cách trên</h4>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def count(n):
+    """In các số 1, 2, ..., n; mỗi số trên một dòng.
+    Điều kiện: n là số nguyên >= 1."""
+
+    print_list(list(range(1, n+1)))
+    </code></pre>
+          <p><strong>⚠️ Lưu ý:</strong> Rút gọn số dòng không phải mục tiêu. Hãy ưu tiên cách viết dễ đọc
+            cho người mới học.</p>
+        </section>
+
+      </section>
+
+      <!-- ====================== PHẦN IV: LẶP THEO CHỈ SỐ (VS. THEO PHẦN TỬ) ====================== -->
+      <section>
+        <!-- Title slide for the section -->
+        <section>
+          <h1>
+            <span class="text-light">4.</span>
+            <br>
+            Lặp theo chỉ số (vs. phần tử)
+          </h1>
+        </section>
+
+        <!-- Wrong attempt: loop over items -->
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <h2>Tăng mỗi phần tử của danh sách</h2>
+          <h4>Thử lặp theo <span class="keyword">các phần tử</span></h4>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def incr_list_wrong(nums):
+    """Tăng thêm 1 cho mỗi phần tử trong nums.
+    Ví dụ: Biến đổi danh sách đầu vào [6,0,7] thành [7,1,8].
+    Điều kiện: Danh sách nums chỉ chứa số."""
+
+    # Lặp qua các phần tử trong nums, tăng chúng lên 1
+    # ⚠️ Cách này sai: chỉ thay đổi biến vòng lặp
+    for n in nums:
+        n = n + 1
+    </code></pre>
+
+          <pre><code class="language-pycon" data-trim>
+>>> lst = [6, 0, 7]
+>>> incr_list_wrong(lst)
+>>> lst
+[6, 0, 7]
+    </code></pre>
+        </section>
+
+        <!-- Quick review: for-loops -->
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <h2>Ôn lại: vòng lặp for</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+            <div>
+              <strong>Cú pháp</strong>
+              <pre><code class="language-python" data-trim>
+for &lt;var&gt; in &lt;seq&gt;:
+    &lt;statement&gt;
+    ...
+    &lt;statement&gt;
+        </code></pre>
+            </div>
+            <div>
+              <strong>Ví dụ</strong>
+              <pre><code class="language-python" data-trim data-line-numbers="">
+for item in lst:
+    print(item)
+        </code></pre>
+            </div>
+          </div>
+          <p>Mỗi vòng lặp gán phần tử kế tiếp của <span class="inline-code">&lt;seq&gt;</span> cho <span
+              class="inline-code">&lt;var&gt;</span> rồi chạy thân vòng lặp.
+          </p>
+        </section>
+
+        <!-- Why wrong: explanation -->
+        <section style="font-size: 0.9em;">
+          <h2>Vì sao cách trên không tốt?</h2>
+          <div>
+            Ta chỉ gán lại <span class="inline-code">n</span> (biến vòng lặp) sang giá trị mới,
+            <em>không hề</em> gán vào vị trí nào của danh sách <span class="inline-code">nums</span>.
+          </div>
+        </section>
+
+        <section style="font-size: 0.85em;">
+          <h2>Sơ đồ thực thi</h2>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;width: 100%;">
+            <!-- Code -->
+            <div>
+              <pre><code class="language-python" data-trim data-line-numbers>
+def incr_list_wrong(nums):
+    for n in nums:
+        n = n + 1
+
+lst = [6, 0, 7]
+incr_list_wrong(lst)
+</code></pre>
+            </div>
+
+            <!-- Diagram -->
+            <div class="text-center">
+              <svg viewBox="0 0 700 360" width="550" role="img"
+                aria-label="Global Space, Heap Space, Call Frame for incr_list_wrong">
+                <defs>
+                  <style>
+                    .box {
+                      fill: #fff;
+                      stroke: #7b5e57;
+                      stroke-width: 2;
+                      rx: 10;
+                      ry: 10;
+                    }
+
+                    .title {
+                      font-size: 18px;
+                      font-weight: 600;
+                      fill: #222;
+                    }
+
+                    .label {
+                      font-size: 16px;
+                      fill: #222;
+                    }
+
+                    .small {
+                      font-size: 16px;
+                      fill: #222;
+                    }
+
+                    .badge {
+                      fill: #fff3a6;
+                      stroke: #7b5e57;
+                      stroke-width: 2;
+                      rx: 6;
+                      ry: 6;
+                    }
+
+                    .grid {
+                      stroke: #7b5e57;
+                      stroke-width: 1.5;
+                    }
+
+                    .muted {
+                      fill: #444;
+                    }
+                  </style>
+                </defs>
+
+                <!-- GLOBAL SPACE -->
+                <text x="40" y="28" class="title">Không gian toàn cục</text>
+                <rect x="30" y="36" width="210" height="180" class="box"></rect>
+                <text x="52" y="92" class="label">lst</text>
+                <rect x="98" y="70" width="58" height="32" class="badge"></rect>
+                <text x="127" y="91" text-anchor="middle" class="label">id2</text>
+
+                <!-- HEAP SPACE -->
+                <text x="276" y="28" class="title">Không gian Heap</text>
+                <rect x="266" y="36" width="220" height="180" class="box"></rect>
+                <!-- object id badge + type -->
+                <rect x="282" y="54" width="58" height="28" class="badge"></rect>
+                <text x="311" y="73" text-anchor="middle" class="small">id2</text>
+                <rect x="448" y="48" width="30" height="24" class="box"></rect>
+                <text x="463" y="65" text-anchor="middle" class="small">list</text>
+                <!-- list grid -->
+                <rect x="300" y="92" width="160" height="110" class="box"></rect>
+                <!-- columns -->
+                <line x1="352" y1="92" x2="352" y2="202" class="grid"></line>
+                <!-- rows -->
+                <line x1="300" y1="128" x2="460" y2="128" class="grid"></line>
+                <line x1="300" y1="165" x2="460" y2="165" class="grid"></line>
+                <!-- indices -->
+                <text x="326" y="116" text-anchor="middle" class="label">0</text>
+                <text x="326" y="153" text-anchor="middle" class="label">1</text>
+                <text x="326" y="190" text-anchor="middle" class="label">2</text>
+                <!-- values -->
+                <text x="406" y="116" text-anchor="middle" class="label">6</text>
+                <text x="406" y="153" text-anchor="middle" class="label">0</text>
+                <text x="406" y="190" text-anchor="middle" class="label">7</text>
+
+                <!-- CALL FRAME -->
+                <text x="40" y="238" class="title">Khung gọi hàm</text>
+                <rect x="30" y="246" width="456" height="108" class="box"></rect>
+                <!-- frame header -->
+                <rect x="30" y="246" width="456" height="26" class="box"></rect>
+                <text x="40" y="265" class="small">incr_list_wrong</text>
+                <!-- rows labels -->
+                <text x="52" y="294" class="label">nums</text>
+                <text x="52" y="332" class="label">n</text>
+                <text x="330" y="294" class="label">RETURN</text>
+                <!-- values -->
+                <rect x="110" y="276" width="58" height="30" class="badge"></rect>
+                <text x="139" y="296" text-anchor="middle" class="label">id2</text>
+                <rect x="398" y="276" width="60" height="30" class="badge"></rect>
+                <text x="428" y="296" text-anchor="middle" class="label muted">None</text>
+                <rect x="110" y="314" width="78" height="30" class="badge"></rect>
+                <text x="149" y="334" text-anchor="middle" class="label">
+                  <tspan style="text-decoration: line-through;">6 7 0 1 7</tspan> 8
+                </text>
+
+              </svg>
+            </div>
+          </div>
+
+          <div>
+            ⚠️ Danh sách <span class="inline-code">nums</span> không đổi; chỉ biến vòng lặp <span
+              class="inline-code">n</span> thay đổi.
+          </div>
+        </section>
+
+        <!-- Review: ranges (brief) -->
+        <section>
+          <h2>Ôn lại: <span class="inline-code">range</span></h2>
+          <div>
+            Dùng <span class="inline-code">range</span> để tạo ra một dãy số.
+          </div>
+
+          <pre><code class="language-pycon" data-trim>
+>>> r = range(3)
+>>> r
+range(0, 3)
+>>> list(r)
+[0, 1, 2]
+>>> r[0]
+0
+>>> r[1]
+1
+    </code></pre>
+        </section>
+
+        <!-- Correct approach: loop over indices -->
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <h2>Lặp theo <span>chỉ số</span></h2>
+          <h4>Thay đổi trực tiếp phần tử trong danh sách</h4>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def incr_list(nums):
+    """Tăng thêm 1 cho mỗi phần tử trong nums.
+    Ví dụ: [6,0,7] -> [7,1,8].
+    Điều kiện: nums chỉ chứa số."""
+
+    for i in range(len(nums)):
+        nums[i] = nums[i] + 1
+    </code></pre>
+
+          <pre><code class="language-pycon" data-trim>
+>>> lst = [6, 0, 7]
+>>> incr_list(lst)
+>>> lst
+[7, 1, 8]
+    </code></pre>
+        </section>
+
+        <!-- Why correct: explanation -->
+        <section style="font-size: 0.9em;">
+          <h2>Vì sao cách này hiệu quả?</h2>
+          <div>
+            Biến <span class="inline-code">i</span> thay đổi <em>và</em> ta gán vào
+            <span class="inline-code">nums[i]</span>, nên đối tượng danh sách cũng thay đổi.
+          </div>
+        </section>
+
+        <section style="font-size: 0.85em;">
+          <h2>Sơ đồ thực thi</h2>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;width: 100%;">
+            <!-- Code -->
+            <div>
+              <pre><code class="language-python" data-trim data-line-numbers>
+def incr_list_wrong(nums):
+    for i in range(len(nums)):
+        nums[i] = nums[i] + 1
+
+lst = [6, 0, 7]
+incr_list_wrong(lst)
+</code></pre>
+            </div>
+
+            <!-- Diagram -->
+            <div class="text-center">
+              <svg viewBox="0 0 700 360" width="500" role="img"
+                aria-label="Global Space, Heap Space, Call Frame for incr_list_wrong">
+                <defs>
+                  <style>
+                    .box {
+                      fill: #fff;
+                      stroke: #7b5e57;
+                      stroke-width: 2;
+                      rx: 10;
+                      ry: 10;
+                    }
+
+                    .title {
+                      font-size: 18px;
+                      font-weight: 600;
+                      fill: #222;
+                    }
+
+                    .label {
+                      font-size: 16px;
+                      fill: #222;
+                    }
+
+                    .small {
+                      font-size: 16px;
+                      fill: #222;
+                    }
+
+                    .badge {
+                      fill: #fff3a6;
+                      stroke: #7b5e57;
+                      stroke-width: 2;
+                      rx: 6;
+                      ry: 6;
+                    }
+
+                    .grid {
+                      stroke: #7b5e57;
+                      stroke-width: 1.5;
+                    }
+
+                    .muted {
+                      fill: #444;
+                    }
+                  </style>
+                </defs>
+
+                <!-- GLOBAL SPACE -->
+                <text x="40" y="28" class="title">Không gian toàn cục</text>
+                <rect x="30" y="36" width="210" height="180" class="box"></rect>
+                <text x="52" y="92" class="label">lst</text>
+                <rect x="98" y="70" width="58" height="32" class="badge"></rect>
+                <text x="127" y="91" text-anchor="middle" class="label">id2</text>
+
+                <!-- HEAP SPACE -->
+                <text x="276" y="28" class="title">Không gian Heap</text>
+                <rect x="266" y="36" width="220" height="180" class="box"></rect>
+                <!-- object id badge + type -->
+                <rect x="282" y="54" width="58" height="28" class="badge"></rect>
+                <text x="311" y="73" text-anchor="middle" class="small">id2</text>
+                <rect x="448" y="48" width="30" height="24" class="box"></rect>
+                <text x="463" y="65" text-anchor="middle" class="small">list</text>
+                <!-- list grid -->
+                <rect x="300" y="92" width="160" height="110" class="box"></rect>
+                <!-- columns -->
+                <line x1="352" y1="92" x2="352" y2="202" class="grid"></line>
+                <!-- rows -->
+                <line x1="300" y1="128" x2="460" y2="128" class="grid"></line>
+                <line x1="300" y1="165" x2="460" y2="165" class="grid"></line>
+                <!-- indices -->
+                <text x="326" y="116" text-anchor="middle" class="label">0</text>
+                <text x="326" y="153" text-anchor="middle" class="label">1</text>
+                <text x="326" y="190" text-anchor="middle" class="label">2</text>
+                <!-- values -->
+                <text x="406" y="116" text-anchor="middle" class="label">
+                  <tspan style="text-decoration: line-through;">6</tspan>
+                  7
+                </text>
+                <text x="406" y="153" text-anchor="middle" class="label">
+                  <tspan style="text-decoration: line-through;">0</tspan>
+                  1
+                </text>
+                <text x="406" y="190" text-anchor="middle" class="label">
+                  <tspan style="text-decoration: line-through;">7</tspan>
+                  8
+                </text>
+
+                <!-- CALL FRAME -->
+                <text x="40" y="238" class="title">Khung gọi hàm</text>
+                <rect x="30" y="246" width="456" height="108" class="box"></rect>
+                <!-- frame header -->
+                <rect x="30" y="246" width="456" height="26" class="box"></rect>
+                <text x="40" y="265" class="small">incr_list_wrong</text>
+                <!-- rows labels -->
+                <text x="52" y="294" class="label">nums</text>
+                <text x="52" y="332" class="label">i</text>
+                <text x="330" y="294" class="label">RETURN</text>
+                <!-- values -->
+                <rect x="110" y="276" width="58" height="30" class="badge"></rect>
+                <text x="139" y="296" text-anchor="middle" class="label">id2</text>
+                <rect x="398" y="276" width="60" height="30" class="badge"></rect>
+                <text x="428" y="296" text-anchor="middle" class="label muted">None</text>
+                <rect x="110" y="314" width="78" height="30" class="badge"></rect>
+                <text x="149" y="334" text-anchor="middle" class="label">
+                  <tspan style="text-decoration: line-through;">0 1 2</tspan>
+                </text>
+
+              </svg>
+            </div>
+          </div>
+
+          <div>
+            ✅ Danh sách <span class="inline-code">nums</span> thay đổi vì ta gán giá trị mới vào <span
+              class="inline-code">nums[i]</span>.
+          </div>
+        </section>
+
+        <!-- Summary: two patterns -->
+        <section style="font-size: 0.9em;">
+          <h2>Hai mẫu lặp qua danh sách</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;">
+            <div>
+              <strong>Lặp theo phần tử</strong>
+              <pre><code class="language-python" data-trim>
+for item in lst:
+    # dùng item
+    print(item)
+        </code></pre>
+              <ul>
+                <li>Mã đơn giản</li>
+                <li>Sức mạnh hạn chế</li>
+                <li>Dùng khi <em>không</em> cần thay phần tử tại chỗ</li>
+              </ul>
+            </div>
+            <div>
+              <strong>Lặp theo chỉ số</strong>
+              <pre><code class="language-python" data-trim>
+for idx in range(len(lst)):
+    # dùng lst[idx]
+    lst[idx] = lst[idx] + 1
+        </code></pre>
+              <ul>
+                <li>Phức tạp hơn một chút</li>
+                <li>Mạnh hơn (cập nhật tại chỗ, truy cập vị trí)</li>
+                <li>Dùng khi <strong>cần</strong> biết/chỉnh vị trí phần tử</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <h2><span class="inline-code">enumerate()</span></h2>
+          <div>
+            <p>
+              Hàm <span class="inline-code">enumerate(iterable, start=0)</span> trả về một
+              <em>iterator</em> của các bộ <span class="inline-code">(index, item)</span>.
+            </p>
+            <ul>
+              <li>Mặc định bắt đầu từ <span class="inline-code">start=0</span>.</li>
+              <li>Tiện hơn <span class="inline-code">range(len(lst))</span>.</li>
+              <li>Dùng tốt cho cả <span class="inline-code">list</span>, <span class="inline-code">string</span>, và các
+                <em>iterable</em> khác.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <h2><span class="inline-code">enumerate()</span></h2>
+          <h4>Ví dụ</h4>
+          <div>
+            <pre><code class="language-python" data-trim data-line-numbers>
+a = ["I", "am", "UET"]
+
+# Lặp để lấy cả chỉ số và phần tử
+for i, name in enumerate(a):
+    print(f"Index {i}: {name}")
+
+# Đổi vị trí bắt đầu của chỉ số
+for i, name in enumerate(a, start=1):
+    print(f"{i}) {name}")
+
+# Chuyển thành danh sách các bộ (index, item)
+pairs = list(enumerate(a))
+print(pairs)   # [(0, 'I'), (1, 'am'), (2, 'UET')]
+      </code></pre>
+          </div>
+        </section>
+
+      </section>
+
+      <!-- ====================== PHẦN 5: DANH SÁCH VÀ VÒNG LẶP LỒNG NHAU ====================== -->
+      <section>
+        <!-- Title slide for the section -->
+        <section>
+          <h1>
+            <span class="text-light">5.</span>
+            <br>
+            Danh sách &amp; <br> vòng lặp <br> lồng nhau
+          </h1>
+        </section>
+
+        <!-- Sometimes just a list is not enough -->
+
+        <section style="font-size: 0.7em;">
+          <h2>Đôi khi một danh sách là chưa đủ</h2>
+
+
+          <table style="width:100%; border-collapse: collapse; font-size:1.05em;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:.4rem .6rem; background:#7b86ad; color:#fff;">Dữ liệu</th>
+                <th style="text-align:left; padding:.4rem .6rem; background:#7b86ad; color:#fff;">Tổ chức</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:#ececf4;">
+                <td style="padding:.4rem .6rem;">Dàn ý bài luận</td>
+                <td style="padding:.4rem .6rem;">Gạch đầu dòng, gạch con, gạch con của gạch con</td>
+              </tr>
+              <tr>
+                <td style="padding:.4rem .6rem;">Nội dung cuốn sách</td>
+                <td style="padding:.4rem .6rem;">Chương, đoạn, câu, từ</td>
+              </tr>
+              <tr style="background:#ececf4;">
+                <td style="padding:.4rem .6rem;">Video</td>
+                <td style="padding:.4rem .6rem;">Khung hình (frame), điểm ảnh</td>
+              </tr>
+              <tr>
+                <td style="padding:.4rem .6rem;">Bảng tính</td>
+                <td style="padding:.4rem .6rem;">Hàng và cột</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p style="margin-top:.8rem;">
+            💡 Đây đều là cấu trúc <strong>phân cấp</strong>:
+            <em>danh sách của danh sách</em>, danh sách của danh sách của danh sách, …
+          </p>
+
+
+        </section>
+
+        <!-- Nested lists: concept + example -->
+
+        <section style="font-size: 0.95em;">
+          <h2>Danh sách lồng nhau</h2>
+          <ul>
+            <li>Phần tử của danh sách có thể là <strong>bất kỳ đối tượng</strong> nào.</li>
+            <li>Bản thân danh sách cũng là <strong>đối tượng</strong>.</li>
+          </ul>
+
+          <p>&rarr; Danh sách có thể <span class="keyword">chứa các danh sách khác</strong>.</p>
+
+          <div style="display:grid; grid-template-columns: 1fr 1.6fr; gap:24px; align-items:start; margin-top:.6rem;">
+            <div>
+              <p><em>Ví dụ:</em></p>
+              <pre><code class="language-python" data-trim>
+lst = [
+    [2, 4],
+    [3, 6, 9],
+    [4, 8, 12, 16]
+]
+</code></pre>
+            </div>
+            <div>
+              <ul>
+                <li>Danh sách ngoài: Có <strong>3 phần tử</strong>.</li>
+                <li><strong>Ba</strong> danh sách trong, mỗi danh sách có số phần tử <em>khác nhau</em>.</li>
+              </ul>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Haiku example -->
+
+        <section style="font-size: 0.95em;">
+          <h2>Một bài haiku của Yosa Buson</h2>
+
+
+          <div class="text-center" style="margin:.2rem 0 .8rem;">
+            <em>
+              The light of a candle<br>
+              Is transferred to another candle—<br>
+              spring twilight.
+            </em>
+          </div>
+
+          <p>Một bộ kiểm tra chính tả có thể xem bài thơ như <span class="keyword">danh sách lồng nhau</span>:</p>
+          <pre><code class="language-python" data-trim>
+
+
+[["The", "light", "of", "a", "candle"],
+["Is", "transferred", "to", "another", "candle—"],
+["spring", "twilight."]] </code></pre>
+
+        </section>
+
+        <!-- Memory structure (SVG) -->
+
+        <section style="font-size:0.9em;">
+          <h2>Cấu trúc bộ nhớ (minh hoạ)</h2>
+
+
+          <div class="text-center">
+            <svg viewBox="0 0 860 360" height="400" role="img" aria-label="Cấu trúc bộ nhớ cho danh sách lồng nhau">
+              <style>
+                .title {
+                  font-weight: 700;
+                  fill: #445;
+                  font-size: 16px
+                }
+
+                .panel {
+                  fill: #f5f7fb;
+                  stroke: #b7bfd6;
+                  stroke-width: 1.5
+                }
+
+                .box {
+                  fill: #fff7c8;
+                  stroke: #bda351;
+                  stroke-width: 1.5
+                }
+
+                .cell {
+                  fill: #fffbe3;
+                  stroke: #d1c07a;
+                  stroke-width: 1
+                }
+
+                .idx {
+                  fill: #666;
+                  font-size: 10px
+                }
+
+                .mono {
+                  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+                  font-size: 10px;
+                }
+
+                .note {
+                  fill: #444;
+                  font-size: 16px;
+                }
+              </style>
+
+              <!-- Headings -->
+              <text x="20" y="26" class="title">Không gian toàn cục</text>
+              <text x="260" y="26" class="title">Các đối tượng</text>
+
+              <!-- Globals panel -->
+              <rect x="20" y="40" width="140" height="90" rx="6" class="panel"></rect>
+              <text x="36" y="70" class="mono">global</text>
+              <line x1="28" y1="80" x2="148" y2="80" stroke="#b7bfd6"></line>
+              <text x="36" y="106" class="mono">haiku</text>
+              <rect x="96" y="92" width="48" height="24" rx="4" class="panel"></rect>
+              <text x="120" y="110" text-anchor="middle" class="mono">id1</text>
+
+              <!-- id2:list (line 1 words) -->
+              <text x="260" y="52" class="mono">id2:list</text>
+              <rect x="250" y="60" width="430" height="44" rx="6" class="box"></rect>
+              <!-- cells -->
+              <g class="mono">
+                <rect x="260" y="70" width="80" height="26" class="cell"></rect>
+                <text x="268" y="87" class="idx">0</text>
+                <text x="295" y="88">"The"</text>
+
+                <rect x="340" y="70" width="100" height="26" class="cell"></rect>
+                <text x="348" y="87" class="idx">1</text>
+                <text x="380" y="88">"light"</text>
+
+                <rect x="440" y="70" width="80" height="26" class="cell"></rect>
+                <text x="448" y="87" class="idx">2</text>
+                <text x="470" y="88">"of"</text>
+
+                <rect x="520" y="70" width="70" height="26" class="cell"></rect>
+                <text x="528" y="87" class="idx">3</text>
+                <text x="547" y="88">"a"</text>
+
+                <rect x="590" y="70" width="80" height="26" class="cell"></rect>
+                <text x="598" y="87" class="idx">4</text>
+                <text x="615" y="88">"candle"</text>
+              </g>
+
+              <!-- id3:list (line 2 words) -->
+              <text x="260" y="122" class="mono">id3:list</text>
+              <rect x="250" y="130" width="510" height="44" rx="6" class="box"></rect>
+              <g class="mono">
+                <rect x="260" y="140" width="80" height="26" class="cell"></rect>
+                <text x="268" y="157" class="idx">0</text>
+                <text x="290" y="158">"Is"</text>
+
+                <rect x="340" y="140" width="140" height="26" class="cell"></rect>
+                <text x="348" y="157" class="idx">1</text>
+                <text x="385" y="158">"transferred"</text>
+
+                <rect x="480" y="140" width="70" height="26" class="cell"></rect>
+                <text x="488" y="157" class="idx">2</text>
+                <text x="506" y="158">"to"</text>
+
+                <rect x="550" y="140" width="110" height="26" class="cell"></rect>
+                <text x="558" y="157" class="idx">3</text>
+                <text x="593" y="158">"another"</text>
+
+                <rect x="660" y="140" width="90" height="26" class="cell"></rect>
+                <text x="668" y="157" class="idx">4</text>
+                <text x="689" y="158">"candle—"</text>
+              </g>
+
+              <!-- id4:list (line 3 words) -->
+              <text x="260" y="192" class="mono">id4:list</text>
+              <rect x="250" y="200" width="280" height="44" rx="6" class="box"></rect>
+              <g class="mono">
+                <rect x="260" y="210" width="110" height="26" class="cell"></rect>
+                <text x="268" y="227" class="idx">0</text>
+                <text x="300" y="228">"spring"</text>
+
+                <rect x="370" y="210" width="150" height="26" class="cell"></rect>
+                <text x="378" y="227" class="idx">1</text>
+                <text x="415" y="228">"twilight."</text>
+              </g>
+
+              <!-- id1:list (outer) -->
+              <text x="260" y="262" class="mono">id1:list</text>
+              <rect x="250" y="270" width="220" height="44" rx="6" class="box"></rect>
+              <g class="mono">
+                <rect x="260" y="280" width="60" height="26" class="cell"></rect>
+                <text x="268" y="297" class="idx">0</text>
+                <text x="290" y="298">id2</text>
+
+                <rect x="320" y="280" width="60" height="26" class="cell"></rect>
+                <text x="328" y="297" class="idx">1</text>
+                <text x="350" y="298">id3</text>
+
+                <rect x="380" y="280" width="60" height="26" class="cell"></rect>
+                <text x="388" y="297" class="idx">2</text>
+                <text x="410" y="298">id4</text>
+              </g>
+
+              <!-- tiny note -->
+              <text x="490" y="294" class="note">Danh sách ngoài chứa <tspan class="mono">id</tspan> của các danh sách
+                khác.</text>
+            </svg>
+          </div>
+
+
+        </section>
+
+        <!-- Print each word using a helper -->
+
+        <section data-auto-animate>
+          <h2>In từng từ của bài haiku?</h2>
+          <h4>Dùng <span class="keyword">hàm phụ</span> từ phần trước</h4>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def print_list(lst):
+    """Print lst, a list of strings."""
+    for word in lst:
+        print(word)
+
+def print_haiku_with_helper(h):
+    """Print haiku h, a list of list of strings."""
+    for line in h:
+        print_list(line) 
+</code></pre>
+
+        </section>
+
+        <!-- Print each word with nested for loops -->
+
+        <section data-auto-animate>
+          <h2>In từng từ của bài haiku?</h2>
+          <h4>Dùng <span class="keyword">vòng lặp for lồng nhau</span></h4>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def print_haiku(h):
+    """Print haiku h, a list of list of strings."""
+    for line in h:
+        for word in line:
+            print(word)
+    </code></pre>
+
+
+          <table style="margin-top:.4rem; border-collapse:collapse; width:100%; font-size:0.8em;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:.35rem .6rem; background:#7b86ad; color:#fff;">Vòng lặp</th>
+                <th style="text-align:left; padding:.35rem .6rem; background:#7b86ad; color:#fff;">Biến vòng lặp</th>
+                <th style="text-align:left; padding:.35rem .6rem; background:#7b86ad; color:#fff;">Dãy để lặp</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:#ececf4;">
+                <td style="padding:.35rem .6rem;">Ngoài</td>
+                <td style="padding:.35rem .6rem;"><span class="inline-code">line</span></td>
+                <td style="padding:.35rem .6rem;"><span class="inline-code">h</span></td>
+              </tr>
+              <tr>
+                <td style="padding:.35rem .6rem;">Trong</td>
+                <td style="padding:.35rem .6rem;"><span class="inline-code">word</span></td>
+                <td style="padding:.35rem .6rem;"><span class="inline-code">line</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+        </section>
+      </section>
+
+      <!-- ====================== PHẦN 6: PHÉP TOÁN TRÊN DANH SÁCH LỒNG (NESTED LISTS) ====================== -->
+      <section>
+        <!-- Title slide -->
+        <section>
+          <h1>
+            <span class="text-light">6.</span>
+            <br>
+            Phép toán trên danh sách lồng
+          </h1>
+        </section>
+
+        <!-- Length & indexing -->
+        <section data-auto-animate>
+          <h2>Độ dài và truy cập phần tử</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> h = [['The', 'light', 'of', 'a', 'candle'],
+...      ['Is', 'transferred', 'to', 'another', 'candle—'],
+...      ['spring', 'twilight.']]
+>>> len(h)               # độ dài danh sách ngoài
+3
+>>> len(h[0])            # độ dài danh sách trong đầu tiên
+5
+>>> h[2][0]              # phần tử hàng 2, cột 0
+'spring'
+>>> h[2][1] = 'dawning'  # gán phần tử hàng 2, cột 1
+    </code></pre>
+        </section>
+
+        <!-- Slicing: memory model (SVG) -->
+        <section data-auto-animate>
+          <h2>Cắt lát (slicing)</h2>
+          <h4>Chỉ sao chép <em>cấp trên cùng</em></h4>
+          <div>
+            <pre><code class="language-pycon" data-trim>
+>>> b = [[9, 6], [4, 5], [7, 7]]
+>>> x = b[:2]           # sao chép *cấp trên cùng*
+>>> x
+[[9, 6], [4, 5]]
+>>> x[0][0] = 100       # thay đổi phần tử bên trong
+>>> b
+[[100, 6], [4, 5], [7, 7]]
+        </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Cắt lát (slicing)</h2>
+          <h4>Chỉ sao chép <em>cấp trên cùng</em></h4>
+          <div class="text-center">
+            <svg viewBox="0 0 740 360" height="320" role="img" aria-label="Slicing copies only top-level list">
+              <defs>
+                <style>
+                  .mem-box {
+                    fill: #fff;
+                    stroke: #7b5e57;
+                    stroke-width: 2;
+                  }
+
+                  .mem-head {
+                    font-size: 16px;
+                    font-weight: 600;
+                    fill: #444;
+                  }
+
+                  .mono {
+                    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+                  }
+
+                  .small {
+                    font-size: 14px;
+                  }
+
+                  .idx {
+                    fill: #f6f1cc;
+                    stroke: #7b5e57;
+                    stroke-width: 1.5;
+                  }
+
+                  .arr {
+                    stroke: #333;
+                    stroke-width: 2;
+                    fill: none;
+                    marker-end: url(#arrowA);
+                  }
+
+                  .arr-d {
+                    stroke: #333;
+                    stroke-width: 2;
+                    fill: none;
+                    stroke-dasharray: 5 4;
+                    marker-end: url(#arrowA);
+                  }
+
+                  .chip {
+                    fill: #eef6ff;
+                    stroke: #7b5e57;
+                  }
+
+                  .t {
+                    font-size: 13px;
+                  }
+                </style>
+                <marker id="arrowA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+                  orient="auto-start-reverse">
+                  <path d="M0 0 L10 5 L0 10 Z" fill="#333"></path>
+                </marker>
+              </defs>
+
+              <!-- Section labels -->
+              <text x="30" y="30" class="mem-head">Không gian toàn cục</text>
+              <text x="360" y="30" class="mem-head">Không gian Heap</text>
+
+              <!-- Globals: b -> id1, x -> id5 -->
+              <rect x="20" y="50" width="140" height="60" rx="6" class="mem-box"></rect>
+              <text x="35" y="78" class="mono small">b</text>
+              <rect x="70" y="60" width="70" height="40" rx="4" class="idx"></rect>
+              <text x="85" y="85" class="mono small">id1</text>
+
+              <rect x="20" y="128" width="140" height="60" rx="6" class="mem-box"></rect>
+              <text x="35" y="156" class="mono small">x</text>
+              <rect x="70" y="138" width="70" height="40" rx="4" class="idx"></rect>
+              <text x="85" y="163" class="mono small">id5</text>
+
+              <!-- id1: outer list -->
+              <rect x="330" y="50" width="170" height="120" rx="8" class="mem-box"></rect>
+              <text x="338" y="70" class="mono small">id1:list</text>
+              <!-- rows in id1 -->
+              <rect x="345" y="80" width="140" height="24" class="idx"></rect>
+              <rect x="345" y="108" width="140" height="24" class="idx"></rect>
+              <rect x="345" y="136" width="140" height="24" class="idx"></rect>
+              <text x="352" y="97" class="mono t">0</text>
+              <text x="352" y="125" class="mono t">1</text>
+              <text x="352" y="153" class="mono t">2</text>
+              <text x="400" y="97" class="mono t">id2</text>
+              <text x="400" y="125" class="mono t">id3</text>
+              <text x="400" y="153" class="mono t">id4</text>
+
+              <!-- id5: sliced outer list -->
+              <rect x="330" y="200" width="170" height="96" rx="8" class="mem-box"></rect>
+              <text x="338" y="220" class="mono small">id5:list (b[:2])</text>
+              <rect x="345" y="230" width="140" height="24" class="idx"></rect>
+              <rect x="345" y="258" width="140" height="24" class="idx"></rect>
+              <text x="352" y="247" class="mono t">0</text>
+              <text x="352" y="275" class="mono t">1</text>
+              <text x="400" y="247" class="mono t">id2</text>
+              <text x="400" y="275" class="mono t">id3</text>
+
+              <!-- id2/3/4 inner lists -->
+              <rect x="625" y="50" width="95" height="90" rx="8" class="mem-box"></rect>
+              <text x="632" y="70" class="mono small">id2:list</text>
+              <rect x="638" y="80" width="70" height="22" class="idx"></rect>
+              <rect x="638" y="106" width="70" height="22" class="idx"></rect>
+              <text x="645" y="96" class="mono t">9</text>
+              <text x="645" y="122" class="mono t">6</text>
+
+              <rect x="625" y="150" width="95" height="90" rx="8" class="mem-box"></rect>
+              <text x="632" y="170" class="mono small">id3:list</text>
+              <rect x="638" y="180" width="70" height="22" class="idx"></rect>
+              <rect x="638" y="206" width="70" height="22" class="idx"></rect>
+              <text x="645" y="196" class="mono t">4</text>
+              <text x="645" y="222" class="mono t">5</text>
+
+              <rect x="625" y="250" width="95" height="90" rx="8" class="mem-box"></rect>
+              <text x="632" y="270" class="mono small">id4:list</text>
+              <rect x="638" y="280" width="70" height="22" class="idx"></rect>
+              <rect x="638" y="306" width="70" height="22" class="idx"></rect>
+              <text x="645" y="296" class="mono t">7</text>
+              <text x="645" y="322" class="mono t">7</text>
+
+              <!-- Arrows: globals to lists -->
+              <path d="M140,80 C220,80 270,80 330,85" class="arr"></path>
+              <path d="M140,158 C220,158 270,210 330,216" class="arr"></path>
+
+              <!-- Arrows: id1 rows -> id2/3/4 -->
+              <path d="M485,92 C505,92 515,90 625,70" class="arr"></path>
+              <path d="M485,120 C505,120 515,180 625,160" class="arr"></path>
+              <path d="M485,148 C505,148 515,280 625,280" class="arr"></path>
+
+              <!-- Arrows: id5 rows -> id2/3 -->
+              <path d="M485,242 C505,242 515,90 625,90" class="arr"></path>
+              <path d="M485,270 C505,270 515,180 625,180" class="arr"></path>
+
+            </svg>
+          </div>
+
+          <div>
+            Slicing tạo danh sách mới ở <span class="inline-code">id5</span>, nhưng
+            các danh sách trong <span class="inline-code">id2</span>, <span class="inline-code">id3</span>, <span
+              class="inline-code">id4</span> vẫn được dùng chung.
+          </div>
+        </section>
+
+        <!-- Question -->
+        <section style="font-size: 0.9em;">
+          <div class="question-box">
+            <div class="question-title">Câu hỏi</div>
+            Kết quả đoạn code sau là gì?
+            <pre><code class="language-pycon" data-trim>
+>>> b = [[9, 6], [4, 5], [7, 7]]
+>>> x = b[:2]
+>>> x[1].append(10)
+>>> x
+      </code></pre>
+            <ul style="margin-top:.2rem;margin-bottom:0;">
+              <li><strong>(A)</strong> <span class="inline-code">[[9, 6, 10]]</span></li>
+              <li><strong>(B)</strong> <span class="inline-code">[[9, 6], [4, 5, 10]]</span></li>
+              <li><strong>(C)</strong> <span class="inline-code">[[9, 6], [4, 5, 10], [7, 7]]</span></li>
+              <li><strong>(D)</strong> <span class="inline-code">[[9, 6], [4, 10], [7, 7]]</span></li>
+            </ul>
+          </div>
+        </section>
+      </section>
+
+      <!-- ====================== PHẦN 7: DỮ LIỆU BẢNG (TABULAR) ====================== -->
+      <section>
+        <!-- Title slide for the section -->
+        <section>
+          <h1>
+            <span class="text-light">7.</span>
+            <br>
+            Dữ liệu bảng bằng danh sách lồng nhau
+          </h1>
+        </section>
+
+        <!-- Spreadsheet idea: column-major vs row-major -->
+        <section style="font-size: 0.7em;" data-auto-animate>
+          <h2>Dữ liệu bảng — Bảng tính</h2>
+          <h4>Biểu diễn một bảng bằng <span class="keyword">danh sách lồng nhau</span> như thế nào?</h4>
+
+          <div>
+            <table style="border-collapse:collapse; width:100%; font-size:.95em;">
+              <thead>
+                <tr>
+                  <th style="background:#111;color:#fff;padding:.35rem .5rem;">NetID</th>
+                  <th style="background:#111;color:#fff;padding:.35rem .5rem;">A1</th>
+                  <th style="background:#111;color:#fff;padding:.35rem .5rem;">A2</th>
+                  <th style="background:#111;color:#fff;padding:.35rem .5rem;">A3</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="background:#eee;padding:.35rem .5rem;">abc1</td>
+                  <td style="background:#ddd;padding:.35rem .5rem;">100</td>
+                  <td style="background:#eee;padding:.35rem .5rem;">95</td>
+                  <td style="background:#ddd;padding:.35rem .5rem;">97</td>
+                </tr>
+                <tr>
+                  <td style="background:#eee;padding:.35rem .5rem;">def2</td>
+                  <td style="background:#ddd;padding:.35rem .5rem;">100</td>
+                  <td style="background:#eee;padding:.35rem .5rem;">80</td>
+                  <td style="background:#ddd;padding:.35rem .5rem;">92</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start; margin-top:1.6rem;">
+            <!-- Column-major -->
+            <div>
+              <h4 style="margin:.2rem 0 .6rem 0;">Dạng cột</span></h4>
+              <div>
+                Mỗi cột là một danh sách con
+              </div>
+
+              <pre><code class="language-python" data-trim>
+[
+  ['NetID', 'abc1', 'def2'],
+  ['A1', 100, 100],
+  ['A2', 95, 80],
+  ['A3', 97, 92]
+]
+        </code></pre>
+            </div>
+
+            <!-- Row-major -->
+            <div>
+              <h4 style="margin:.2rem 0 .6rem 0;">Dạng hàng</span></h4>
+              <div>
+                Mỗi hàng là một danh sách con
+              </div>
+              <pre><code class="language-python" data-trim>
+[
+  ['NetID', 'A1', 'A2', 'A3'],
+  ['abc1',   100,  95,  97],
+  ['def2',   100,  80,  92]
+]
+        </code></pre>
+            </div>
+          </div>
+
+          <div class="text-center" style="margin-top:.4rem;">
+            ✅ Cả hai cách đều hợp lý và thường dùng.
+          </div>
+        </section>
+
+        <!-- Rectangular vs Ragged -->
+        <section style="font-size: .8em;" data-auto-animate>
+          <h2>Danh sách 2D</h2>
+          <h4>Hình chữ nhật vs. Răng cưa</h4>
+          <p><span class="keyword">Danh sách 2D</span>: một danh sách của các danh sách</p>
+          <p><span class="keyword">Hình chữ nhật</span>: mọi danh sách con có cùng độ dài</p>
+          <p><span class="keyword">Răng cưa</span>: không phải hình chữ nhật</p>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+            <div>
+              <strong>Răng cưa:</strong>
+              <pre><code class="language-python" data-trim>
+[['The', 'light', 'of', 'a', 'candle'],
+ ['Is', 'transferred', 'to', 'another', 'candle—'],
+ ['spring', 'twilight.']]
+        </code></pre>
+            </div>
+            <div>
+              <strong>Hình chữ nhật:</strong>
+              <pre><code class="language-python" data-trim>
+[['NetID', 'A1',  'A2', 'A3'],
+ ['abc1',  100,   95,   97],
+ ['def2',  100,   80,   92]]
+        </code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Averaging a table -->
+        <section style="font-size: .85em;" data-auto-animate>
+          <h2>Tính trung bình của một bảng số?</h2>
+          <h4>Dùng vòng lặp <span class="inline-code">for</span> lồng và mẫu <span class="keyword">tích luỹ</span></h4>
+          <pre><code class="language-python" data-trim data-line-numbers>
+def avg_tab(tab):
+    """Trả về giá trị trung bình của tab, một danh sách 2D các số."""
+    sum = 0
+    count = 0
+    for inner_list in tab:           # lặp theo hàng
+        for number in inner_list:    # lặp theo phần tử trong hàng
+            sum = sum + number       # tích luỹ tổng
+            count = count + 1        # tích luỹ số lượng
+    return sum / count
+    </code></pre>
+        </section>
+
+        <!-- Add 1 to every number (mutating in place) -->
+        <section style="font-size:.85em;" data-auto-animate>
+          <h2>Cộng 1 vào mọi số trong bảng?</h2>
+          <h4>Dùng vòng lặp lồng, <span class="keyword">lặp theo chỉ số</span> và truy cập lồng</h4>
+          <pre><code class="language-python" data-trim data-line-numbers>
+def add1_tab(tab):
+    """Cộng 1 vào từng số trong tab (thay đổi trực tiếp tab)."""
+    for r in range(len(tab)):                 # chỉ số hàng
+        for c in range(len(tab[r])):          # chỉ số cột
+            old_val = tab[r][c]
+            tab[r][c] = old_val + 1
+    </code></pre>
+        </section>
+
+
+
+        <!-- Convert between row/col major (transpose) -->
+        <section style="font-size:.9em;" data-auto-animate>
+          <h2>Chuyển giữa dạng hàng/cột?</h2>
+          <h4>Còn gọi là <span class="keyword">chuyển vị</span> (transpose) ma trận</h4>
+
+          <div class="text-center">
+            <!-- Transpose figure (VN) -->
+            <svg viewBox="0 0 700 520" height="360" role="img" aria-label="Minh hoạ chuyển vị ma trận: 3x2 thành 2x3">
+              <defs>
+                <style>
+                  .border {
+                    stroke: #7b5e57;
+                    stroke-width: 2;
+                    fill: #fff;
+                  }
+
+                  .grid {
+                    stroke: #b7b7b7;
+                    stroke-width: 1;
+                  }
+
+                  .cell {
+                    fill: #f9f9fb;
+                  }
+
+                  .num {
+                    font: 700 22px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+                    fill: #222;
+                    text-anchor: middle;
+                    dominant-baseline: central;
+                  }
+
+                  .caption {
+                    font: 16px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+                    fill: #333;
+                    text-anchor: middle;
+                  }
+
+                  .label {
+                    font: 600 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+                    fill: #1e88e5;
+                    text-anchor: middle;
+                  }
+
+                  .edge {
+                    stroke: #444;
+                    stroke-width: 2.4;
+                    fill: none;
+                    marker-end: url(#arrow);
+                  }
+
+                  .tag {
+                    font: 600 14px/1.2 system-ui;
+                    fill: #555;
+                  }
+                </style>
+
+                <!-- subtle drop shadow -->
+                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity=".18" />
+                </filter>
+
+                <!-- arrow head -->
+                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8"
+                  orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#444" />
+                </marker>
+              </defs>
+
+              <!-- ===== Top matrix: 3 x 2 ===== -->
+              <!-- Frame -->
+              <g transform="translate(270,40)">
+                <rect class="border" width="160" height="220" rx="12" filter="url(#shadow)" />
+
+                <!-- grid background cells -->
+                <!-- 3 hàng, 2 cột, mỗi ô 70×60 -->
+                <g transform="translate(20,20)">
+                  <rect class="cell" width="120" height="180" rx="6" />
+                  <!-- vertical lines -->
+                  <line class="grid" x1="60" y1="0" x2="60" y2="180" />
+                  <!-- horizontal lines -->
+                  <line class="grid" x1="0" y1="60" x2="120" y2="60" />
+                  <line class="grid" x1="0" y1="120" x2="120" y2="120" />
+
+                  <!-- numbers -->
+                  <!-- row 1 -->
+                  <text class="num" x="30" y="30">1</text>
+                  <text class="num" x="90" y="30">2</text>
+                  <!-- row 2 -->
+                  <text class="num" x="30" y="90">3</text>
+                  <text class="num" x="90" y="90">4</text>
+                  <!-- row 3 -->
+                  <text class="num" x="30" y="150">5</text>
+                  <text class="num" x="90" y="150">6</text>
+                </g>
+              </g>
+
+              <!-- arrow between matrices -->
+              <path class="edge" d="M350,260 C350,300 350,312 350,338" />
+
+              <!-- ===== Bottom matrix: 2 x 3 (transpose) ===== -->
+              <g transform="translate(230,340)">
+                <rect class="border" width="240" height="160" rx="12" filter="url(#shadow)" />
+
+                <!-- grid area -->
+                <g transform="translate(20,20)">
+                  <rect class="cell" width="200" height="120" rx="6" />
+                  <!-- vertical lines (3 cột) -->
+                  <line class="grid" x1="66.6667" y1="0" x2="66.6667" y2="120" />
+                  <line class="grid" x1="133.3333" y1="0" x2="133.3333" y2="120" />
+                  <!-- horizontal line (2 hàng) -->
+                  <line class="grid" x1="0" y1="60" x2="200" y2="60" />
+
+                  <!-- numbers: transpose -->
+                  <!-- row 1 -->
+                  <text class="num" x="33.3333" y="30">1</text>
+                  <text class="num" x="100" y="30">3</text>
+                  <text class="num" x="166.6667" y="30">5</text>
+                  <!-- row 2 -->
+                  <text class="num" x="33.3333" y="90">2</text>
+                  <text class="num" x="100" y="90">4</text>
+                  <text class="num" x="166.6667" y="90">6</text>
+                </g>
+              </g>
+            </svg>
+          </div>
+
+        </section>
+
+        <!-- Convert between row/col major (transpose) -->
+        <section style="font-size:.9em;" data-auto-animate>
+          <h2>Chuyển giữa dạng hàng/cột?</h2>
+          <h4>Còn gọi là <span class="keyword">chuyển vị</span> (transpose) ma trận</h4>
+          <pre><code class="language-python" data-trim data-line-numbers>
+def transpose(tab):
+    """Trả về ma trận chuyển vị của tab.
+    Điều kiện: tab hình chữ nhật (mọi hàng cùng độ dài)."""
+
+    rows = len(tab)
+    cols = len(tab[0])
+    out = []
+    for c in range(cols):
+        row_new = []
+        for r in range(rows):
+            row_new.append(tab[r][c])
+        out.append(row_new)
+    return out
+    </code></pre>
+        </section>
+      </section>
+
+
+      <!-- ====================== TỔNG KẾT ====================== -->
+      <section style="font-size: .8em;">
+        <h2>Tổng kết</h2>
+        <ul>
+          <li><strong>Vòng lặp &amp; dải số:</strong> <span class="inline-code">for x in seq</span>; dùng <span
+              class="inline-code">range(start, stop, step)</span> cho lặp đếm.</li>
+          <li><strong>Mẫu tích luỹ:</strong> Khởi tạo (<span class="inline-code">total=0</span>, <span
+              class="inline-code">out=[]</span>) và cập nhật trong vòng lặp.</li>
+          <li><strong>Phần tử vs. chỉ số:</strong> Ưu tiên duyệt <em>phần tử</em>; dùng <em>chỉ số</em> khi cần sửa
+            tại chỗ hoặc phụ thuộc vị trí.</li>
+          <li><strong>Danh sách &amp; vòng lặp lồng:</strong> Bảng = <em>list-of-lists</em>; duyệt <span
+              class="inline-code">for row in table</span> → <span class="inline-code">for cell in row</span>.</li>
+          <li><strong>Dữ liệu bảng:</strong> Dạng hàng (row-major) vs. Dạng cột (column-major); Hình chữ nhật vs. Răng
+            cưa.</li>
+        </ul>
+      </section>
+
+
+
+      <div class="footer">
+        Tư duy tính toán (HK 1 2025–2026) §5: Vòng lặp (Loops)
+      </div>
+    </div>
+  </div>
+
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
