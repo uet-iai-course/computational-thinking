@@ -618,6 +618,12 @@ def count(n):
           <h2>Làm sao in các số từ 1 đến n?</h2>
           <h4>Code rút gọn (cách 2): dùng hàm phụ để in</h4>
           <pre><code class="language-python" data-trim data-line-numbers="">
+def print_list(lst):
+    """In từng phần tử trong lst, mỗi phần tử trên một dòng."""
+
+    for item in lst:
+        print(item)
+
 def count(n):
     """In các số 1, 2, ..., n; mỗi số trên một dòng.
     Điều kiện: n là số nguyên >= 1."""
@@ -1157,18 +1163,27 @@ print(pairs)   # [(0, 'I'), (1, 'am'), (2, 'UET')]
 
         <!-- Nested lists: concept + example -->
 
-        <section style="font-size: 0.95em;">
+        <section style="font-size: 0.95em;" data-auto-animate>
           <h2>Danh sách lồng nhau</h2>
+
+          <p>Danh sách (<span class="inline-code">list</span>) trong Python:</p>
           <ul>
-            <li>Phần tử của danh sách có thể là <strong>bất kỳ đối tượng</strong> nào.</li>
-            <li>Bản thân danh sách cũng là <strong>đối tượng</strong>.</li>
+            <li>Phần tử của danh sách có thể là <strong>bất kỳ đối tượng</strong> nào</li>
+            <li>Bản thân danh sách cũng là <strong>đối tượng</strong></li>
           </ul>
 
-          <p>&rarr; Danh sách có thể <span class="keyword">chứa các danh sách khác</strong>.</p>
+          <p>&rarr; Danh sách có thể <span class="keyword">chứa các danh sách khác</span></p>
 
-          <div style="display:grid; grid-template-columns: 1fr 1.6fr; gap:24px; align-items:start; margin-top:.6rem;">
+
+        </section>
+
+        <section style="font-size: 0.95em;" data-auto-animate>
+          <h2>Danh sách lồng nhau</h2>
+
+          <h4>Ví dụ</h4>
+
+          <div>
             <div>
-              <p><em>Ví dụ:</em></p>
               <pre><code class="language-python" data-trim>
 lst = [
     [2, 4],
@@ -1179,8 +1194,9 @@ lst = [
             </div>
             <div>
               <ul>
-                <li>Danh sách ngoài: Có <strong>3 phần tử</strong>.</li>
-                <li><strong>Ba</strong> danh sách trong, mỗi danh sách có số phần tử <em>khác nhau</em>.</li>
+                <li>Danh sách ngoài (Outter list): Có <strong>3 phần tử</strong></li>
+                <li><strong>Ba</strong> danh sách trong (Inner lists): Mỗi danh sách có số phần tử <em>khác nhau</em>
+                </li>
               </ul>
             </div>
           </div>
@@ -1214,11 +1230,11 @@ lst = [
         <!-- Memory structure (SVG) -->
 
         <section style="font-size:0.9em;">
-          <h2>Cấu trúc bộ nhớ (minh hoạ)</h2>
+          <h2>minh hoạ Cấu trúc bộ nhớ</h2>
 
 
           <div class="text-center">
-            <svg viewBox="0 0 860 360" height="400" role="img" aria-label="Cấu trúc bộ nhớ cho danh sách lồng nhau">
+            <svg viewBox="0 0 860 360" height="450" role="img" aria-label="Cấu trúc bộ nhớ cho danh sách lồng nhau">
               <style>
                 .title2 {
                   font-weight: 700;
@@ -1269,7 +1285,7 @@ lst = [
               <text x="36" y="70" class="mono2">global</text>
               <line x1="28" y1="80" x2="148" y2="80" stroke="#b7bfd6"></line>
               <text x="36" y="106" class="mono2">haiku</text>
-              <rect x="96" y="92" width="48" height="24" rx="4" class="panel2"></rect>
+              <rect x="96" y="92" width="48" height="24" rx="4" class="box2"></rect>
               <text x="120" y="110" text-anchor="middle" class="mono2">id1</text>
 
               <!-- id2:list (line 1 words) -->
@@ -1354,8 +1370,8 @@ lst = [
               </g>
 
               <!-- tiny note -->
-              <text x="490" y="294" class="note2">Danh sách ngoài chứa <tspan class="mono2">id</tspan> của các danh sách
-                khác.</text>
+              <text x="490" y="294" class="note2">Danh sách ngoài chứa id của các danh sách
+                trong.</text>
             </svg>
           </div>
 
@@ -1369,12 +1385,12 @@ lst = [
           <h4>Dùng <span class="keyword">hàm phụ</span> từ phần trước</h4>
           <pre><code class="language-python" data-trim data-line-numbers="">
 def print_list(lst):
-    """Print lst, a list of strings."""
+    """In danh sách lst, mỗi phần tử trên một dòng."""
     for word in lst:
         print(word)
 
 def print_haiku_with_helper(h):
-    """Print haiku h, a list of list of strings."""
+    """In bài haiku h, một danh sách các danh sách chuỗi."""
     for line in h:
         print_list(line) 
 </code></pre>
@@ -1388,7 +1404,7 @@ def print_haiku_with_helper(h):
           <h4>Dùng <span class="keyword">vòng lặp for lồng nhau</span></h4>
           <pre><code class="language-python" data-trim data-line-numbers="">
 def print_haiku(h):
-    """Print haiku h, a list of list of strings."""
+    """In bài haiku h, một danh sách các danh sách chuỗi."""
     for line in h:
         for word in line:
             print(word)
@@ -1646,8 +1662,8 @@ def print_haiku(h):
 
         <!-- Spreadsheet idea: column-major vs row-major -->
         <section style="font-size: 0.7em;" data-auto-animate>
-          <h2>Dữ liệu bảng — Bảng tính</h2>
-          <h4>Biểu diễn một bảng bằng <span class="keyword">danh sách lồng nhau</span> như thế nào?</h4>
+          <h2>Dữ liệu bảng</h2>
+          <h4>Biểu diễn bảng bằng <span class="keyword">danh sách lồng nhau</span></h4>
 
           <div>
             <table style="border-collapse:collapse; width:100%; font-size:.95em;">
@@ -1679,7 +1695,7 @@ def print_haiku(h):
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start; margin-top:1.6rem;">
             <!-- Column-major -->
             <div>
-              <h4 style="margin:.2rem 0 .6rem 0;">Dạng cột</span></h4>
+              <h6 style="margin:.2rem 0 .6rem 0;">Dạng cột</h6>
               <div>
                 Mỗi cột là một danh sách con
               </div>
@@ -1696,7 +1712,7 @@ def print_haiku(h):
 
             <!-- Row-major -->
             <div>
-              <h4 style="margin:.2rem 0 .6rem 0;">Dạng hàng</span></h4>
+              <h6 style="margin:.2rem 0 .6rem 0;">Dạng hàng</h6>
               <div>
                 Mỗi hàng là một danh sách con
               </div>
@@ -1711,7 +1727,7 @@ def print_haiku(h):
           </div>
 
           <div class="text-center" style="margin-top:.4rem;">
-            ✅ Cả hai cách đều hợp lý và thường dùng.
+            ✅ Cả hai cách đều hợp lý (sau này có thể dùng <span class="inline-code">dict</span> để biểu diễn bảng).
           </div>
         </section>
 
@@ -1783,122 +1799,98 @@ def add1_tab(tab):
 
           <div class="text-center">
             <!-- Transpose figure (VN) -->
-            <svg viewBox="0 0 700 520" height="360" role="img" aria-label="Minh hoạ chuyển vị ma trận: 3x2 thành 2x3">
+            <svg viewBox="0 0 820 290" height="300" role="img" aria-label="Minh hoạ chuyển vị ma trận: 3×2 → 2×3">
               <defs>
                 <style>
                   .border {
                     stroke: #7b5e57;
                     stroke-width: 2;
-                    fill: #fff;
+                    fill: #fff
                   }
 
                   .grid {
                     stroke: #b7b7b7;
-                    stroke-width: 1;
+                    stroke-width: 1
                   }
 
                   .cell {
-                    fill: #f9f9fb;
+                    fill: #f9f9fb
                   }
 
                   .num {
                     font: 700 22px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
                     fill: #222;
                     text-anchor: middle;
-                    dominant-baseline: central;
+                    dominant-baseline: central
                   }
 
                   .caption {
-                    font: 16px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-                    fill: #333;
-                    text-anchor: middle;
-                  }
-
-                  .label {
                     font: 600 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
                     fill: #1e88e5;
-                    text-anchor: middle;
+                    text-anchor: middle
                   }
 
                   .edge {
                     stroke: #444;
                     stroke-width: 2.4;
                     fill: none;
-                    marker-end: url(#arrow);
-                  }
-
-                  .tag {
-                    font: 600 14px/1.2 system-ui;
-                    fill: #555;
+                    marker-end: url(#arrow)
                   }
                 </style>
 
-                <!-- subtle drop shadow -->
                 <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
                   <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity=".18" />
                 </filter>
 
-                <!-- arrow head -->
                 <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8"
                   orient="auto-start-reverse">
                   <path d="M0,0 L10,5 L0,10 Z" fill="#444" />
                 </marker>
               </defs>
 
-              <!-- ===== Top matrix: 3 x 2 ===== -->
-              <!-- Frame -->
-              <g transform="translate(270,40)">
+              <!-- ===== Left matrix: 3 × 2 ===== -->
+              <g transform="translate(60,30)">
                 <rect class="border" width="160" height="220" rx="12" filter="url(#shadow)" />
-
-                <!-- grid background cells -->
-                <!-- 3 hàng, 2 cột, mỗi ô 70×60 -->
                 <g transform="translate(20,20)">
                   <rect class="cell" width="120" height="180" rx="6" />
-                  <!-- vertical lines -->
+                  <!-- vertical line -->
                   <line class="grid" x1="60" y1="0" x2="60" y2="180" />
                   <!-- horizontal lines -->
                   <line class="grid" x1="0" y1="60" x2="120" y2="60" />
                   <line class="grid" x1="0" y1="120" x2="120" y2="120" />
-
                   <!-- numbers -->
-                  <!-- row 1 -->
                   <text class="num" x="30" y="30">1</text>
                   <text class="num" x="90" y="30">2</text>
-                  <!-- row 2 -->
                   <text class="num" x="30" y="90">3</text>
                   <text class="num" x="90" y="90">4</text>
-                  <!-- row 3 -->
                   <text class="num" x="30" y="150">5</text>
                   <text class="num" x="90" y="150">6</text>
                 </g>
+                <text class="caption" x="80" y="258">3×2</text>
               </g>
 
-              <!-- arrow between matrices -->
-              <path class="edge" d="M350,260 C350,300 350,312 350,338" />
+              <!-- Arrow between matrices -->
+              <path class="edge" d="M240,140 C300,120 360,120 420,140" />
 
-              <!-- ===== Bottom matrix: 2 x 3 (transpose) ===== -->
-              <g transform="translate(230,340)">
+              <!-- ===== Right matrix: 2 × 3 (transpose) ===== -->
+              <g transform="translate(440,30)">
                 <rect class="border" width="240" height="160" rx="12" filter="url(#shadow)" />
-
-                <!-- grid area -->
                 <g transform="translate(20,20)">
                   <rect class="cell" width="200" height="120" rx="6" />
-                  <!-- vertical lines (3 cột) -->
+                  <!-- vertical lines (3 columns) -->
                   <line class="grid" x1="66.6667" y1="0" x2="66.6667" y2="120" />
                   <line class="grid" x1="133.3333" y1="0" x2="133.3333" y2="120" />
-                  <!-- horizontal line (2 hàng) -->
+                  <!-- horizontal line (2 rows) -->
                   <line class="grid" x1="0" y1="60" x2="200" y2="60" />
-
                   <!-- numbers: transpose -->
-                  <!-- row 1 -->
                   <text class="num" x="33.3333" y="30">1</text>
                   <text class="num" x="100" y="30">3</text>
                   <text class="num" x="166.6667" y="30">5</text>
-                  <!-- row 2 -->
                   <text class="num" x="33.3333" y="90">2</text>
                   <text class="num" x="100" y="90">4</text>
                   <text class="num" x="166.6667" y="90">6</text>
                 </g>
+                <text class="caption" x="120" y="198">2×3</text>
               </g>
             </svg>
           </div>
@@ -1929,23 +1921,39 @@ def transpose(tab):
 
 
       <!-- ====================== TỔNG KẾT ====================== -->
-      <section style="font-size: .8em;">
-        <h2>Tổng kết</h2>
-        <ul>
-          <li><strong>Vòng lặp &amp; dải số:</strong> <span class="inline-code">for x in seq</span>; dùng <span
-              class="inline-code">range(start, stop, step)</span> cho lặp đếm.</li>
-          <li><strong>Mẫu tích luỹ:</strong> Khởi tạo (<span class="inline-code">total=0</span>, <span
-              class="inline-code">out=[]</span>) và cập nhật trong vòng lặp.</li>
-          <li><strong>Phần tử vs. chỉ số:</strong> Ưu tiên duyệt <em>phần tử</em>; dùng <em>chỉ số</em> khi cần sửa
-            tại chỗ hoặc phụ thuộc vị trí.</li>
-          <li><strong>Danh sách &amp; vòng lặp lồng:</strong> Bảng = <em>list-of-lists</em>; duyệt <span
-              class="inline-code">for row in table</span> → <span class="inline-code">for cell in row</span>.</li>
-          <li><strong>Dữ liệu bảng:</strong> Dạng hàng (row-major) vs. Dạng cột (column-major); Hình chữ nhật vs. Răng
-            cưa.</li>
-        </ul>
+      <section>
+        <section style="font-size: .9em;" data-auto-animate>
+          <h2>Tổng kết</h2>
+          <ol>
+            <li><strong>Vòng lặp:</strong> <span class="inline-code">for x in seq</span></li>
+            <li><strong>Dải số:</strong> dùng <span class="inline-code">range</span> cho lặp đếm</li>
+            <li><strong>Mẫu tích luỹ:</strong> Khởi tạo ở ngoài, cập nhật trong vòng lặp</li>
+          </ol>
+        </section>
+
+        <section style="font-size: .9em;" data-auto-animate>
+          <h2>Tổng kết</h2>
+          <ol start="4">
+            <li><strong>Phần tử vs. chỉ số:</strong>
+              <ul>
+                <li>Ưu tiên duyệt <em>phần tử</em></li>
+                <li>Dùng <em>chỉ số</em> khi cần sửa tại chỗ</li>
+              </ul>
+            <li><strong>Danh sách &amp; vòng lặp lồng:</strong>
+              <ul>
+                <li>Danh sách lồng: danh sách chứa danh sách khác</li>
+                <li>Vòng lặp lồng: vòng lặp bên trong vòng lặp khác</li>
+              </ul>
+            </li>
+            <li><strong>Dữ liệu bảng:</strong>
+              <ul>
+                <li>Dạng hàng (row-major) vs. Dạng cột (column-major)</li>
+                <li>Hình chữ nhật vs. răng cưa</li>
+              </ul>
+            </li>
+          </ol>
+        </section>
       </section>
-
-
 
       <div class="footer">
         Tư duy tính toán (HK 1 2025–2026) §5: Vòng lặp (Loops)
