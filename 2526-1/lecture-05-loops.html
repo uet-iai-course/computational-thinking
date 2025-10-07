@@ -258,17 +258,20 @@ for char in s:
         </section>
 
         <!-- Multiple choice question -->
-        <section style="font-size: 0.9em;">
+        <section style="font-size: 0.9em;" data-auto-animate>
           <div class="question-box">
-            <div class="question-title">Câu hỏi</div>
-            <p><strong>Hàng số 3</strong> sẽ được thực thi bao nhiêu lần?</p>
+            <div class="question-title">
+              <span>Câu hỏi</span>
+            </div>
+            <p><strong>Hàng số 4</strong> sẽ được thực thi bao nhiêu lần?</p>
 
             <pre><code class="language-python" data-trim data-line-numbers>
-# Cho s là một chuỗi
-for v in 'aeiou':
-    if v in s:
-        return True
-return False
+def mystery_function(s):              
+    """Điều kiện: s là chuỗi."""
+    for v in 'aeiou':
+        if v in s:
+            return True
+    return False
     </code></pre>
 
             <ul style="margin-top: 0; margin-bottom: 0;">
@@ -280,6 +283,27 @@ return False
             </ul>
           </div>
         </section>
+
+
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <div class="question-box">
+            <div class="question-title">
+              <span>Câu hỏi</span>
+              <span>(tiếp)</span>
+            </div>
+            <p><strong>Hàng số 4</strong> sẽ được thực thi bao nhiêu lần?</p>
+
+            <pre><code class="language-python" data-trim data-line-numbers>
+def mystery_function(s):              
+    """Điều kiện: s là chuỗi."""
+    for v in 'aeiou':
+        if v in s:
+            return True
+        return False
+    </code></pre>
+          </div>
+        </section>
+
       </section>
 
       <!-- ====================== PHẦN II: MẪU TÍCH LUỸ ====================== -->
