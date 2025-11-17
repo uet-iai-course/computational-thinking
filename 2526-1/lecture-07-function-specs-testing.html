@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="vi">
+<!-- Nguồn nội dung chuyển đổi từ PPTX: lec07_function_specs_testing.pptx.
+     Định dạng Reveal.js tham chiếu: lecture-05-loops.html -->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Bài 7: Hàm, Đặc tả &amp; Kiểm thử</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css" />
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  <link rel="stylesheet" href="lecture-style.css" />
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <!-- ====================== Slide: Tiêu đề ====================== -->
+        <section>
+          <h2 class="r-fit-text">Tư duy Tính toán</h2>
+          <h2>Hàm, Đặc tả &amp; Kiểm thử</h2>
+          <p>Trường ĐH Công nghệ – Đại học Quốc gia Hà Nội</p>
+        </section>
+
+        <!-- ====================== Slide: Nội dung ====================== -->
+        <section>
+          <!-- Slide: Nội dung -->
+          <h2>Nội dung</h2>
+          <ol>
+            <li>Hàm</li>
+            <li>Mô-đun</li>
+            <li>Đặc tả</li>
+            <li>Kiểm thử</li>
+          </ol>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">1.</span>
+            <br>
+            Hàm
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Python interactive mode ====================== -->
+        <section>
+          <!-- Slide: Chế độ tương tác -->
+          <h2>Chế độ tương tác</h2>
+          <h4>Read, Evaluate, Print, and Loop (REPL)</h4>
+          <ul>
+            <li>Thực thi lệnh &amp; <span class="keyword">hiển thị giá trị</span> tức thì</li>
+            <li>Hữu ích khi thử nghiệm nhanh</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> x = 5
+>>> y = 4
+>>> bigger = max(x, y)
+>>> bigger
+5
+>>> pi = 3.14159
+>>> a = round(pi, 2)
+>>> a
+3.14
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Hàm dựng sẵn (khái niệm) ====================== -->
+        <section data-auto-animate>
+          <!-- Slide: Built-ins -->
+          <h2>Hàm dựng sẵn</h2>
+          <h4>Built-in functions</h4>
+          <p>VD: <span class="inline-code">max()</span> và <span class="inline-code">round()</span> là
+            <span class="keyword">hàm dựng sẵn</span>.
+          </p>
+          <ul>
+            <li><span class="inline-code">max(x, y)</span>: tìm số lớn hơn</li>
+            <li><span class="inline-code">round(x, n)</span>: làm tròn đến <span class="inline-code">n</span>
+              chữ số thập phân</li>
+            <li>Hàm là <span class="keyword">bộ biến đổi giá trị</span></li>
+          </ul>
+        </section>
+
+        <section data-auto-animate>
+          <!-- Slide: Built-ins -->
+          <h2>Hàm dựng sẵn</h2>
+          <h4>Built-in functions</h4>
+
+          <pre><code class="language-pycon" data-trim>
+>>> x = 5
+>>> y = 4
+>>> bigger = max(x, y)
+>>> bigger
+5
+>>> pi = 3.14159
+>>> a = round(pi, 2)
+>>> a
+3.14
+        </code></pre>
+        </section>
+
+        <section>
+          <h2>Hàm là bộ biến đổi giá trị</h2>
+
+          <div style="display:flex;justify-content:center;vertical-align:middle;">
+            <svg width="800" viewBox="100 200 900 400" xmlns="http://www.w3.org/2000/svg" role="img"
+              aria-label="Hàm là bộ biến đổi giá trị">
+              <defs>
+                <style>
+                  .svg-arrow {
+                    fill: #3B82F6;
+                  }
+
+                  .svg-box {
+                    fill: #0F172A;
+                  }
+
+                  .svg-label {
+                    fill: #FFFFFF;
+                    font-size: 28px;
+                  }
+
+                  .svg-center {
+                    fill: #FFFFFF;
+                    font-size: 36px;
+                    font-weight: 600;
+                  }
+
+                  .svg-sub {
+                    fill: #1F2937;
+                    font-size: 24px;
+                  }
+                </style>
+              </defs>
+
+              <!-- Left arrow (inputs / Argument values) -->
+              <polygon class="svg-arrow" points="120,339 300,339 337,384 300,429 120,429" />
+              <text class="svg-label" x="210" y="389" text-anchor="middle">Giá trị đối số</text>
+              <text class="svg-sub" x="210" y="470" text-anchor="middle">đầu vào</text>
+
+              <!-- Center black box -->
+              <rect class="svg-box" x="337" y="284" width="350" height="200" rx="6" ry="6" />
+              <text class="svg-center" x="512" y="392" text-anchor="middle">Hàm</text>
+
+              <!-- Right arrow (outputs / Return values) -->
+              <polygon class="svg-arrow" points="687,339 904,339 944,384 904,429 687,429" />
+              <text class="svg-label" x="795" y="389" text-anchor="middle">Giá trị trả về</text>
+              <text class="svg-sub" x="795" y="470" text-anchor="middle">đầu ra</text>
+            </svg>
+          </div>
+
+        </section>
+
+        <!-- ====================== Slide: Hàm dựng sẵn (một số nhóm) ====================== -->
+        <section>
+          <!-- Slide: Built-ins list -->
+          <h2>Một số nhóm hàm dựng sẵn</h2>
+          <ul>
+            <li>Chuyển kiểu: <span class="inline-code">int()</span>, <span class="inline-code">float()</span>,
+              <span class="inline-code">bool()</span>
+            </li>
+            <li>Thông tin kiểu: <span class="inline-code">type()</span></li>
+            <li>Vào/ra: <span class="inline-code">input()</span>, <span class="inline-code">print()</span></li>
+            <li>Tính toán cơ bản: <span class="inline-code">max()</span>, <span class="inline-code">min()</span>, <span
+                class="inline-code">abs()</span></li>
+            <li>Xem tất cả hàm dựng sẵn:
+              <ul>
+                <li>Dùng <span class="inline-code">help(__builtins__)</span></li>
+                <li>Tài liệu <a href="https://docs.python.org/3/library/functions.html">Python docs</a></li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Đọc tài liệu hàm ====================== -->
+        <section>
+          <!-- Slide: Function docs -->
+          <h2>Tài liệu hàm</h2>
+          <p>Làm sao biết một hàm làm gì? &rarr; <span class="keyword">Đọc tài liệu</span>.</p>
+          <ul>
+            <li>Tên hàm &amp; <span class="inline-code">tham số</span></li>
+            <li><span class="keyword">Mô tả</span> hành vi &amp; giá trị trả về</li>
+            <li>Ví dụ sử dụng</li>
+          </ul>
+        </section>
+
+        <section data-auto-animate>
+          <!-- Slide: Function docs example -->
+          <h2>Tài liệu hàm: ví dụ</h2>
+          <p>
+            Sử dụng <span class="inline-code">help()</span> để xem tài liệu hàm trong chế độ tương tác:
+          </p>
+          <pre><code class="language-pycon" data-trim>
+>>> help(round)
+Help on built-in function round in module builtins:
+
+round(number, ndigits=None)
+    Round a number to a given precision in decimal digits.
+
+    The return value is an integer if ndigits is omitted or None.  Otherwise
+    the return value has the same type as the number.  ndigits may be negative.
+        </code></pre>
+        </section>
+
+        <section data-auto-animate>
+          <!-- Slide: Function docs example 2 -->
+          <h2>Tài liệu hàm: ví dụ</h2>
+
+          <p>
+            Tài liệu hàm <span class="inline-code">round()</span> từ <a
+              href="https://docs.python.org/3/library/functions.html#round">Python docs</a>:
+          </p>
+
+          <div>
+            <img src="img/lec07/round-docs.png" alt="Tài liệu hàm round()" style="max-width:90%;height:auto;" />
+          </div>
+        </section>
+
+        <!-- ====================== Slide: Vì sao dùng hàm ====================== -->
+        <section>
+          <!-- Slide: Why functions -->
+          <h2>Vì sao dùng <span class="keyword">hàm</span>?</h2>
+          <ul>
+            <li>Tổ chức mã theo tên có ý nghĩa</li>
+            <li>Dễ đọc, dễ gỡ lỗi</li>
+            <li>Loại bỏ lặp lại; chỉ cần sửa một chỗ khi cần</li>
+            <li>Dùng lại trong chương trình khác</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Định nghĩa hàm (mục tiêu) ====================== -->
+        <section>
+          <!-- Slide: Define your own -->
+          <h2>Định nghĩa hàm của bạn</h2>
+          <p>Mục tiêu: <span class="keyword">đổi inch sang feet</span>.</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def inches_to_feet(inches):
+    return inches/12
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Cú pháp định nghĩa hàm ====================== -->
+        <section>
+          <!-- Slide: Syntax of def -->
+          <h2>Cú pháp định nghĩa hàm</h2>
+          <ul>
+            <li>Phần đầu (header) bắt đầu bằng <span class="inline-code">def</span> và kết thúc bằng <span
+                class="inline-code">:</span></li>
+            <li>Thân hàm: mã <span class="keyword">thụt lề</span> bên dưới</li>
+            <li>Tham số: biến đại diện cho <span class="inline-code">đầu vào</span></li>
+          </ul>
+          <pre><code class="language-python" data-trim>
+def &lt;tên_hàm&gt;(&lt;tham_số1&gt;, ...):
+    &lt;các_lệnh&gt;
+        </code></pre>
+          <p>💡 <span class="inline-code">def</span> là <span class="keyword">từ khóa</span> đặc biệt.</p>
+        </section>
+
+        <!-- ====================== Slide: Gọi hàm vs. Định nghĩa ====================== -->
+        <section>
+          <!-- Slide: Call vs Def -->
+          <h2>Gọi hàm vs. Định nghĩa</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+            <div>
+              <strong>Định nghĩa</strong>
+              <pre><code class="language-python" data-trim>
+def inches_to_feet(inches):
+    return inches/12
+            </code></pre>
+              <ul>
+                <li>Tạo hàm mới, chưa thực thi</li>
+                <li>Có <strong>tham số</strong> trong dấu ngoặc</li>
+              </ul>
+            </div>
+            <div>
+              <strong>Gọi hàm</strong>
+              <pre><code class="language-python" data-trim>
+if __name__ == "__main__":
+    inches_to_feet(65)
+            </code></pre>
+              <ul>
+                <li>Thực thi hàm đã định nghĩa</li>
+                <li>Có <strong>đối số</strong> trong dấu ngoặc</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================== Slide: return ====================== -->
+        <section>
+          <!-- Slide: return statement -->
+          <h2>Câu lệnh <span class="keyword">return</span></h2>
+          <ul>
+            <li>Xác định <strong>đầu ra</strong> của hàm</li>
+            <li><strong>Kết thúc</strong> thực thi hàm</li>
+          </ul>
+          <pre><code class="language-python" data-trim>
+return &lt;biểu_thức&gt;
+        </code></pre>
+          <p>💡 <span class="inline-code">return</span> cũng là một <span class="keyword">từ khóa</span> đặc biệt.</p>
+        </section>
+
+        <!-- ====================== Slide: Câu hỏi thường gặp về return ====================== -->
+        <section style="font-size: 0.9em;">
+          <!-- Slide: Common questions about return -->
+          <h2>Câu hỏi thường gặp về <span class="inline-code">return</span></h2>
+          <p><strong>Q:</strong> Sự khác nhau giữa <span class="inline-code">return</span>
+            và <span class="inline-code">print()</span>?</p>
+          <p style="padding-left: 1em;">→ <span class="inline-code">return</span> là câu lệnh di chuyển dữ liệu trong bộ
+            nhớ;
+            <span class="inline-code">print()</span> là hàm hiển thị ký tự lên màn hình.
+          </p>
+          <p><strong>Q:</strong> Nếu một hàm <em>không có</em> <span class="inline-code">return</span> thì sao?</p>
+          <p style="padding-left: 1em;">→ Việc thực thi kết thúc ở dòng cuối của hàm và trả về giá trị đặc biệt <span
+              class="inline-code">None</span>.</p>
+          <p><strong>Q:</strong> Nếu còn câu lệnh sau <span class="inline-code">return</span> thì sao?</p>
+          <p style="padding-left: 1em;">→ Chúng sẽ bị <span class="keyword">bỏ qua</span>.</p>
+        </section>
+
+
+        <!-- ====================== Slide: Call stack ====================== -->
+        <section data-auto-animate>
+          <!-- Slide: Call stack -->
+          <h2>Ngăn xếp lời gọi</h2>
+          <h4>Call stack</h4>
+          <ul>
+            <li>Mỗi lần gọi hàm, tạo một <span class="keyword">khung</span> (frame) mới</li>
+            <li>Hàm kết thúc &rarr; frame được xoá khỏi <em>call stack</em></li>
+            <li>Giúp Python theo dõi vị trí đang thực thi</li>
+          </ul>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Ngăn xếp lời gọi</h2>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;">
+            <div>
+              <pre><code class="language-python" data-trim data-line-numbers="">
+def func_b():
+    print("func b")
+
+def func_a():
+    print("func a")
+    func_b()
+
+if __name__ == "__main__":
+    func_a()
+          </code></pre>
+            </div>
+            <div>
+              <svg height="450" viewBox="0 0 560 700" xmlns="http://www.w3.org/2000/svg" role="img"
+                aria-label="Ngăn xếp lời gọi (Call stack) với các khung main, func_a, func_b">
+                <defs>
+                  <style>
+                    .svg-title-1 {
+                      font-size: 40px;
+                      font-weight: 700;
+                      fill: #111;
+                    }
+
+                    .svg-frame-1 {
+                      fill: #FFFFFF;
+                      stroke: #111111;
+                      stroke-width: 4;
+                      rx: 14;
+                      ry: 14;
+                    }
+
+                    .svg-label-1 {
+                      font-family: "JetBrains Mono", "Fira Mono", Menlo, Consolas, monospace;
+                      font-size: 34px;
+                      fill: #111111;
+                    }
+
+                    .svg-arrow-1 {
+                      stroke: #3B82F6;
+                      stroke-width: 8;
+                      stroke-linecap: round;
+                    }
+
+                    .svg-arrowhead-1 {
+                      fill: #3B82F6;
+                    }
+                  </style>
+                </defs>
+
+                <!-- Title -->
+                <text class="svg-title-1" x="280" y="70" text-anchor="middle">Ngăn xếp lời gọi</text>
+
+                <!-- Frames -->
+                <!-- func_b -->
+                <rect class="svg-frame-1" x="70" y="140" width="360" height="100" />
+                <text class="svg-label-1" x="250" y="205" text-anchor="middle">&lt;func_b&gt;</text>
+
+                <!-- func_a -->
+                <rect class="svg-frame-1" x="70" y="300" width="360" height="100" />
+                <text class="svg-label-1" x="250" y="365" text-anchor="middle">&lt;func_a&gt;</text>
+
+                <!-- main -->
+                <rect class="svg-frame-1" x="70" y="460" width="360" height="100" />
+                <text class="svg-label-1" x="250" y="525" text-anchor="middle">&lt;main&gt;</text>
+                <!-- Upward arrow indicating stack growth -->
+                <line class="svg-arrow-1" x1="495" y1="610" x2="495" y2="140" />
+                <polygon class="svg-arrowhead-1" points="495,120 510,150 480,150" />
+              </svg>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================== Slide: Local vs Global ====================== -->
+        <section>
+          <!-- Slide: Local vs Global (định nghĩa) -->
+          <h2>Biến <span class="keyword">cục bộ</span> vs. <span class="keyword">toàn cục</span></h2>
+          <ul>
+            <li><strong>Toàn cục</strong>: khai báo ngoài mọi hàm; truy cập khắp chương trình</li>
+            <li><strong>Cục bộ</strong>: khai báo trong hàm; chỉ dùng trong hàm đó</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Truy cập Local/Global ====================== -->
+        <section>
+          <!-- Slide: Access rules -->
+          <h2>Quy tắc truy cập</h2>
+          <ul>
+            <li>Hàm đọc được biến <span class="inline-code">toàn cục</span> (mặc định chỉ đọc)</li>
+            <li>Gán tên trong hàm &rarr; tạo <span class="keyword">biến cục bộ</span> mới</li>
+            <li>Muốn sửa biến toàn cục trong hàm &rarr; dùng <span class="inline-code">global</span></li>
+            <li>Nên chỉ dùng biến toàn cục cho <em>các hằng số hoặc cấu hình chung</em></li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ Global/Local ====================== -->
+        <section>
+          <!-- Slide: Example code -->
+          <h2>Ví dụ: toàn cục vs. cục bộ</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+counter = 0  # biến toàn cục
+
+def show_counter():
+    print("Current counter:", counter)
+
+def bad_increment():
+    counter = counter + 1  # UnboundLocalError
+    print("Bad_increment:", counter)
+
+def good_increment():
+    global counter  # khai báo dùng biến toàn cục
+    counter = counter + 1
+    print("Good_increment:", counter)
+        </code></pre>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">2.</span>
+            <br>
+            Mô-đun
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Module (khái niệm) ====================== -->
+        <section>
+          <!-- Slide: Modules -->
+          <h2>Mô-đun</h2>
+          <h4>Module</h4>
+          <p>Tập hợp biến &amp; hàm để <span class="keyword">tổ chức</span> và <span class="keyword">tái sử
+              dụng</span>.</p>
+          <ul>
+            <li>Dùng với <span class="inline-code">import</span></li>
+            <li>Truy cập bằng dấu chấm: <span class="inline-code">&lt;module&gt;.&lt;name&gt;</span></li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> import math
+>>> math.pi
+3.141592653589793
+>>> p = math.sqrt(25)
+5
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Vì sao modules ====================== -->
+        <section>
+          <!-- Slide: Why modules -->
+          <h2>Vì sao dùng mô-đun?</h2>
+          <ul>
+            <li><span class="keyword">Tăng tốc</span> phát triển: dùng lại mã có sẵn</li>
+            <li>Thư viện chuẩn &amp; bên thứ ba (PyPI)</li>
+            <li>Tổ chức dự án lớn</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Tạo mô-đun của bạn ====================== -->
+        <section>
+          <!-- Slide: Create your own module -->
+          <h2>Tạo mô-đun của bạn</h2>
+          <p>Lưu mã vào <span class="keyword">tệp .py</span> &rarr; tên mô-đun = tên tệp.</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+"""Thông tin UET-VNU."""
+# Biến toàn cục
+university_name = "UET - VNU"
+
+def get_address():
+    """Trả về địa chỉ của trường."""
+    return "144 Xuân Thủy"
+        </code></pre>
+          <p><em>(Ví dụ: <span class="inline-code">uet_info.py</span>)</em></p>
+        </section>
+
+        <!-- ====================== Slide: Dùng mô-đun tự viết ====================== -->
+        <section>
+          <!-- Slide: Use your module -->
+          <h2>Dùng mô-đun tự viết</h2>
+          <div>
+            <span class="inline-code">main.py</span>
+            <pre><code class="language-python" data-trim>
+import uet_info
+
+if __name__ == "__main__":
+    print(uet_info.university_name)
+    print(uet_info.get_address())
+            </code></pre>
+          </div>
+          <div>
+            <strong>Chế độ tương tác</strong>
+            <pre><code class="language-pycon" data-trim>
+>>> import uet_info
+>>> uet_info.university_name
+'UET - VNU'
+            </code></pre>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">3.</span>
+            <br>
+            Đặc tả
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Đặc tả (khái niệm) ====================== -->
+        <section>
+          <!-- Slide: Specification -->
+          <h2>Đặc tả</h2>
+          <h4>Specifications</h4>
+          <ul>
+            <li>Thường viết dưới dạng <span class="inline-code">docstring</span></li>
+            <li>Mô tả <span class="keyword">cách dùng</span>, không phải cách cài đặt</li>
+            <li>Lập trình viên cần tưởng tượng mình là người dùng để viết đặc tả</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Nội dung đặc tả ====================== -->
+        <section>
+          <!-- Slide: What a spec contains -->
+          <h2>Đặc tả gồm những gì?</h2>
+          <ul>
+            <li><span class="keyword">Mục đích</span> (làm gì)</li>
+            <li>Tham số &amp; kiểu (+ điều kiện trước)</li>
+            <li>Giá trị trả về &amp; kiểu</li>
+            <li>Tác dụng phụ / ngoại lệ (nếu có)</li>
+            <li>Ví dụ / <span class="keyword">kiểm thử</span></li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Docstring trong định nghĩa ====================== -->
+        <section>
+          <!-- Slide: Docstring -->
+          <h2>Docstring trong định nghĩa hàm</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def inches_to_feet(inches):
+    """
+    Trả về số feet tương ứng với số inch cho trước.
+    Tham số:
+        inches (float|int): giá trị cần đổi.
+    Trả về:
+        float: feet.
+    """
+    return inches/12
+        </code></pre>
+          <p><span class="keyword">Docstring</span> dùng dấu nháy ba; hiển thị bởi <span
+              class="inline-code">help()</span>.</p>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ docstring khác ====================== -->
+        <section>
+          <!-- Slide: circle_area -->
+          <h2>Ví dụ khác: <span class="inline-code">circle_area</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import math
+
+def circle_area(radius):
+    """
+    Trả về diện tích hình tròn bán kính radius.
+    Tham số:
+        radius (float): bán kính, phải >= 0.
+    Trả về:
+        float: diện tích.
+    """
+    return math.pi * radius ** 2
+        </code></pre>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">4.</span>
+            <br>
+            Kiểm thử
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Vì sao kiểm thử ====================== -->
+        <section>
+          <!-- Slide: Why testing -->
+          <h2>Vì sao cần kiểm thử?</h2>
+          <ul>
+            <li>Bảo đảm hành vi như kỳ vọng</li>
+            <li>Phát hiện lỗi sớm; tăng độ tin cậy</li>
+            <li>Hỗ trợ bảo trì &amp; thay đổi về sau</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Cách viết test với assert ====================== -->
+        <section>
+          <!-- Slide: assert -->
+          <h2>Viết kiểm thử với <span class="inline-code">assert</span></h2>
+          <pre><code class="language-python" data-trim>
+assert &lt;điều_kiện&gt;, "Thông báo lỗi (tuỳ chọn)"
+        </code></pre>
+          <ul>
+            <li>Đúng &rarr; chương trình tiếp tục</li>
+            <li>Sai &rarr; phát sinh <span class="keyword">AssertionError</span></li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ assert pass ====================== -->
+        <section>
+          <!-- Slide: assert ok -->
+          <h2>Ví dụ: kiểm thử <em>qua</em> (Passed)</h2>
+          <pre><code class="language-python" data-trim>
+x = 10
+assert x > 0, "x phải dương"
+        </code></pre>
+          <p>Kết quả: điều kiện đúng &rarr; chương trình chạy bình thường.</p>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ assert fail ====================== -->
+        <section>
+          <!-- Slide: assert fail -->
+          <h2>Ví dụ: kiểm thử <em>trượt</em> (Failed)</h2>
+          <pre><code class="language-python" data-trim>
+x = -1
+assert x > 0, "x phải dương"
+        </code></pre>
+          <p>Kết quả: điều kiện sai &rarr; <span class="keyword">AssertionError</span>.</p>
+        </section>
+
+        <!-- ====================== Slide: Test trước khi code ====================== -->
+        <section>
+          <!-- Slide: tests first -->
+          <h2>Viết test trước khi viết code</h2>
+          <p>Có <span class="inline-code">đặc tả</span> &rarr; viết ca kiểm thử trước; thân hàm có thể để trống.
+          </p>
+        </section>
+
+        <!-- ====================== Slide: Quy trình TDD ====================== -->
+        <section>
+          <!-- Slide: TDD -->
+          <h2>Phát triển hướng kiểm thử</h2>
+          <h4>Test-Driven Development (TDD)</h4>
+          <ol>
+            <li>Viết <span class="keyword">đặc tả</span></li>
+            <li>Tạo <span class="keyword">kiểm thử</span></li>
+            <li>Cài đặt hàm</li>
+            <li>Chạy kiểm thử</li>
+            <li>Chỉnh sửa cho đến khi <span class="keyword">qua hết test cases</span></li>
+          </ol>
+        </section>
+
+        <!-- ====================== Slide: Khi test fail làm gì ====================== -->
+        <section>
+          <!-- Slide: When tests fail -->
+          <h2>Khi kiểm thử thất bại?</h2>
+          <ul>
+            <li>Đừng hoảng &amp; đừng sửa bừa</li>
+            <li><span class="keyword">Đọc kỹ thông báo lỗi</span></li>
+            <li>Xác định ca nào thất bại &amp; vì sao</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Đặc tả Fibonacci ====================== -->
+        <section>
+          <!-- Slide: fib spec -->
+          <h2>Ví dụ: đặc tả <span class="inline-code">fib(n)</span></h2>
+          <p>Trả về số Fibonacci thứ <span class="inline-code">n</span>:</p>
+          <pre><code class="language-python" data-trim>
+fib(0) = 0
+fib(1) = 1
+fib(2) = fib(1) + fib(0) = 1
+fib(3) = fib(2) + fib(1) = 2
+fib(n) = fib(n-1) + fib(n-2)
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Viết test cho fib ====================== -->
+        <section>
+          <!-- Slide: tests for fib -->
+          <h2>Viết kiểm thử trước cho <span class="inline-code">fib</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# test_fib.py
+# fibonacci.py là tệp cài đặt hàm fib(n)
+from fibonacci import fib
+
+def test_first_two():
+    assert fib(0) == 0
+    assert fib(1) == 1
+
+def test_small_numbers():
+    assert fib(2) == 1
+    assert fib(3) == 2
+    assert fib(4) == 3
+
+def test_large_number():
+    assert fib(10) == 55
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Chạy test đơn giản ====================== -->
+        <section>
+          <!-- Slide: run tests simply -->
+          <h2>Chạy kiểm thử (đơn giản)</h2>
+          <pre><code class="language-python" data-trim>
+# test_fib.py (cuối file)
+if __name__ == "__main__":
+    test_first_two()
+    test_small_numbers()
+    test_large_number()
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Bản đầu tiên của fib ====================== -->
+        <section>
+          <!-- Slide: first version -->
+          <h2>Bản đầu tiên của <span class="inline-code">fib</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# fibonacci.py
+def fib(n):
+    """
+    Trả về số Fibonacci thứ n.
+    Tham số:
+        n (int): vị trí trong dãy Fibonacci.
+    Trả về:
+        int: số Fibonacci thứ n.
+    """
+    return 0
+        </code></pre>
+          <p>Chạy test &rarr; <span class="keyword">thất bại</span> (luôn trả về 0).</p>
+        </section>
+
+        <!-- ====================== Slide: Nhiệm vụ refine ====================== -->
+        <section>
+          <!-- Slide: refine task -->
+          <h2>Nhiệm vụ</h2>
+          <p>Hoàn thiện <span class="inline-code">fib(n)</span> để <span class="keyword">vượt qua tất cả</span> kiểm thử
+            trong
+            <span class="inline-code">test_fib.py</span>.
+          </p>
+        </section>
+      </section>
+
+      <section>
+        <!-- ====================== Slide: Tổng kết ====================== -->
+        <section>
+          <!-- Slide: Summary -->
+          <h2>Tổng kết</h2>
+          <ol>
+            <li><strong>Hàm</strong> tổ chức &amp; tái sử dụng mã; <span class="inline-code">return</span> xác
+              định đầu ra</li>
+            <li><strong>Hàm dựng sẵn</strong> &amp; <strong>mô-đun</strong> giúp tăng tốc phát triển</li>
+            <li><strong>Đặc tả</strong> trong <span class="inline-code">docstring</span> mô tả cách dùng</li>
+            <li><strong>Kiểm thử</strong> với <span class="inline-code">assert</span>; <strong>TDD</strong>:
+              đặc tả → test → cài đặt → chạy test → chỉnh</li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ====================== Footer ====================== -->
+      <div class="footer">
+        Tư duy Tính toán (HK 1 2025–2026) §7: Hàm, Đặc tả &amp; Kiểm thử
+      </div>
+
+    </div>
+  </div>
+
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
