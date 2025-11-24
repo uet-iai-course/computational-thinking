@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="vi">
+<!-- Chuyển đổi từ PPTX: lec08 - Data Structures Lists, Tuples, and Dictionaries.pptx
+     Theo định dạng tham chiếu: lecture-07-function-specs-testing.html -->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Bài 8: Lists, Tuples, Dictionaries</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css" />
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  <link rel="stylesheet" href="lecture-style.css" />
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <!-- ====================== Slide: Tiêu đề ====================== -->
+        <section>
+          <h2 class="r-fit-text">Tư duy Tính toán</h2>
+          <h2>Lists, Tuples, Dictionaries</h2>
+          <p>Trường ĐH Công nghệ – Đại học Quốc gia Hà Nội</p>
+        </section>
+
+        <!-- ====================== Slide: Nội dung ====================== -->
+        <section>
+          <!-- Slide: Nội dung -->
+          <h2>Nội dung</h2>
+          <ol>
+            <li>Động cơ &amp; kịch bản đời thực</li>
+            <li>List</li>
+            <li>Tuple</li>
+            <li>Dictionary</li>
+            <li>So sánh ba cấu trúc</li>
+            <li>Bài tập thực hành</li>
+            <li>Thảo luận</li>
+          </ol>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">1.</span>
+            <br>
+            Động cơ &amp; kịch bản đời thực
+          </h1>
+        </section>
+        <!-- ====================== Slide: Motivation 1 ====================== -->
+        <section data-auto-animate>
+          <!-- Slide: Động cơ (1) -->
+          <h2>Động cơ &amp; kịch bản đời thực</h2>
+          <ul>
+            <li>Vì sao cần <span class="keyword">cấu trúc dữ liệu</span>?</li>
+            <li>Lưu &amp; quản lý dữ liệu hiệu quả</li>
+            <li>VD: lớp sinh viên, kho sản phẩm, danh sách điểm</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Motivation 2 ====================== -->
+        <section data-auto-animate>
+          <!-- Slide: Động cơ (2) -->
+          <h2>Động cơ &amp; kịch bản đời thực</h2>
+          <ul>
+            <li><span class="keyword">List</span> → giống <em>shopping list</em> (có thứ tự)</li>
+            <li><span class="keyword">Tuple</span> → “gói” cố định (không đổi)</li>
+            <li><span class="keyword">Dictionary</span> → “sổ danh bạ” (cặp <span class="inline-code">key:
+                value</span>)</li>
+          </ul>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Động cơ &amp; kịch bản đời thực</h2>
+          <h4>Ví dụ: Quản lý sinh viên</h4>
+          <ul>
+            <li>list → nhiều mục</li>
+            <li>tuple → dữ liệu cố định</li>
+            <li>dict → thông tin gắn nhãn</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+student_names = ["An", "Bình", "Chi"]   # list
+student_info = ("S001", "An", 3)        # tuple
+student_profile = {                     # dict
+    "id": "S001",
+    "name": "An",
+    "year": 3,
+    "major": "CS"
+}
+          </code></pre>
+
+        </section>
+
+        <!-- ====================== Slide: Motivation 3 ====================== -->
+        <section data-auto-animate>
+          <!-- Slide: Ứng dụng thường ngày -->
+          <h2>Động cơ &amp; kịch bản đời thực</h2>
+          <ul>
+            <li>List: playlist bài hát, hàng đợi công việc</li>
+            <li>Tuple: toạ độ GPS <span class="inline-code">(latitude, longitude)</span></li>
+            <li>Dictionary: từ điển, dữ liệu <span class="inline-code">JSON</span> trong API</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">2.</span>
+            <br>
+            Lists
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Lists - khái niệm ====================== -->
+        <section>
+          <!-- Slide: List là gì -->
+          <h2>List là gì?</h2>
+          <ul>
+            <li>Tập hợp <span class="keyword">có thứ tự</span>, bao bởi <span class="inline-code">[ ]</span>
+            </li>
+            <li>Phần tử có <span class="inline-code">chỉ số</span> (bắt đầu 0)</li>
+            <li>Có thể rỗng <span class="inline-code">[]</span> hoặc trộn kiểu (nên đồng nhất)</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+grades = [9.5, 8.0, 7.0, 10.0]
+names = ["An", "Bình", "Chi"]
+mixed = [1, "two", 3.0]
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Lists - vì sao hữu ích ====================== -->
+        <section>
+          <!-- Slide: Vì sao List -->
+          <h2>Vì sao List hữu ích?</h2>
+          <ul>
+            <li>Gộp dữ liệu liên quan (tên, điểm, nhiệm vụ)</li>
+            <li>Nhiều thao tác linh hoạt: thêm, xoá, sắp xếp, lặp</li>
+            <li>Nền tảng cho cấu trúc phức tạp (ma trận, tập dữ liệu)</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Lists - thao tác cơ bản ====================== -->
+        <section>
+          <!-- Slide: Thao tác cơ bản -->
+          <h2>List: thao tác cơ bản</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> nums = [10, 20, 30, 40, 50]
+>>> len(nums)
+5
+>>> nums[0]
+10
+>>> nums[-1]
+50
+>>> nums[1:4]
+[20, 30, 40]
+>>> nums + [60, 70]
+[10, 20, 30, 40, 50, 60, 70]
+>>> "two" in ["one", "two", "three"]
+True
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Lists - thao tác nâng cao ====================== -->
+        <section>
+          <!-- Slide: Thao tác nâng cao -->
+          <h2>List: thao tác nâng cao</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+nums = [10, 20, 30, 40, 50]
+
+# Cập nhật & thêm
+nums[0] = 11             # cập nhật
+nums.append(60)          # thêm cuối
+nums.insert(2, 25)       # thêm tại chỉ số
+nums.extend([70, 80])    # thêm nhiều phần tử
+
+# Xoá & sắp xếp
+nums.remove(30)             # xoá theo giá trị
+popped = nums.pop()         # xoá cuối, trả về phần tử
+popped_index = nums.pop(1)  # xoá theo chỉ số
+nums.sort(reverse=True)     # sắp xếp giảm dần
+nums.reverse()              # đảo ngược
+        </code></pre>
+        </section>
+
+        <section>
+          <h2>Lưu ý</h2>
+          <ul>
+            <li>List là <span class="keyword">mutable</span> (có thể thay đổi)</li>
+            <li>Phần tử có thể là bất kỳ kiểu dữ liệu nào, kể cả list khác (lồng nhau)</li>
+            <li>Thao tác trên list có thể ảnh hưởng trực tiếp đến dữ liệu gốc</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Lists - mini exercises ====================== -->
+        <section>
+          <!-- Slide: Bài tập ngắn (List) -->
+          <h2>Bài tập nhanh: List</h2>
+          <p>
+            Tạo list <span class="inline-code">grades</span> với các điểm số: 9.5, 8.0, 7.0, 10.0.
+          </p>
+          <ol>
+            <li>In điểm đầu tiên và cuối cùng.</li>
+            <li>Thêm điểm 9.0 vào cuối danh sách.</li>
+            <li>Sắp xếp danh sách điểm theo thứ tự giảm dần.</li>
+          </ol>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">3.</span>
+            <br>
+            Tuples
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Tuples - khái niệm ====================== -->
+        <section>
+          <!-- Slide: Tuple là gì -->
+          <h2>Tuple là gì?</h2>
+          <ul>
+            <li>Tập hợp <span class="keyword">có thứ tự</span>, <span class="keyword">bất biến</span></li>
+            <li>Bao bởi <span class="inline-code">( )</span>; có thể trộn kiểu</li>
+            <li>Không đổi sau khi tạo</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+point = (21.0278, 105.8342)   # (latitude, longitude)
+rgb = (255, 200, 0)
+info = ("An", 20, "CS")
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Tuples - vì sao ====================== -->
+        <section>
+          <!-- Slide: Vì sao Tuple -->
+          <h2>Vì sao dùng Tuple?</h2>
+          <ul>
+            <li>Dữ liệu <span class="keyword">cố định kích thước</span>, không muốn bị sửa</li>
+            <li>Thường dùng để <span class="keyword">trả về nhiều giá trị</span> từ hàm</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def stats(xs):
+    total = sum(xs)
+    avg = total / len(xs)
+    return (total, avg)  # trả về tuple (tổng, trung bình)
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Tuple vs List ====================== -->
+        <section>
+          <!-- Slide: Tuple vs List -->
+          <h2>Tuple vs. List</h2>
+          <!-- <ul>
+            <li>Tuple: kích thước cố định — toạ độ, màu RGB, cặp giá trị</li>
+            <li>List: linh hoạt — thêm/xoá/sắp xếp thường xuyên</li>
+          </ul> -->
+          <table style="font-size: 0.85em; width: 100%;">
+            <tr>
+              <th></th>
+              <th>Tuple</th>
+              <th>List</th>
+            </tr>
+            <tr>
+              <td><strong>Cú pháp</strong></td>
+              <td><span class="inline-code">( )</span></td>
+              <td><span class="inline-code">[ ]</span></td>
+            </tr>
+            <tr>
+              <td><strong>Thay đổi</strong></td>
+              <td><span class="keyword">Immutable</span> (không đổi)</td>
+              <td><span class="keyword">Mutable</span> (có thể đổi)</td>
+            </tr>
+            <tr>
+              <td><strong>Kích thước</strong></td>
+              <td>Cố định</td>
+              <td>Thay đổi</td>
+            </tr>
+            <tr>
+              <td><strong>Ứng dụng</strong></td>
+              <td>Dữ liệu cố định</td>
+              <td>Dữ liệu linh hoạt</td>
+            </tr>
+            <tr>
+              <td><strong>Ví dụ</strong></td>
+              <td><span class="inline-code">(1, 2, 3)</span></td>
+              <td><span class="inline-code">[1, 2, 3]</span></td>
+            </tr>
+          </table>
+        </section>
+
+        <!-- ====================== Slide: Tuple operations ====================== -->
+        <section>
+          <!-- Slide: Thao tác tuple -->
+          <h2>Tuple: thao tác &amp; gán</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+t = (3, 4, 5)
+print(t[0])        # truy cập phần tử
+print(t[1:3])      # cắt (slicing)
+print(len(t))      # độ dài
+print(4 in t)      # kiểm tra thành phần
+        </code></pre>
+
+          <p>Không thể thay đổi phần tử (<strong>immutable</strong>):</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+t = (3, 4, 5)
+t[0] = 10    # lỗi: TypeError
+        </code></pre>
+        </section>
+
+        <section>
+          <h2>Gán nhiều biến từ Tuple</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+point = (3, 4)
+x, y = point
+print(x, y)
+        </code></pre>
+          <p>Hữu ích khi hàm trả về nhiều giá trị:</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def stats(xs):
+    total = sum(xs)
+    avg = total / len(xs)
+    return (total, avg)  # trả về tuple (tổng, trung bình)
+s, a = stats([10, 20, 30])
+print(s, a)
+        </code></pre>
+        </section>
+
+        <section>
+          <h2>Enumerate</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+names = ["An", "Bình", "Chi"]
+for index, name in enumerate(names):
+    print(index, name)
+        </code></pre>
+
+          <p>Output:</p>
+          <pre><code class="plaintext" data-trim>
+0 An
+1 Bình
+2 Chi
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Tuples - mini exercises ====================== -->
+        <section>
+          <!-- Slide: Bài tập ngắn (Tuple) -->
+          <h2>Bài tập nhanh: <span class="keyword">Tuple</span></h2>
+          <ol>
+            <li>Tạo tuple <span class="inline-code">point = (3, 4)</span> và truy cập các phần tử.</li>
+            <li>Chuyển list <span class="inline-code">[1, 2, 3]</span> thành tuple bằng hàm
+              <span class="inline-code">tuple()</span>.
+            </li>
+            <li>Viết hàm trả về <span class="inline-code">(tổng, trung bình)</span> của một list.</li>
+          </ol>
+
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">4.</span>
+            <br>
+            Dictionaries
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Dictionaries - khái niệm ====================== -->
+        <section>
+          <!-- Slide: Dictionary là gì -->
+          <h2>Dictionary là gì?</h2>
+          <p>Tập hợp <span class="keyword">không có thứ tự</span> các cặp <span class="inline-code">key:
+              value</span>; mỗi key là duy nhất.</p>
+          <ul>
+            <li>Cú pháp: <span class="inline-code">{key: value, ...}</span></li>
+            <li>Tương tự “tra từ điển” hoặc “danh bạ”</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+profile = {"name": "An", "major": "CS", "year": 3}
+score = {"An": 9.0, "Bình": 8.5}
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Dictionaries - vì sao ====================== -->
+        <section>
+          <!-- Slide: Vì sao Dictionary -->
+          <h2>Vì sao dùng Dictionary?</h2>
+          <ul>
+            <li>Gán nhãn dữ liệu bằng <span class="keyword">tên có nghĩa</span></li>
+            <li>Tra cứu nhanh theo <span class="inline-code">key</span></li>
+            <li>Phù hợp dữ liệu có cấu trúc/cặp</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Dictionaries - tạo & truy cập ====================== -->
+        <section>
+          <!-- Slide: Tạo & truy cập -->
+          <h2>Tạo &amp; truy cập</h2>
+          <ul>
+            <li>Key phải là kiểu dữ liệu <span class="keyword">hashable</span> (ví dụ: str, int, tuple)</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> d = {"id": "S001", "name": "An", "grade": 9.2}
+>>> print(d["name"])             # truy cập bằng key
+An
+>>> d["grade"] = 9.5             # cập nhật giá trị
+>>> d["year"] = 3                # thêm key mới
+>>> print(d)
+{'id': 'S001', 'name': 'An', 'grade': 9.5, 'year': 3}
+>>> d["age"]                     # key không tồn tại?
+KeyError: 'age'
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Dictionaries - thao tác cơ bản ====================== -->
+        <section>
+          <!-- Slide: Thao tác -->
+          <h2>Dictionary: thao tác cơ bản</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+d = {}
+d["x"] = 1           # gán key mới → tự động tạo
+d["x"] = d["x"] + 2  # cập nhật
+d.update({"y": 5})
+exists = "x" in d
+deleted = d.pop("y", None)  # xoá nếu có
+keys = list(d.keys())
+items = list(d.items())
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Dictionaries - lồng nhau ====================== -->
+        <section>
+          <!-- Slide: Lồng nhau -->
+          <h2>Dictionary lồng nhau</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+students = {
+    "S001": {"name": "An", "scores": [9.0, 8.5]},
+    "S002": {"name": "Bình", "scores": [7.5, 8.0]},
+}
+print(students["S001"]["scores"][0])   # 9.0
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Dictionary as accumulator ====================== -->
+        <section>
+          <!-- Slide: Dictionary như bộ đếm -->
+          <h2>Dictionary như bộ tích luỹ</h2>
+          <p>
+            Ví dụ: đếm tần suất ký tự trong chuỗi bằng dict
+          </p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+text = "abba!"
+count = {}
+for ch in text:
+    count[ch] = count.get(ch, 0) + 1
+print(count)   # {'a': 2, 'b': 2, '!': 1}
+        </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Dictionaries - lặp ====================== -->
+        <section>
+          <!-- Slide: Lặp với dict -->
+          <h2>Lặp với Dictionary</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+d = {"An": 9.0, "Bình": 8.5, "Chi": 8.8}
+for name in d:                 # mặc định lặp qua key
+    print(name, d[name])
+
+for k, v in d.items():         # lặp qua (key, value)
+    print(k, v)
+        </code></pre>
+          <p>Dict <span class="keyword">không phải</span> sequence → không có chỉ số số nguyên.</p>
+        </section>
+
+        <!-- ====================== Slide: Dict - mini exercises ====================== -->
+        <section>
+          <!-- Slide: Bài tập ngắn (Dict) -->
+          <h2>Bài tập nhanh: <span class="keyword">Dictionary</span></h2>
+          <ol>
+            <li>Tạo dictionary <span class="inline-code">profile = {'name': 'An', 'major': 'CS'}</span>;
+              thêm mục <span class="inline-code">'year': 3</span>.
+            </li>
+            <li>In từng cặp key - value trong dictionary.</li>
+            <li>Viết hàm đếm tần suất từ trong một câu.</li>
+          </ol>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">5.</span>
+            <br>
+            So sánh List, Tuple, Dictionary
+          </h1>
+        </section>
+        <!-- ====================== Slide: So sánh List, Tuple, Dictionary (Bảng) ====================== -->
+        <section>
+          <table style="width: 100%; font-size: 0.6em;">
+            <thead>
+              <tr>
+                <th></th>
+                <th>List</th>
+                <th>Tuple</th>
+                <th>Dictionary</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Cú pháp</strong></td>
+                <td><span class="inline-code">[ ]</span></td>
+                <td><span class="inline-code">( )</span></td>
+                <td><span class="inline-code">{key: value}</span></td>
+              </tr>
+              <tr>
+                <td><strong>Giữ thứ tự?</strong></td>
+                <td>✅ Có</td>
+                <td>✅ Có</td>
+                <td>⚠️ Có (theo thứ tự chèn, từ Python 3.7)</td>
+              </tr>
+              <tr>
+                <td><strong>Mutable</strong>?</td>
+                <td>✅ Có</td>
+                <td>❌ Không</td>
+                <td>✅ Có</td>
+              </tr>
+              <tr>
+                <td><strong>Truy cập</strong></td>
+                <td>Chỉ số (<span class="inline-code">index</span>)</td>
+                <td>Chỉ số (<span class="inline-code">index</span>)</td>
+                <td>Khoá (<span class="inline-code">key</span>)</td>
+              </tr>
+              <tr>
+                <td><strong>Trùng lặp?</strong></td>
+                <td>✅ Có</td>
+                <td>✅ Có</td>
+                <td>❌ Khoá phải <em>duy nhất</em></td>
+              </tr>
+              <tr>
+                <td><strong>Dùng khi?</strong></td>
+                <td>Tập dữ liệu kích thước thay đổi, nên đồng nhất</td>
+                <td>Bản ghi nhóm, kích thước cố định</td>
+                <td>Ánh xạ <span class="inline-code">key → value</span> (bảng tra cứu)</td>
+              </tr>
+              <tr>
+                <td><strong>Ví dụ</strong></td>
+                <td><span class="inline-code">[1, 2, 3]</span></td>
+                <td><span class="inline-code">(1, 2, 3)</span></td>
+                <td><span class="inline-code">{'a': 1, 'b': 2}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">6.</span>
+            <br>
+            Thực hành
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Bài tập thực hành - List ====================== -->
+        <section>
+          <!-- Slide: Thực hành List -->
+          <h2>Thực hành: List</h2>
+          <p>Tạo chương trình lưu &amp; phân tích điểm sinh viên.</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+grades = [9.0, 8.5, 7.5, 10.0, 9.5]
+print("Điểm trung bình:", sum(grades) / len(grades))
+grades.append(8.0)
+grades.sort(reverse=True)
+print("Danh sách điểm (giảm dần):", grades)
+        </code></pre>
+
+          <p>
+            <strong>Câu hỏi:</strong> Nếu dùng <span class="inline-code">grades[5] = 6.5</span> thì sẽ
+            xảy ra điều gì?
+          </p>
+
+        </section>
+
+        <!-- ====================== Slide: Bài tập thực hành - Tuple ====================== -->
+        <section>
+          <!-- Slide: Thực hành Tuple -->
+          <h2>Thực hành: Tuple</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+hanoi = (21.0278, 105.8342)
+print("Kinh độ Hà Nội:", hanoi[0])
+print("Vĩ độ Hà Nội:", hanoi[1])
+        </code></pre>
+
+          <ol>
+            <li>Thêm tuple biển diễn toạ độ của một thành phố khác, ví dụ TP. HCM</li>
+            <li>In cả hai toạ độ mà chỉ dùng một câu lệnh print</li>
+          </ol>
+
+          <p>
+            <strong>Câu hỏi:</strong> Tại sao sử dụng tuple cho toạ độ thay vì list?
+          </p>
+        </section>
+
+        <!-- ====================== Slide: Bài tập thực hành - Dict ====================== -->
+        <section>
+          <!-- Slide: Thực hành Dict -->
+          <h2>Thực hành: Dictionary</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+students = {
+    "S001": {"name": "An", "score": 9.0},
+    "S002": {"name": "Bình", "score": 8.5},
+}
+
+for sid, info in students.items():
+    print(sid, info["name"], info["score"])
+        </code></pre>
+
+          <p>
+            <strong>Câu hỏi:</strong> In điểm trung bình của tất cả sinh viên.
+          </p>
+        </section>
+
+        <!-- ====================== Slide: Thử thách tích hợp ====================== -->
+        <section>
+          <!-- Slide: Mini Project -->
+          <h2>Thử thách tích hợp</h2>
+          <h4>Dự án nhỏ: “Quản lý dữ liệu lớp học”</h4>
+          <!-- Mini Project: “Classroom Data Manager”
+Write a short program that:
+Uses a list of dictionaries to store student records
+Allows the user to:
+Add a new student
+Search by student ID
+Display all scores
+Hint: Combine knowledge of loops, lists, and dictionaries. -->
+
+          <p>
+            Viết chương trình quản lý dữ liệu lớp học:
+          </p>
+          <ol>
+            <li>Dùng list chứa các dict để lưu thông tin sinh viên</li>
+            <li>Cho phép người dùng:
+              <ul>
+                <li>Thêm sinh viên mới</li>
+                <li>Tìm kiếm theo mã sinh viên</li>
+                <li>Hiển thị tất cả điểm số</li>
+              </ul>
+            </li>
+          </ol>
+
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">7.</span>
+            <br>
+            Thảo luận
+          </h1>
+        </section>
+        <!-- ====================== Slide: Liên hệ CT tư duy ====================== -->
+        <section>
+          <!-- Slide: Liên hệ Computational Thinking -->
+          <h2>Liên hệ Tư duy Tính toán</h2>
+          <p>
+            Mỗi cấu trúc dữ liệu liên quan đến các khía cạnh của
+            <span class="keyword">Tư duy Tính toán</span>:
+          </p>
+          <ul>
+            <li><span class="keyword">Phân rã</span>: tách dữ liệu thành phần nhỏ</li>
+            <li><span class="keyword">Nhận dạng mẫu</span>: dùng list/tuple cho phần tử tương tự</li>
+            <li><span class="keyword">Trừu tượng hóa</span>: mô hình hoá dữ liệu thực (dict)</li>
+            <li><span class="keyword">Thiết kế thuật toán</span>: chọn cấu trúc phù hợp để tính toán hiệu quả</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Lỗi thường gặp ====================== -->
+        <section>
+          <!-- Slide: Common mistakes -->
+          <h2>Lỗi thường gặp</h2>
+          <ul>
+            <li>Nhầm <span class="keyword">mutable</span> vs. <span class="keyword">immutable</span></li>
+            <li>Dùng list khi cần tra cứu theo từ khoá (nên dùng dict)</li>
+            <li>Lẫn lộn giữa <span class="inline-code">( )</span> và <span class="inline-code">[ ]</span></li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ====================== Slide: Tổng kết ====================== -->
+      <section>
+        <!-- Slide: Summary -->
+        <h2>Tổng kết</h2>
+        <ol>
+          <li><strong>List</strong>: có thứ tự, thay đổi được</li>
+          <li><strong>Tuple</strong>: có thứ tự, không đổi</li>
+          <li><strong>Dictionary</strong>: ánh xạ <span class="inline-code">key→value</span>, tra cứu nhanh
+          </li>
+          <li>Chọn đúng cấu trúc ⇒ thuật toán <span class="keyword">hiệu quả</span> hơn</li>
+        </ol>
+      </section>
+
+      <!-- ====================== Footer ====================== -->
+      <div class="footer">
+        Tư duy Tính toán (HK 1 2025–2026) §8: Lists, Tuples, Dictionaries
+      </div>
+
+    </div>
+  </div>
+
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>

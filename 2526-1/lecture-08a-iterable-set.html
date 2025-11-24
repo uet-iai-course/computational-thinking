@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="vi">
+<!-- Chuyển đổi từ PPTX: lec08a - Iterables_and_sets.pptx
+     Theo định dạng tham chiếu: lecture-08-list-tuple-dict.html -->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Bài 8a: Iterables và Sets</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css" />
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  <link rel="stylesheet" href="lecture-style.css" />
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====================== Slide: Trang tiêu đề ====================== -->
+      <section>
+        <section>
+          <h2 class="r-fit-text">Tư duy Tính toán</h2>
+          <h2>Iterables &amp; Sets</h2>
+          <p>Trường ĐH Công nghệ – Đại học Quốc gia Hà Nội</p>
+        </section>
+
+        <!-- ====================== Slide: Nội dung ====================== -->
+        <section>
+          <h2>Nội dung</h2>
+          <ol>
+            <li>Iterables: vì sao <span class="inline-code">for</span> chạy với dict?</li>
+            <li>Sets: kiểu dữ liệu tập hợp</li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 1: Iterables ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">1.</span><br>
+            Iterables
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: For qua dict - cú pháp ====================== -->
+        <section style="font-size: 0.8em">
+          <h2>Vòng <span class="inline-code">for</span> trên <span class="inline-code">dict</span></h2>
+          <table style="width: 100%; font-size: 0.85em">
+            <tr>
+              <td style="width:50%">
+                <p><strong>Cú pháp</strong></p>
+                <pre><code class="language-pycon" data-trim>
+for &lt;var&gt; in &lt;dict&gt;:
+    &lt;câu lệnh&gt;
+    ...
+                </code></pre>
+              </td>
+              <td>
+                <p><strong>Ví dụ</strong></p>
+                <pre><code class="language-python" data-trim>
+for key in dct:
+    print(key)
+    print(dct[key])
+                </code></pre>
+              </td>
+            </tr>
+          </table>
+          <p>Thực thi (đơn giản hoá):</p>
+          <ul>
+            <li>Gán giá trị của <span class="inline-code">key</span> đầu tiên cho &lt;var&gt;. Thực thi các câu lệnh
+              trong vòng lặp.</li>
+            <li>Gán giá trị của <span class="inline-code">key</span> thứ hai cho &lt;var&gt;. Thực thi các câu lệnh
+              trong vòng lặp.</li>
+            <li>...</li>
+            <li>Gán giá trị của <span class="inline-code">key</span> cuối cùng cho &lt;var&gt;. Thực thi các câu lệnh
+              trong vòng lặp.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Vì sao for làm việc với dict? ====================== -->
+        <section data-auto-animate>
+          <h2>Vì sao <span class="inline-code">for</span> chạy với dict?</h2>
+          <ul>
+            <li>Trước đây ta lặp qua <span class="keyword">sequence</span> (có chỉ số); dict thì <em>không</em> có chỉ
+              số số nguyên.</li>
+            <li>Nhưng <span class="keyword">for</span> làm việc với mọi <span class="keyword">iterable</span>, không chỉ
+              sequence.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ta có thể lặp qua gì? ====================== -->
+        <section data-auto-animate>
+          <h2>Ta có thể lặp qua những gì?</h2>
+          <ul>
+            <li><strong>Sequence</strong>: có <span class="inline-code">len()</span> &amp; <span
+                class="inline-code">indexing</span> (biết trước số phần tử, truy cập ngẫu nhiên).</li>
+            <li><strong>Iterable</strong>: hỗ trợ <span class="inline-code">iter()</span> trả về <em>iterator</em>.</li>
+            <li><strong>Iterator</strong>: có toán tử <span class="inline-code">next()</span>; không biết trước kích
+              thước, không “nhảy cóc”.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Lists là iterable ====================== -->
+        <section data-auto-animate>
+          <h2>List là iterable</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> lst = [1, 2]
+>>> lst_iterator = iter(lst)
+>>> next(lst_iterator)
+1
+>>> next(lst_iterator)
+2
+>>> next(lst_iterator)
+StopIteration
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Dicts là iterable ====================== -->
+        <section data-auto-animate>
+          <h2>Dictionary cũng là iterable</h2>
+          <p style="font-size:0.9em">Lặp trả về <span class="inline-code">key</span> theo <em>thứ tự chèn</em> (Python ≥
+            3.7).</p>
+          <pre><code class="language-pycon" data-trim>
+>>> dct = {'b': 2, 'a': 1}
+>>> d_iterator = iter(dct)
+>>> next(d_iterator)
+'b'
+>>> next(d_iterator)
+'a'
+>>> next(d_iterator)
+StopIteration
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Mô hình thực thi for ====================== -->
+        <section data-auto-animate>
+          <h2>Thực thi của vòng lặp <span class="inline-code">for</span></h2>
+          
+          <pre><code class="plaintext" data-trim>
+for x in it:
+    body
+          </code></pre>
+
+          <svg width="700" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+              </marker>
+            </defs>
+
+            <style>
+              .shape-stroke {
+                fill: none;
+                stroke: #8b6d65;
+                stroke-width: 4;
+              }
+
+              .line-stroke {
+                fill: none;
+                stroke: black;
+                stroke-width: 4;
+              }
+
+              .text-main {
+                font-family: Consolas, monospace, sans-serif;
+                font-size: 18px;
+                fill: black;
+              }
+
+              .label-text {
+                font-family: sans-serif;
+                font-size: 18px;
+                fill: black;
+              }
+
+              .blue-text {
+                fill: #0070c0;
+                font-weight: bold;
+              }
+
+              .red-text {
+                fill: #c00000;
+                font-weight: bold;
+              }
+
+              .highlight-bg {
+                fill: #ffff00;
+              }
+            </style>
+
+            <line x1="230" y1="10" x2="230" y2="95" class="line-stroke" marker-end="url(#arrowhead)" />
+
+            <line x1="430" y1="200" x2="530" y2="200" class="line-stroke" marker-end="url(#arrowhead)" />
+
+            <line x1="625" y1="235" x2="625" y2="315" class="line-stroke" marker-end="url(#arrowhead)" />
+
+            <line x1="230" y1="300" x2="230" y2="380" class="line-stroke" marker-end="url(#arrowhead)" />
+
+            <polyline points="715,360 780,360 780,40 235,40" class="line-stroke" marker-end="url(#arrowhead)"
+              fill="none" />
+
+            <polygon points="25,200 230,100 430,200 230,300" class="shape-stroke" />
+
+            <rect x="535" y="160" width="180" height="75" rx="15" ry="15" class="shape-stroke" />
+
+            <rect x="535" y="320" width="180" height="75" rx="15" ry="15" class="shape-stroke" />
+
+            <rect x="175" y="165" width="33" height="32" class="highlight-bg" />
+
+            <text x="230" y="190" text-anchor="middle" class="text-main">
+              <tspan>it</tspan> có còn
+            </text>
+            <text x="230" y="225" text-anchor="middle" class="text-main">phần tử?</text>
+
+            <text x="435" y="180" class="label-text">Đúng</text>
+            <text x="240" y="320" class="label-text">Sai</text>
+
+            <text x="625" y="190" text-anchor="middle" class="text-main" font-size="28">gán phần tử</text>
+            <text x="625" y="220" text-anchor="middle" class="text-main" font-size="28">
+              tiếp theo cho <tspan class="blue-text">x</tspan>
+            </text>
+
+            <text x="625" y="350" text-anchor="middle" class="text-main" font-size="28">thực thi</text>
+            <text x="625" y="380" text-anchor="middle" class="text-main" font-size="28">
+              <tspan class="red-text">thân vòng lặp</tspan>
+            </text>
+
+          </svg>
+        </section>
+
+        <!-- ====================== Slide: Phương thức dict trả về iterables (1) ====================== -->
+        <section data-auto-animate>
+          <h2>Dict: Trả về iterable</h2>
+          <ul>
+            <li><span class="inline-code">d.keys()</span>: iterable của <em>keys</em></li>
+            <li>Muốn danh sách? <span class="inline-code">list(d.keys())</span></li>
+            <li>Lặp qua key:
+              <pre><code class="language-python" data-trim>
+for key in d:         # khuyến nghị
+    ...
+# hoặc (không cần thiết)
+for key in d.keys():
+    ...
+              </code></pre>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Phương thức dict trả về iterables (2) ====================== -->
+        <section data-auto-animate>
+          <h2>Dict: Trả về iterable</h2>
+          <ul>
+            <li><span class="inline-code">d.values()</span>: iterable của <em>values</em></li>
+            <li>Muốn danh sách? <span class="inline-code">list(d.values())</span></li>
+            <li>Lặp qua value:
+              <pre><code class="language-python" data-trim>
+for val in d.values():
+    ...
+# hoặc qua key
+for key in d:
+    val = d[key]
+    ...
+              </code></pre>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Phương thức dict trả về iterables (3) ====================== -->
+        <section data-auto-animate>
+          <h2>Dict: Trả về iterable</h2>
+          <ul>
+            <li><span class="inline-code">d.items()</span>: iterable của các <em>(key, value)</em> (tuple)</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+for (key, val) in d.items():
+    # xử lý với cả key và value
+    ...
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Ứng dụng: in biểu đồ đếm ký tự ====================== -->
+        <section>
+          <h2>In biểu đồ đếm ký tự</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def print_counts(counts):
+    """In biểu đồ ngang cho dict 'counts' ánh xạ ký tự -> số lần."""
+    for char in counts:
+        count = counts[char]
+        print(char + ' ' + '*' * count)
+          </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> print_counts({'a': 2, 'b': 2, '!': 1})
+a **
+b **
+! *
+          </code></pre>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 2: Sets ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">2.</span><br>
+            Sets
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Sets là gì ====================== -->
+        <section data-auto-animate>
+          <h2>Set là gì?</h2>
+          <ul>
+            <li>Tập hợp các phần tử <span class="keyword">không thứ tự</span>, <span class="keyword">không trùng</span>.
+            </li>
+            <li>Hỗ trợ toán tử <span class="inline-code">in</span> (kiểm tra thuộc).</li>
+            <li>Giống <span class="inline-code">list</span> nhưng không có vị trí/lặp lại</li>
+            <li>Giống <span
+                class="inline-code">dict</span> nhưng chỉ có “khóa”.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ thao tác set ====================== -->
+        <section data-auto-animate>
+          <h2>Thao tác cơ bản với <span class="keyword">set</span></h2>
+          <pre><code class="language-pycon" data-trim>
+>>> s = {1, 2, 3}
+>>> 1 in s
+True
+>>> 0 in s
+False
+>>> s.add(0); s
+{0, 1, 2, 3}
+>>> s.add(1); s     # thêm trùng bị bỏ qua
+{0, 1, 2, 3}
+>>> s.remove(0); s
+{1, 2, 3}
+          </code></pre>
+          <p style="font-size:0.9em">Dấu ngoặc nhọn <span class="inline-code">{ }</span> (giống dict và toán học).</p>
+        </section>
+
+        <!-- ====================== Slide: In các phần tử set ====================== -->
+        <section data-auto-animate>
+          <h2>In các phần tử của set</h2>
+          <p>Set cũng là <span class="keyword">iterable</span>:</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def print_set(s):
+    for item in s:
+        print(item)
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Ký tự duy nhất trong chuỗi ====================== -->
+        <section data-auto-animate>
+          <h2>Ký tự <em>duy nhất</em> trong chuỗi</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def uniq_chars(s):
+    """Trả về set chứa các ký tự duy nhất của chuỗi s."""
+    uniq = set()  # tạo set rỗng
+    for char in s:
+        uniq.add(char)
+    return uniq
+          </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> uniq_chars('couscous')
+{'o', 'u', 's', 'c'}
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Hàm dựng set ====================== -->
+        <section data-auto-animate>
+          <h2>Hàm dựng <span class="inline-code">set()</span></h2>
+          <ul>
+            <li>Tạo set từ bất kỳ <span class="keyword">sequence</span> nào.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> # cách ngắn gọn hơn cho ví dụ trước
+>>> set('couscous')
+{'o', 'u', 's', 'c'}
+>>> set([1, 1, 2, 3])
+{1, 2, 3}
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: So sánh nhanh ====================== -->
+        <section>
+          <h2>List vs Dict vs Set</h2>
+          <table style="width: 100%; font-size: 0.6em">
+            <thead>
+              <tr>
+                <th></th>
+                <th>List</th>
+                <th>Dictionary</th>
+                <th>Set</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Cú pháp</strong></td>
+                <td><span class="inline-code">[ ]</span></td>
+                <td><span class="inline-code">{key: value}</span></td>
+                <td><span class="inline-code">{item, ...}</span> hoặc <span class="inline-code">set()</span></td>
+              </tr>
+              <tr>
+                <td><strong>Thứ tự</strong></td>
+                <td>✅ Có</td>
+                <td>⚠️ Theo thứ tự chèn</td>
+                <td>❌ Không</td>
+              </tr>
+              <tr>
+                <td><strong>Trùng lặp</strong></td>
+                <td>✅ Cho phép</td>
+                <td>❌ Key duy nhất</td>
+                <td>❌ Không</td>
+              </tr>
+              <tr>
+                <td><strong>Truy cập</strong></td>
+                <td>Chỉ số</td>
+                <td>Khoá</td>
+                <td>Chỉ kiểm tra thuộc (<span class="inline-code">in</span>)</td>
+              </tr>
+              <tr>
+                <td><strong>Dùng khi</strong></td>
+                <td>Danh sách có thứ tự</td>
+                <td>Bảng tra cứu <span class="inline-code">key → value</span></td>
+                <td>Loại bỏ trùng, kiểm tra thuộc nhanh</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <!-- ====================== Slide: Tóm tắt ====================== -->
+      <section>
+        <h2>Tổng kết</h2>
+        <ul>
+          <li><span class="keyword">Iterable</span> là bất kỳ kiểu cho phép tạo <span
+              class="inline-code">iterator</span> bằng <span class="inline-code">iter()</span>.</li>
+          <li>Dict có thể lặp qua vì nó <em>iterable</em>; các phương thức <span
+              class="inline-code">keys/values/items</span> trả về iterables.</li>
+          <li><span class="keyword">Set</span>: tập hợp không thứ tự, không trùng; hữu ích để loại bỏ trùng lặp và kiểm
+            tra thuộc.</li>
+        </ul>
+      </section>
+
+      <!-- ====================== Footer ====================== -->
+      <div class="footer">
+        Tư duy Tính toán (HK 1 2025–2026) §8a: Iterables &amp; Sets
+      </div>
+
+    </div>
+  </div>
+
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+
+  <!-- Nguồn tham chiếu (ẩn trong HTML) -->
+  <!-- :contentReference[oaicite:0]{index=0} -->
+  <!-- :contentReference[oaicite:1]{index=1} -->
+</body>
+
+</html>
