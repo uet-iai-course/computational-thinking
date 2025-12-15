@@ -1,0 +1,1144 @@
+<!doctype html>
+<html lang="vi">
+<!-- Chuyển đổi từ PPTX: lec10. Classes-and-methods-and-subclasses.pptx
+     Theo định dạng tham chiếu: lecture-09-searching-sorting.html -->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Bài 10: Lớp, phương thức &amp; lớp con</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css" />
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  <link rel="stylesheet" href="lecture-style.css" />
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====================== Slide: Trang tiêu đề ====================== -->
+      <section>
+        <section>
+          <h2 class="r-fit-text">Tư duy Tính toán</h2>
+          <h2>Lớp, Phương thức &amp; Lớp con</h2>
+          <p>Trường ĐH Công nghệ – Đại học Quốc gia Hà Nội</p>
+        </section>
+
+        <!-- ====================== Slide: Nội dung ====================== -->
+        <section>
+          <h2>Nội dung</h2>
+          <ol>
+            <li>Lớp (class) &amp; hàm khởi tạo <span class="inline-code">__init__</span></li>
+            <li>Phương thức, tham số <span class="inline-code">self</span></li>
+            <li>Biểu diễn đối tượng bằng chuỗi: <span class="inline-code">__repr__</span>, <span
+                class="inline-code">__str__</span></li>
+            <li>Kế thừa &amp; phân cấp lớp trong Python</li>
+            <li>Ghi đè (overriding)</li>
+            <li>Kiểm tra tương đương (equivalence) với <span class="inline-code">__eq__</span></li>
+          </ol>
+          <p><strong>Tài liệu đọc:</strong> <em>Think Python 3rd ed.</em>, 15.{1,2,5,6}, 17.{1,2,5,8,9}</p>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 1: Lớp & hàm khởi tạo ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">1.</span><br />
+            Lớp (class) &amp; hàm khởi tạo
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Classes – khái niệm ====================== -->
+        <!-- ====================== Slide: Classes ====================== -->
+        <section>
+          <h2>Khái niệm <span class="keyword">class</span></h2>
+          <ul>
+            <li>Kiểu của một đối tượng chính là một <span class="keyword">lớp</span>.</li>
+            <li>Một đối tượng là một <span class="keyword">instance</span> của lớp đó.</li>
+            <li>Tên lớp dùng như một hàm khởi tạo (<span class="keyword">constructor function</span>) để tạo đối tượng.
+            </li>
+            <li>Lớp định nghĩa các <span class="keyword">method</span> – hàm “đi kèm” đối tượng.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ Point3 tối giản ====================== -->
+        <!-- ====================== Slide: Example: a Class for 3D Points ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: lớp điểm 3D</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Point3:
+    pass
+
+p = Point3()
+p.x = 2
+p.y = 3
+p.z = 5
+          </code></pre>
+          <ul>
+            <li>Đây là lớp <span class="keyword">đơn giản nhất</span>: chỉ có tên, chưa có thân.</li>
+            <li>Gọi <span class="inline-code">Point3()</span> để tạo đối tượng.</li>
+            <li>Gán thuộc tính sau khi tạo: <span class="inline-code">p.x</span>, <span class="inline-code">p.y</span>,
+              <span class="inline-code">p.z</span>.
+            </li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Khởi tạo thủ công – vấn đề ====================== -->
+        <!-- ====================== Slide: Initializing Attributes ====================== -->
+        <section data-auto-animate>
+          <h2>Khởi tạo thuộc tính thủ công – bất tiện</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+p = Point3()
+p.x = 2
+p.y = 3
+p.z = 5
+
+p2 = Point3()
+p2.eks = 2
+p2.z = 'five'
+          </code></pre>
+          <ul>
+            <li>Dễ <span class="keyword">quên</span> thuộc tính.</li>
+            <li>Dễ <span class="keyword">gõ sai</span> tên thuộc tính (<span class="inline-code">eks</span>).</li>
+            <li>Dễ lưu giá trị sai kiểu (chuỗi thay vì số).</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Initializer method (obj) ====================== -->
+        <!-- ====================== Slide: The Initializer Method ====================== -->
+        <section data-auto-animate>
+          <h2>Hàm khởi tạo <span class="inline-code">__init__</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Point3:
+    def __init__(obj, x_val, y_val, z_val):
+        obj.x = x_val
+        obj.y = y_val
+        obj.z = z_val
+
+point1 = Point3(2, 3, 5)
+          </code></pre>
+          <p>Phương thức <span class="keyword">initializer</span> đảm bảo mọi đối tượng được khởi tạo nhất quán.</p>
+          <p><strong>Lưu ý:</strong> <span class="inline-code">__init__</span> có dấu gạch dưới kép ở cả hai bên, còn
+            gọi là <span class="keyword">dunder</span> (double underscore).</p>
+        </section>
+
+        <!-- ====================== Slide: self thay vì obj ====================== -->
+        <section data-auto-animate>
+          <h2>Quy ước dùng <span class="inline-code">self</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Point3:
+    def __init__(self, x_val, y_val, z_val):
+        self.x = x_val
+        self.y = y_val
+        self.z = z_val
+
+point1 = Point3(2, 3, 5)
+          </code></pre>
+          <ul>
+            <li>Python không bắt buộc tên <span class="inline-code">self</span>, nhưng đó là <span class="keyword">chuẩn
+                cộng đồng</span>.</li>
+            <li>Giúp người đọc hiểu ngay tham số đầu là “chính đối tượng”.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ lớp Post ====================== -->
+        <!-- ====================== Slide: Example: a Class for Social Media Posts ====================== -->
+        <section>
+          <h2>Ví dụ: lớp bài đăng mạng xã hội</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Post:
+    def __init__(self, text):
+        """A post whose text is `text`
+        and with no likes so far."""
+        self.text = text
+        self.n_likes = 0
+
+post1 = Post('good vibes')
+          </code></pre>
+          <p>Thường dùng cùng tên cho tham số &amp; thuộc tính, ví dụ <span class="inline-code">text</span>.</p>
+        </section>
+
+        <!-- ====================== Slide: Object Creation Protocol ====================== -->
+        <section>
+          <h2>Giao thức tạo đối tượng</h2>
+          <p>Với lời gọi <span class="inline-code">&lt;ClassName&gt;(&lt;args&gt;)</span>, Python làm:</p>
+          <ol>
+            <li>Tạo một đối tượng mới trong <span class="keyword">heap</span>.</li>
+            <li>Gán một <span class="keyword">identifier</span> cho đối tượng.</li>
+            <li>Gọi <span class="inline-code">__init__</span>:
+              <ul>
+                <li>Đối tượng mới là tham số đầu (<span class="inline-code">self</span>).</li>
+                <li>Các <span class="inline-code">&lt;args&gt;</span> còn lại truyền cho những tham số sau.</li>
+                <li>Hàm khởi tạo phải trả về <span class="inline-code">None</span>.</li>
+              </ul>
+            </li>
+            <li>Trả về identifier của đối tượng mới.</li>
+          </ol>
+        </section>
+
+        <!-- ====================== Slide: Tổng kết cú pháp class ====================== -->
+        <section>
+          <h2>Tổng kết cú pháp lớp</h2>
+          <table style="width: 100%; font-size: 0.7em">
+            <thead>
+              <tr>
+                <th>Thành phần</th>
+                <th>Cú pháp</th>
+                <th>Ghi chú</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Định nghĩa lớp</td>
+                <td><span class="inline-code">class &lt;ClassName&gt;: ...</span></td>
+                <td>Tên lớp thường viết <span class="keyword">hoa chữ đầu</span>.</td>
+              </tr>
+              <tr>
+                <td>Initializer</td>
+                <td><span class="inline-code">def __init__(self, ...): ...</span></td>
+                <td>Tên bắt buộc là <span class="inline-code">__init__</span>, tham số đầu là <span
+                    class="inline-code">self</span>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ====================== Slide: Do All Methods Have Dunder Names? ====================== -->
+        <section style="font-size: 0.7em">
+          <h2>Tất cả phương thức đều có tên dunder?</h2>
+
+          <p><strong>Chắc chắn là không!</strong> Hãy nhớ lại một số phương thức của <span class="keyword">list</span>
+            sau:</p>
+
+          <table style="width: 100%;">
+            <thead>
+              <tr>
+                <th>Phương thức</th>
+                <th>Mô tả</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">lst.index(item)</span></td>
+                <td>Trả về chỉ số của lần xuất hiện đầu tiên của <span class="inline-code">item</span> trong <span
+                    class="inline-code">lst</span>.</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">lst.insert(i, item)</span></td>
+                <td>Chèn <span class="inline-code">item</span> vào <span class="inline-code">lst</span> ngay trước phần
+                  tử tại vị trí <span class="inline-code">i</span>, các phần tử bên phải bị dời sang phải.</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">lst.append(item)</span></td>
+                <td>Thêm <span class="inline-code">item</span> vào cuối <span class="inline-code">lst</span>.</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">lst1.extend(lst2)</span></td>
+                <td>Nối tất cả phần tử của <span class="inline-code">lst2</span> vào sau <span
+                    class="inline-code">lst1</span>.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>
+            Các <span class="keyword">phương thức dunder</span> được dùng cho những nhiệm vụ đặc biệt, gắn với cơ chế
+            riêng của Python.<br />
+            <strong>Phần lớn phương thức ta tự định nghĩa sẽ không phải là dunder.</strong>
+          </p>
+        </section>
+
+      </section>
+
+      <!-- ====================== Chương 2: Phương thức & self ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">2.</span><br />
+            Phương thức &amp; tham số <span class="inline-code">self</span>
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: What are Methods? ====================== -->
+        <section>
+          <h2>Phương thức là gì?</h2>
+          <ul>
+            <li>Về mặt cú pháp: hàm được <span class="keyword">định nghĩa bên trong lớp</span>.</li>
+            <li>Về mặt khái niệm: “<span class="keyword">thông điệp</span>” gửi đến đối tượng.</li>
+            <li>Đối tượng có thể:
+              <ul>
+                <li>Thực hiện hành vi (cập nhật trạng thái).</li>
+                <li>Hoặc trả lại một giá trị.</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ Counter ====================== -->
+        <!-- ====================== Slide: Example: "Messages" to a Tally Counter ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: bộ đếm <span class="keyword">Counter</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Counter:
+    def __init__(self):
+        self.count = 0
+
+    def currCount(self):
+        return self.count
+
+    def incr(self):
+        self.count = self.count + 1
+
+    def reset(self):
+        self.count = 0
+          </code></pre>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Dùng Counter</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> ctr = Counter()
+>>> ctr.currCount()
+0
+>>> ctr.incr()
+>>> ctr.currCount()
+1
+          </code></pre>
+          <p>Gọi phương thức bằng cú pháp <span class="inline-code">obj.method(...)</span>.</p>
+        </section>
+
+        <!-- ====================== Slide: Methods dùng self để truy cập thuộc tính ====================== -->
+        <!-- ====================== Slide: 1. Methods Use self to Access Attributes ====================== -->
+        <section>
+          <h2>Phương thức dùng <span class="inline-code">self</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Counter:
+    def __init__(self):
+        self.count = 0
+
+    def currCount(self):
+        return self.count
+
+    def incr(self):
+        self.count = self.count + 1
+
+    def reset(self):
+        self.count = 0
+          </code></pre>
+          <p><span class="keyword">self</span> luôn trỏ tới đối tượng nhận thông điệp.</p>
+        </section>
+
+        <!-- ====================== Slide: Lời gọi phương thức & self ====================== -->
+        <!-- ====================== Slide: 2. Method Calls Make the Object the self Param. ====================== -->
+        <section data-auto-animate>
+          <h2>Lời gọi phương thức = lời gọi hàm</h2>
+          <ul>
+            <li>Cú pháp: <span class="inline-code">&lt;obj&gt;.&lt;method&gt;(&lt;args&gt;)</span>.</li>
+            <li>Thực chất tương đương:
+              <ul>
+                <li><span class="inline-code">&lt;method&gt;(&lt;obj&gt;, &lt;args&gt;)</span></li>
+              </ul>
+            </li>
+            <li>Đó là lý do vì sao tham số đầu tiên phải là <span class="keyword">self</span>.</li>
+          </ul>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Quên self sẽ ra sao?</h2>
+          <pre><code class="language-python" data-trim>
+class Counter:
+    def __init__():
+        self.count = 0
+          </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> ctr = Counter()
+TypeError: Counter.__init__() takes 0 positional arguments but 1 was given
+          </code></pre>
+          <p>Python tự động truyền <span class="inline-code">self</span>; nếu quên khai báo tham số sẽ báo lỗi.</p>
+        </section>
+      </section>
+
+      <!-- ====================== Slide: Biểu diễn đối tượng khi in ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">3.</span>
+            <br />
+            Biểu diễn đối tượng khi in
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Displaying Objects as Strings ====================== -->
+        <section>
+          <h2>In đối tượng ra màn hình</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> Point3(2, 3, 5)
+<__main__.Point3 object at 0x10377e990>
+
+>>> range(0, 10, 2)
+range(0, 10, 2)
+          </code></pre>
+          <ul>
+            <li>Mặc định, đối tượng tự định nghĩa in ra dạng “&lt;Class at address&gt;”.</li>
+            <li>Muốn hiển thị <span class="keyword">đẹp hơn</span> cho lập trình viên &amp; người dùng?</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: __repr__ ====================== -->
+        <!-- ====================== Slide: The String Representation Method ====================== -->
+        <section data-auto-animate>
+          <h2>Biểu diễn chuỗi: <span class="inline-code">__repr__</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Point3:
+    def __repr__(self):
+        return 'Point3(' \
+            + str(self.x) + ', ' \
+            + str(self.y) + ', ' \
+            + str(self.z) \
+            + ')'
+          </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> Point3(2, 3, 5)
+Point3(2, 3, 5)
+          </code></pre>
+          <p><span class="keyword">__repr__</span> dành cho lập trình viên, dùng trong tương tác &amp; debug.</p>
+        </section>
+
+        <!-- ====================== Slide: __str__ ====================== -->
+        <!-- ====================== Slide: The String Conversion Method ====================== -->
+        <section data-auto-animate>
+          <h2>Chuỗi cho người dùng: <span class="inline-code">__str__</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Point3:
+    def __str__(self):
+        return '(' \
+            + str(self.x) + ', ' \
+            + str(self.y) + ', ' \
+            + str(self.z) \
+            + ')'
+          </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> str(Point3(2, 3, 5))
+'(2, 3, 5)'
+>>> print(Point3(2, 3, 5))
+(2, 3, 5)
+          </code></pre>
+          <ul>
+            <li><span class="inline-code">__repr__</span>: cho lập trình viên.</li>
+            <li><span class="inline-code">__str__</span>: cho người dùng cuối.</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 4: Kế thừa & phân cấp lớp ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">4.</span><br />
+            Kế thừa &amp; phân cấp lớp
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Subclassing – khái niệm ====================== -->
+        <!-- ====================== Slide: Subclassing ====================== -->
+        <section>
+          <h2>Kế thừa (<span class="keyword">subclassing</span>)</h2>
+          <ul>
+            <li><span class="keyword">Subclass</span> được định nghĩa dựa trên một lớp có sẵn (superclass).</li>
+            <li>Subclass <span class="keyword">chuyên biệt hóa</span> superclass:
+              <ul>
+                <li>Thêm hành vi mới.</li>
+                <li>Hoặc tùy biến hành vi cũ.</li>
+              </ul>
+            </li>
+            <li>Ví dụ:
+              <ul>
+                <li><span class="inline-code">Account</span> &rarr; lớp cơ sở.</li>
+                <li><span class="inline-code">InterestAccount</span> &rarr; lớp con (có lãi suất).</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Subclass syntax ====================== -->
+        <!-- ====================== Slide: Subclass Definitions ====================== -->
+        <section data-auto-animate>
+          <h2>Cú pháp định nghĩa subclass</h2>
+          <pre><code class="language-python" data-trim>
+class Account:
+    ...
+
+class InterestAccount(Account):
+    ...
+          </code></pre>
+          <p>Ý nghĩa: <span class="keyword">InterestAccount</span> thừa hưởng toàn bộ phương thức từ <span
+              class="inline-code">Account</span>.</p>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ Account / InterestAccount ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: tài khoản có lãi</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Account:
+    def __init__(self, owner, number):
+        self._owner = owner
+        self._number = number
+        self._balance = 0
+
+    def deposit(self, amount):
+        self._balance += amount
+
+    def printStatement(self):
+        print('Owner: ' + self._owner)
+        print('Account Number: ' + str(self._number))
+        print('Balance: ' + str(self._balance))
+
+
+class InterestAccount(Account):
+    def addInterest(self, pct_rate):
+        interest = self._balance * pct_rate
+        self.deposit(interest)
+          </code></pre>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Dùng InterestAccount</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> acct = InterestAccount('Anne', '123')
+>>> acct.deposit(1000)
+>>> acct.addInterest(0.05)
+>>> acct.printStatement()
+Owner: Anne
+Account Number: 123
+Balance: 1050.0
+          </code></pre>
+          <p>Subclass sử dụng lại phương thức của superclass nhờ <span class="keyword">kế thừa</span>.</p>
+        </section>
+
+        <!-- ====================== Slide: Bottom-up rule ====================== -->
+        <!-- ====================== Slide: The Bottom-Up Rule for Finding Methods ====================== -->
+        <section>
+          <h2>Quy tắc <span class="keyword">bottom-up</span> tìm phương thức</h2>
+          <ol>
+            <li>Bắt đầu tìm trong <span class="inline-code">class</span> của đối tượng.</li>
+            <li>Nếu không có, đi “lên trên” superclass.</li>
+            <li>Tiếp tục cho đến khi tìm thấy hoặc hết lớp cha.</li>
+            <li>Nếu không tìm thấy &rarr; ném <span class="inline-code">AttributeError</span>.</li>
+          </ol>
+        </section>
+
+        <!-- ====================== Slide: super().__init__ ====================== -->
+        <!-- ====================== Slide: Initialization of Superclass Attributes ====================== -->
+        <section data-auto-animate>
+          <h2>Gọi initializer của superclass</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Account:
+    def __init__(self, owner, number):
+        self._owner = owner
+        self._number = number
+        self._balance = 0.0
+
+
+class CreditAccount(Account):
+    def __init__(self, owner, number, limit):
+        super().__init__(owner, number)
+        self._limit = limit
+          </code></pre>
+          <p><span class="inline-code">super().__init__(...)</span> khởi tạo phần trạng thái chung ở lớp cha.</p>
+        </section>
+
+        <!-- ====================== Slide: Không cần __init__ ở subclass ====================== -->
+        <section data-auto-animate>
+          <h2>Khi nào <em>không</em> cần viết lại <span class="inline-code">__init__</span>?</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Account:
+    def __init__(self, owner, number):
+        self._owner = owner
+        self._number = number
+        self._balance = 0.0
+
+
+class DepositAccount(Account):
+    # Không định nghĩa __init__ ở đây
+    pass
+
+acct = DepositAccount('Anne', '2546154123')
+          </code></pre>
+          <p>Quy tắc bottom-up: <span class="inline-code">DepositAccount</span> không có <span
+              class="inline-code">__init__</span> &rarr; dùng của <span class="inline-code">Account</span>.</p>
+        </section>
+
+        <!-- ====================== Slide: Subclassing Creates a Class Hierarchy ====================== -->
+        <section style="font-size: 0.85em">
+          <h2>Kế thừa tạo thành <span class="keyword">phân cấp lớp</span></h2>
+
+          <svg height="450" viewBox="0 0 900 450" xmlns="http://www.w3.org/2000/svg" role="img"
+            aria-label="Cấu trúc kế thừa giữa Account, DepositAccount, CreditAccount, InterestAccount">
+            <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" />
+              </marker>
+              <style>
+                .class-box {
+                  fill: #fff5d6;
+                  stroke: #b8945e;
+                  stroke-width: 1.5;
+                }
+
+                .class-title {
+                  font-family: "Helvetica", "Arial", sans-serif;
+                  font-size: 16px;
+                  font-weight: bold;
+                }
+
+                .class-method {
+                  font-family: "Courier New", monospace;
+                  font-size: 13px;
+                }
+
+                .divider-line {
+                  stroke: #b8945e;
+                  stroke-width: 1.2;
+                }
+
+                .inherit-line {
+                  stroke: #444;
+                  stroke-width: 2;
+                  marker-end: url(#arrowhead);
+                }
+              </style>
+            </defs>
+
+            <!-- Account -->
+            <g transform="translate(340, 40)">
+              <rect class="class-box" x="0" y="0" width="240" height="100" rx="4" ry="4" />
+              <line class="divider-line" x1="0" y1="35" x2="240" y2="35" />
+              <text class="class-title" x="110" y="22" text-anchor="middle">Account</text>
+              <text class="class-method" x="10" y="55">__init__(self, owner, number)</text>
+              <text class="class-method" x="10" y="75">balance(self)</text>
+              <text class="class-method" x="10" y="95">printStatement(self)</text>
+            </g>
+
+            <!-- DepositAccount -->
+            <g transform="translate(130, 210)">
+              <rect class="class-box" x="0" y="0" width="220" height="80" rx="4" ry="4" />
+              <line class="divider-line" x1="0" y1="35" x2="220" y2="35" />
+              <text class="class-title" x="110" y="22" text-anchor="middle">DepositAccount</text>
+              <text class="class-method" x="10" y="55">deposit(self, amount)</text>
+            </g>
+
+            <!-- InterestAccount -->
+            <g transform="translate(130, 330)">
+              <rect class="class-box" x="0" y="0" width="220" height="80" rx="4" ry="4" />
+              <line class="divider-line" x1="0" y1="35" x2="220" y2="35" />
+              <text class="class-title" x="110" y="22" text-anchor="middle">InterestAccount</text>
+              <text class="class-method" x="10" y="55">addInterest(self, pct_rate)</text>
+            </g>
+
+            <!-- CreditAccount -->
+            <g transform="translate(570, 210)">
+              <rect class="class-box" x="0" y="0" width="290" height="80" rx="4" ry="4" />
+              <line class="divider-line" x1="0" y1="35" x2="290" y2="35" />
+              <text class="class-title" x="125" y="22" text-anchor="middle">CreditAccount</text>
+              <text class="class-method" x="10" y="55">__init__(self, owner, number, limit)</text>
+              <text class="class-method" x="10" y="73">charge(self, amount)</text>
+            </g>
+
+            <!-- Arrows: Account -> DepositAccount -->
+            <line class="inherit-line" x1="450" y1="140" x2="260" y2="210" />
+
+            <!-- Arrows: Account -> CreditAccount -->
+            <line class="inherit-line" x1="450" y1="140" x2="695" y2="210" />
+
+            <!-- Arrows: DepositAccount -> InterestAccount -->
+            <line class="inherit-line" x1="240" y1="290" x2="240" y2="330" />
+          </svg>
+        </section>
+
+        <!-- ====================== Slide: Python class hierarchy ====================== -->
+        <section>
+          <h2>Phân cấp lớp trong Python</h2>
+          <ul>
+            <li>Tất cả lớp đều (trực tiếp hoặc gián tiếp) kế thừa từ <span class="keyword">object</span>.</li>
+            <li>Câu lệnh:
+              <pre><code class="language-python" data-trim>
+class C:
+    ...
+              </code></pre>
+              thực chất tương đương:
+              <pre><code class="language-python" data-trim>
+class C(object):
+    ...
+              </code></pre>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: The Super-est Class of All is object ====================== -->
+        <section>
+          <h2>Lớp gốc nhất là <span class="keyword">object</span></h2>
+
+          <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" role="img"
+            aria-label="Phân cấp lớp với object ở đỉnh, dưới là Account, DepositAccount, InterestAccount, CreditAccount">
+            <defs>
+              <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" />
+              </marker>
+              <style>
+                .class-box2 {
+                  fill: #fff5d6;
+                  stroke: #b8945e;
+                  stroke-width: 1.5;
+                }
+
+                .class-title2 {
+                  font-family: "Helvetica", "Arial", sans-serif;
+                  font-size: 16px;
+                  font-weight: bold;
+                }
+
+                .inherit-line2 {
+                  stroke: #444;
+                  stroke-width: 2;
+                  marker-end: url(#arrowhead2);
+                }
+              </style>
+            </defs>
+
+            <!-- object (root) -->
+            <g transform="translate(380, 40)">
+              <rect class="class-box2" x="0" y="0" width="140" height="40" rx="4" ry="4" />
+              <text class="class-title2" x="70" y="25" text-anchor="middle">object</text>
+            </g>
+
+            <!-- Account -->
+            <g transform="translate(360, 140)">
+              <rect class="class-box2" x="0" y="0" width="180" height="40" rx="4" ry="4" />
+              <text class="class-title2" x="90" y="25" text-anchor="middle">Account</text>
+            </g>
+
+            <!-- DepositAccount -->
+            <g transform="translate(170, 250)">
+              <rect class="class-box2" x="0" y="0" width="190" height="40" rx="4" ry="4" />
+              <text class="class-title2" x="95" y="25" text-anchor="middle">DepositAccount</text>
+            </g>
+
+            <!-- InterestAccount -->
+            <g transform="translate(170, 340)">
+              <rect class="class-box2" x="0" y="0" width="190" height="40" rx="4" ry="4" />
+              <text class="class-title2" x="95" y="25" text-anchor="middle">InterestAccount</text>
+            </g>
+
+            <!-- CreditAccount -->
+            <g transform="translate(540, 250)">
+              <rect class="class-box2" x="0" y="0" width="190" height="40" rx="4" ry="4" />
+              <text class="class-title2" x="95" y="25" text-anchor="middle">CreditAccount</text>
+            </g>
+
+            <!-- Arrows: object -> Account -->
+            <line class="inherit-line2" x1="450" y1="80" x2="450" y2="140" />
+
+            <!-- Arrows: Account -> DepositAccount -->
+            <line class="inherit-line2" x1="420" y1="180" x2="265" y2="250" />
+
+            <!-- Arrows: Account -> CreditAccount -->
+            <line class="inherit-line2" x1="480" y1="180" x2="635" y2="250" />
+
+            <!-- Arrows: DepositAccount -> InterestAccount -->
+            <line class="inherit-line2" x1="265" y1="290" x2="265" y2="340" />
+          </svg>
+        </section>
+
+        <!-- ====================== Slide: object.__str__ & str() ====================== -->
+        <section>
+          <h2>Lớp gốc <span class="inline-code">object</span></h2>
+          <pre><code class="language-python" data-trim>
+class object:
+    def __str__(self):
+        # trả về chuỗi kiểu
+        # '&lt;class-name&gt; object at &lt;address&gt;'
+        ...
+          </code></pre>
+          <pre><code class="language-python" data-trim>
+class C(object):
+    ...
+    # không định nghĩa __str__()
+          </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> c = C()
+>>> str(c)
+&lt;__main__.C object at 0x...&gt;
+          </code></pre>
+          <p>Nếu lớp ta không định nghĩa <span class="keyword">__str__</span>, Python dùng bản mặc định của <span
+              class="inline-code">object</span>.</p>
+        </section>
+
+        <!-- ====================== Slide: isinstance vs type ====================== -->
+        <!-- ====================== Slide: Testing Types ====================== -->
+        <section>
+          <h2>Kiểm tra kiểu đối tượng</h2>
+          <table style="width: 100%; font-size: 0.7em">
+            <thead>
+              <tr>
+                <th>Hàm</th>
+                <th>Mô tả</th>
+                <th>Ví dụ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="keyword">isinstance(obj, cls)</span></td>
+                <td>Trả về <span class="inline-code">True</span> nếu <span class="inline-code">obj</span> là instance
+                  của <span class="inline-code">cls</span> hoặc <strong>bất kỳ subclass</strong> nào.</td>
+                <td><span class="inline-code">isinstance(a, Account)</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword">type(obj)</span></td>
+                <td>Trả về lớp <span class="inline-code">trực tiếp</span> của đối tượng; không “leo” lên superclass.
+                </td>
+                <td><span class="inline-code">type(a) == InterestAccount</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 4: Ghi đè phương thức ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">4.</span><br />
+            Ghi đè phương thức (overriding)
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Overriding – khái niệm ====================== -->
+        <section>
+          <h2>Ghi đè (<span class="keyword">overriding</span>)</h2>
+          <ul>
+            <li>Subclass định nghĩa lại một phương thức <span class="keyword">đã có</span> ở superclass.</li>
+            <li>Theo quy tắc bottom-up, định nghĩa ở subclass <span class="keyword">ưu tiên</span>.</li>
+            <li>Giúp tùy biến hành vi cho lớp con.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ printStatement ====================== -->
+        <!-- ====================== Slide: Example 1: Overrides Account.printStatement() ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: ghi đè <span class="inline-code">printStatement</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Account:
+    def printStatement(self):
+        print('Statement:')
+        print('Account #: ' + self._number)
+        print('Owner: ' + self._owner)
+        print('Balance: $' + str(self._balance))
+
+
+class CreditAccount(Account):
+    def printStatement(self):
+        print('Statement:')
+        print('Account #: ' + self._number)
+        print('Owner: ' + self._owner)
+        print('Balance: $' + str(self._balance))
+        print('Limit: $' + str(self._limit))
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Dùng super() để tránh lặp code ====================== -->
+        <section data-auto-animate>
+          <h2>Dùng <span class="inline-code">super()</span> để tránh lặp code</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Account:
+    def printStatement(self):
+        print('Statement:')
+        print('Account #: ' + self._number)
+        print('Owner: ' + self._owner)
+        print('Balance: $' + str(self._balance))
+
+
+class CreditAccount(Account):
+    def printStatement(self):
+        super().printStatement()
+        print('Limit: $' + str(self._limit))
+          </code></pre>
+          <p>Gọi lại phiên bản superclass rồi thêm thông tin riêng của subclass.</p>
+        </section>
+
+        <!-- ====================== Slide: Overriding __str__ ====================== -->
+        <!-- ====================== Slide: Example 2: Overrides object.__str__() ====================== -->
+        <section>
+          <h2>Ghi đè <span class="inline-code">object.__str__</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Account:
+    def __str__(self):
+        return 'Account #' + self._number
+          </code></pre>
+          <p>Giờ khi dùng <span class="inline-code">str(acct)</span>, ta nhận chuỗi thân thiện hơn thay vì địa chỉ bộ
+            nhớ.</p>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 5: Equivalence & __eq__ ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">5.</span><br />
+            Equivalence &amp; toán tử ==
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: == nghĩa là gì? ====================== -->
+        <!-- ====================== Slide: What does `==` mean? ====================== -->
+        <section data-auto-animate>
+          <h2>Toán tử <span class="inline-code">==</span> nghĩa là gì?</h2>
+          <pre><code class="language-python" data-trim>
+class Point3:
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+          </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> Point3(0, 0, 0) == Point3(0, 0, 0)  # 2 đối tượng khác nhau
+False
+>>> 42 == 42
+True
+          </code></pre>
+          <p>Hai điểm có cùng tọa độ nhưng lại không “bằng nhau” theo mặc định.</p>
+        </section>
+
+        <!-- ====================== Slide: Equality vs Equivalence ====================== -->
+        <section data-auto-animate>
+          <h2>Equality vs <span class="keyword">Equivalence</span></h2>
+          <table style="width: 100%; font-size: 0.75em">
+            <thead>
+              <tr>
+                <th>Khái niệm</th>
+                <th>Toán tử</th>
+                <th>Câu hỏi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="keyword">Equality</span></td>
+                <td><span class="inline-code">is</span></td>
+                <td>Hai biến có trỏ tới <strong>cùng một</strong> đối tượng trong bộ nhớ không?</td>
+              </tr>
+              <tr>
+                <td><span class="keyword">Equivalence</span></td>
+                <td><span class="inline-code">==</span></td>
+                <td>Hai đối tượng có <strong>tương đương</strong> về nội dung/ý nghĩa không?</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ với int ====================== -->
+        <!-- ====================== Slide: Equivalence with a Built-in Class ====================== -->
+        <section>
+          <h2>Ví dụ với kiểu built-in</h2>
+          <pre><code class="language-python" data-trim>
+def incr(n):
+    return n + 1
+          </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> x = 1000
+>>> y = incr(x) - 1
+>>> x == y
+True
+>>> x is y
+False
+          </code></pre>
+          <p>Python tùy biến <span class="inline-code">==</span> cho <span class="keyword">int</span> để so sánh giá
+            trị, không so sánh địa chỉ.</p>
+        </section>
+
+        <!-- ====================== Slide: Mặc định __eq__ của object ====================== -->
+        <!-- ====================== Slide: Overriding __eq__() / object.__eq__ ====================== -->
+        <section data-auto-animate>
+          <h2>Mặc định <span class="inline-code">__eq__</span> của <span class="inline-code">object</span></h2>
+          <pre><code class="language-python" data-trim>
+class object:
+    ...
+    def __eq__(self, other):
+        return (self is other)
+          </code></pre>
+          <p>Với lớp tự định nghĩa, mặc định <span class="inline-code">==</span> giống hệt <span
+              class="inline-code">is</span>.</p>
+        </section>
+
+        <!-- ====================== Slide: Tự định nghĩa __eq__ cho Point3 ====================== -->
+        <!-- ====================== Slide: Equivalence with Custom Classes ====================== -->
+        <section data-auto-animate>
+          <h2>Tự định nghĩa <span class="inline-code">__eq__</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Point3:
+    ...
+    def __eq__(self, other):
+        """Same coordinates"""
+        return type(other) == Point3 \
+            and self.x == other.x \
+            and self.y == other.y \
+            and self.z == other.z
+          </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> Point3(0, 0, 0) == Point3(0, 0, 0)
+True
+          </code></pre>
+          <p>Giờ <span class="keyword">equivalence</span> cho Point3 là “cùng tọa độ”.</p>
+        </section>
+
+        <!-- ====================== Slide: Cách Python dùng __eq__ ====================== -->
+        <section data-auto-animate>
+          <h2>Python dịch <span class="inline-code">==</span> sang <span class="inline-code">__eq__</span></h2>
+          <ul>
+            <li>Biểu thức <span class="inline-code">&lt;expr1&gt; == &lt;expr2&gt;</span> được dịch thành:
+              <ul>
+                <li><span class="inline-code">&lt;expr1&gt;.__eq__(&lt;expr2&gt;)</span></li>
+              </ul>
+            </li>
+            <li>Nếu lớp của <span class="inline-code">&lt;expr2&gt;</span> là <span class="keyword">subclass</span> của
+              lớp <span class="inline-code">&lt;expr1&gt;</span>, Python có thể ưu tiên dùng <span
+                class="inline-code">&lt;expr2&gt;.__eq__</span>.</li>
+            <li>Nhờ overriding, ta tùy biến được khái niệm “tương đương” cho từng lớp.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Other Operators are Also Overrides ====================== -->
+        <section style="font-size: 0.75em">
+          <h2>Các toán tử khác cũng là <span class="keyword">override</span></h2>
+
+          <table style="width: 100%; font-size: 0.75em">
+            <thead>
+              <tr>
+                <th>Toán tử</th>
+                <th>Phương thức dunder</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">==</span></td>
+                <td><span class="inline-code">__eq__</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">!=</span></td>
+                <td><span class="inline-code">__ne__</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">+</span></td>
+                <td><span class="inline-code">__add__</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">-</span></td>
+                <td><span class="inline-code">__sub__</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">and</span></td>
+                <td><span class="inline-code">__and__</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">or</span></td>
+                <td><span class="inline-code">__or__</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">&lt;</span></td>
+                <td><span class="inline-code">__lt__</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">&lt;=</span></td>
+                <td><span class="inline-code">__le__</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">&gt;</span></td>
+                <td><span class="inline-code">__gt__</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">&gt;=</span></td>
+                <td><span class="inline-code">__ge__</span></td>
+              </tr>
+              <tr>
+                <td><em>… và nhiều toán tử khác</em></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p style="margin-top: 0.8rem; font-size: 0.85em;">
+            * Bạn không cần phải nhớ hết tên các phương thức này, chỉ cần nhớ <span class="inline-code">__eq__</span> là
+            đủ.
+          </p>
+        </section>
+      </section>
+
+      <!-- ====================== Slide: Summary ====================== -->
+      <section style="font-size: 0.75em">
+        <h2>Tổng kết</h2>
+        <ul>
+          <li>Lớp (<span class="inline-code">class</span>):
+            <ul>
+              <li>Dùng <span class="inline-code">__init__</span> để khởi tạo thuộc tính nhất quán.</li>
+              <li>Phương thức nhận tham số đầu là <span class="inline-code">self</span>.</li>
+            </ul>
+          </li>
+          <li>Chuỗi biểu diễn đối tượng:
+            <ul>
+              <li><span class="inline-code">__repr__</span> cho lập trình viên.</li>
+              <li><span class="inline-code">__str__</span> cho người dùng.</li>
+            </ul>
+          </li>
+          <li>Kế thừa &amp; phân cấp lớp:
+            <ul>
+              <li>Subclass <span class="keyword">kế thừa</span> hành vi từ superclass.</li>
+              <li><span class="inline-code">super()</span> giúp gọi lại phương thức lớp cha.</li>
+            </ul>
+          </li>
+          <li>Ghi đè &amp; equivalence:
+            <ul>
+              <li>Overriding cho phép tùy biến hành vi (<span class="inline-code">__str__</span>, <span
+                  class="inline-code">__eq__</span>, ...).</li>
+              <li>Phân biệt <span class="inline-code">is</span> (cùng đối tượng) và <span class="inline-code">==</span>
+                (tương đương).</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ====================== Footer ====================== -->
+      <div class="footer">
+        Tư duy Tính toán (HK 1 2025–2026) §10: Classes, Methods, Subclasses
+      </div>
+
+    </div>
+  </div>
+
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+
+  <!-- Nguồn tham chiếu (ẩn trong HTML) -->
+  <!-- :contentReference[oaicite:0]{index=0} -->
+  <!-- :contentReference[oaicite:1]{index=1} -->
+</body>
+
+</html>
