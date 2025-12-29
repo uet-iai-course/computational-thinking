@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="vi">
+<!-- Chuyển đổi từ PPTX: lec12_exception_debugging.pptx | Tham chiếu cấu trúc Reveal.js: lecture-11-recursion.html -->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Bài 12: Ngoại lệ &amp; Gỡ lỗi (Exception &amp; Debugging)</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css" />
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  <link rel="stylesheet" href="lecture-style.css" />
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <!-- ====================== Slide: Trang tiêu đề ====================== -->
+        <section>
+          <h2 class="r-fit-text">Tư duy Tính toán</h2>
+          <h2>Ngoại lệ &amp; Gỡ lỗi <br><span class="text-light">(Exception &amp; Debugging)</span></h2>
+          <p>Trường ĐH Công nghệ – Đại học Quốc gia Hà Nội</p>
+        </section>
+
+        <!-- ====================== Slide: Nội dung ====================== -->
+        <section>
+          <h2>Nội dung</h2>
+          <ol>
+            <li><span class="keyword">Lỗi cú pháp</span> (Syntax error)</li>
+            <li>Ngoại lệ (Exception)</li>
+            <li>Xử lý ngoại lệ với <span class="inline-code">if/try/except</span></li>
+            <li>Ngoại lệ không được xử lý (Unhandled exception); Dọn dẹp với <span class="inline-code">finally</span>
+            </li>
+            <li>Ném ngoại lệ với <span class="inline-code">raise</span></li>
+            <li><span class="keyword">Assertion</span></li>
+            <li>Gỡ lỗi (Debugging)</li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 1: Lỗi cú pháp & kết thúc thực thi ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section data-auto-animate>
+          <h1>
+            <span class="text-light">1.</span><br />
+            Lỗi cú pháp
+          </h1>
+        </section>
+
+        <section>
+          <h2>Lỗi cú pháp (Syntax error)</h2>
+          <ul>
+            <li>Xảy ra khi mã vi phạm <span class="keyword">ngữ pháp</span> của Python.</li>
+            <li>Được phát hiện bởi parser <strong>trước khi</strong> chương trình chạy.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">while True
+	print("Hello world")</code></pre>
+
+          <pre><code class="language-plaintext" data-trim>
+File "script.py", line 1
+    while True
+              ^
+SyntaxError: expected ':'</code></pre>
+        </section>
+
+        <!-- ====================== Slide: Lỗi cú pháp: thiếu dấu “:” ====================== -->
+        <section data-auto-animate>
+          <h2>Lỗi cú pháp: thiếu dấu <span class="inline-code">:</span></h2>
+          <ul>
+            <li>Chỉ cần thiếu một ký hiệu cũng khiến chương trình <span class="keyword">không thể chạy</span>.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">while True
+	print("Hello world")</code></pre>
+          <p class="text-light">Thiếu dấu hai chấm (<span class="inline-code">:</span>) sau <span
+              class="inline-code">while True</span>.</p>
+        </section>
+
+        <!-- ====================== Slide: Câu hỏi: hàm kết thúc như thế nào? ====================== -->
+        <section data-auto-animate>
+          <h2>Hàm kết thúc thực thi như thế nào?</h2>
+          <p>Nếu một hàm <span class="keyword">đúng cú pháp</span>, nó “kết thúc” theo cách nào?</p>
+        </section>
+
+        <!-- ====================== Slide: Hai cách kết thúc thực thi ====================== -->
+        <section data-auto-animate>
+          <h2>Hai cách kết thúc thực thi</h2>
+          <table style="width: 100%; font-size: 0.75em">
+            <thead>
+              <tr>
+                <th>Kiểu kết thúc</th>
+                <th>Dấu hiệu</th>
+                <th>Ý nghĩa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>✅ Bình thường</td>
+                <td><span class="inline-code">return</span></td>
+                <td>
+                  Trả về một giá trị; nếu không có <span class="inline-code">return</span> thì tự trả về
+                  <span class="inline-code">None</span>.
+                </td>
+              </tr>
+              <tr>
+                <td>⚠️ Bất thường</td>
+                <td><span class="keyword">Exception</span></td>
+                <td>
+                  Hàm dừng <em>trước khi</em> chạy hết; ngoại lệ được “ném” (một số ngôn ngữ gọi là “throw”).
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 2: Ngoại lệ (Exception) ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">2.</span><br />
+            Ngoại lệ<br />
+            <span class="text-light">(Exception)</span>
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Ngoại lệ là gì? ====================== -->
+        <section>
+          <h2>Ngoại lệ là gì?</h2>
+          <ul>
+            <li>Ngoại lệ là lỗi được phát hiện <span class="keyword">khi đang chạy</span>.</li>
+            <li>Nó làm gián đoạn luồng thực thi bình thường của chương trình.</li>
+            <li>
+              Ví dụ: <span class="inline-code">ValueError</span>, <span class="inline-code">ZeroDivisionError</span>,
+              <span class="inline-code">TypeError</span>, <span class="inline-code">FileNotFoundError</span>.
+            </li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Các loại ngoại lệ phổ biến ====================== -->
+        <section style="font-size: 0.7em;">
+          <h2>Các loại ngoại lệ phổ biến</h2>
+          <p>Python có nhiều ngoại lệ dựng sẵn để mô tả các lỗi runtime thường gặp.</p>
+          <table style="width: 100%; font-size: 0.75em">
+            <thead>
+              <tr>
+                <th>Ngoại lệ</th>
+                <th>Khi nào thường gặp</th>
+                <th>Gợi ý</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">ZeroDivisionError</span></td>
+                <td>Chia cho 0</td>
+                <td>⚠️ Kiểm tra mẫu số trước khi chia</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">IndexError</span></td>
+                <td>Chỉ số vượt phạm vi danh sách</td>
+                <td>✅ Kiểm tra <span class="inline-code">0 ≤ i &lt; len(lst)</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">ValueError</span></td>
+                <td>Giá trị không hợp lệ cho một thao tác</td>
+                <td>⚠️ Xác thực đầu vào</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">FileNotFoundError</span></td>
+                <td>Không tìm thấy tệp</td>
+                <td>✅ Kiểm tra đường dẫn / quyền truy cập</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">TypeError</span></td>
+                <td>Thao tác trên kiểu dữ liệu không tương thích</td>
+                <td>⚠️ Kiểm tra kiểu/ép kiểu hợp lệ</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="text-light">Có thể tra thêm trong tài liệu Python.</p>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ: chia cho 0 ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: chia cho 0</h2>
+          <p>Khi <span class="keyword">mẫu số</span> bằng 0, phép chia sẽ gây ngoại lệ.</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def divide(a, b):
+    """
+    Divide a by b and return the result.
+    Raises an exception if b is zero.
+    """
+    return a / b
+
+res = divide(10, 0)
+print(res)</code></pre>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ: điều gì xảy ra khi chạy? ====================== -->
+        <section data-auto-animate>
+          <h2>Điều gì xảy ra khi chạy?</h2>
+          <ul>
+            <li>Lời gọi <span class="inline-code">divide(10, 0)</span> sẽ làm chương trình dừng vì <span
+                class="keyword">ngoại lệ</span>.</li>
+            <li>Điển hình là <span class="inline-code">ZeroDivisionError</span>.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Câu hỏi: code này có thể lỗi gì? ====================== -->
+        <section data-auto-animate>
+          <h2>Câu hỏi</h2>
+          <h4>code này có thể lỗi gì?</h4>
+          <pre><code class="language-python" data-trim data-line-numbers="">import random
+the_num = random.randint(1, 100)
+guess = input('What number am I thinking of?')
+num = int(guess)
+if num == the_num:
+	  print('Correct!')   
+else:
+	  print('Sorry, that was not it.')</code></pre>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 3: Xử lý ngoại lệ (if / try-except) ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section data-auto-animate>
+          <h1>
+            <span class="text-light">3.</span><br />
+            Xử lý ngoại lệ<br />
+            <span class="text-light">if / try-except</span>
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: if giúp chặn phép chia 0 ====================== -->
+        <section data-auto-animate>
+          <h2>Dùng <span class="inline-code">if</span> để chặn lỗi</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">def divide(a, b):
+    if b == 0:
+        print("Error: Cannot divide by zero.")
+        return None
+    return a / b
+
+res = divide(10, 0)
+print(res)</code></pre>
+          <ul>
+            <li><span class="inline-code">if b == 0</span> kiểm tra điều kiện và tránh phép chia không hợp lệ <span
+                class="inline-code">a / b</span>.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: if không đủ cho mọi tình huống ====================== -->
+        <section>
+          <h2><span class="inline-code">if</span> là không đủ?</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">import random
+the_num = random.randint(1, 100)
+guess = input('What number am I thinking of?')
+if is_int(guess):
+    num = int(guess)
+    if num == the_num:
+        print('Correct!')
+    else:
+        print('Sorry, that was not it.')
+else:
+    print('Sorry, you did not enter a number')</code></pre>
+          <ul>
+            <li>Sẽ “đẹp” nếu có <span class="inline-code">is_int()</span>, nhưng Python không có sẵn hàm này.</li>
+            <li>Ta cần cách tổng quát hơn: <span class="inline-code">try/except</span>.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: try/except cho trò đoán số ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">try/except</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">import random
+the_num = random.randint(1, 100)
+guess = input('What number am I thinking of?')
+try:
+    num = int(guess)
+    if num == the_num:
+        print('Correct!')
+    else:
+        print('Sorry, that was not it.')
+except:
+    print('Sorry, you did not enter a number')</code></pre>
+
+          <ul>
+            <li>Khi có lỗi trong <span class="inline-code">try</span>, phần còn lại của <span
+                class="inline-code">try</span> bị bỏ qua, và chạy <span class="keyword">except</span>.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Câu hỏi iClicker ====================== -->
+        <section style="font-size: 0.8em;">
+          <h2>Câu hỏi nhanh (iClicker)</h2>
+          <p><strong>Output là gì?</strong></p>
+          <ul style="font-size: 0.9em">
+            <li>A. Prints <span class="inline-code">None</span></li>
+            <li>B. Prints <span class="inline-code">'Out of bounds'</span></li>
+            <li>C. Prints <span class="inline-code">'Will this run?'</span> rồi <span class="inline-code">'Out of
+                bounds'</span></li>
+            <li>D. Prints <span class="inline-code">'Out of bounds'</span> rồi <span class="inline-code">'Will this
+                run?'</span></li>
+            <li>E. Prints <span class="inline-code">'IndexError'</span></li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def get_item(lst, idx):
+    try:
+        return lst[idx]
+    except:
+        return 'Out of bounds'
+
+print('Will this run?')
+print(get_item([1, 2, 3], 5))</code></pre>
+        </section>
+
+        <!-- ====================== Slide: Cú pháp try/except cơ bản ====================== -->
+        <section>
+          <h2>Cú pháp <span class="inline-code">try/except</span> cơ bản</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">try: 
+    &lt;statements&gt;
+except:
+    &lt;statements&gt;</code></pre>
+          <ul>
+            <li><span class="inline-code">try</span>: đoạn có thể phát sinh lỗi.</li>
+            <li><span class="inline-code">except</span>: đoạn xử lý khi lỗi xảy ra.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ try/except với input hợp lệ ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: đầu vào hợp lệ</h2>
+          <ul>
+            <li>Input là <span class="inline-code">5</span> → không có ngoại lệ → bỏ qua <span
+                class="inline-code">except</span>.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">try:
+    guess = input("Input an int: ")
+    num = int(guess)
+    print('The number is ', num)
+except:
+    print("Error! it's not an int")
+print("Done.")</code></pre>
+          <pre><code class="language-plaintext" data-trim>Input an int: 5
+The number is  5
+Done.</code></pre>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ try/except với input không hợp lệ ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: đầu vào không hợp lệ</h2>
+          <ul>
+            <li>Input là <span class="inline-code">abc</span> → lỗi trong <span class="inline-code">try</span> → chạy
+              <span class="keyword">except</span>.
+            </li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">try:
+    guess = input("Input an int: ")
+    num = int(guess)
+    print('The number is ', num)
+except:
+    print("Error! it's not an int")
+print("Done.")</code></pre>
+          <pre><code class="language-plaintext" data-trim>Input an int: abc
+Error! it's not an int
+Done.</code></pre>
+        </section>
+
+        <!-- ====================== Slide: try/except với ngoại lệ theo tên ====================== -->
+        <section>
+          <h2><span class="keyword">Bắt theo loại</span> ngoại lệ</h2>
+          <ul>
+            <li>Nếu ngoại lệ xảy ra trong <span class="inline-code">try</span>, Python sẽ chạy <span
+                class="inline-code">except</span> phù hợp.</li>
+            <li>Nếu không khớp, có thể rơi vào <span class="inline-code">except:</span> mặc định (nếu có).</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">try: 
+    guess = input('?')
+    num = int(guess)
+except ValueError:
+    print('Not an int')
+except TypeError:
+    print()
+except:
+    print('Sorry')</code></pre>
+        </section>
+
+        <!-- ====================== Slide: Không có except mặc định ====================== -->
+        <section>
+          <h2>Không có <span class="inline-code">except</span> mặc định</h2>
+          <ul>
+            <li>Nếu không có nhánh nào <span class="keyword">khớp</span> và cũng không có nhánh mặc định → lỗi sẽ
+              <strong>không được xử lý</strong>.
+            </li>
+            <li>Ngoại lệ sẽ lan truyền (propagate) và có thể làm chương trình dừng.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">try: 
+    guess = input('?')
+    num = int(guess)
+except ValueError:
+    print('Not an int')
+except TypeError:
+    print()</code></pre>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 4: Unhandled exception & finally ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">4.</span><br />
+            Ngoại lệ không được xử lý<br />
+            <span class="text-light">và finally</span>
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Ngoại lệ lan truyền ====================== -->
+        <section>
+          <h2>Ngoại lệ lan truyền (Propagation)</h2>
+          <ul>
+            <li>Nếu không được bắt, ngoại lệ sẽ <span class="keyword">lan truyền</span> theo call stack.</li>
+            <li><span class="inline-code">finally</span> giúp đảm bảo dọn dẹp luôn chạy.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Khi nào ngoại lệ bị “bỏ sót”? ====================== -->
+        <section>
+          <h2>Ngoại lệ không được xử lý (Unhandled)</h2>
+          <ul>
+            <li>Có thể xảy ra khi:</li>
+            <li>❌ Không có <span class="inline-code">try</span>.</li>
+            <li>❌ Không có <span class="inline-code">except</span> cho đúng loại ngoại lệ.</li>
+            <li>❌ Không có <span class="inline-code">except</span> mặc định.</li>
+            <li>Ngoại lệ sẽ được “đẩy lên” frame kế tiếp trên call stack để tìm nơi bắt.</li>
+            <li>Nếu không nơi nào bắt → chương trình kết thúc với lỗi (crash).</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ: ngoại lệ bị “đẩy lên” ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: ngoại lệ bị “đẩy lên”</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">from typing import IO
+
+def str_to_int(s):
+    return int(s)
+
+def func1():
+    try:
+        num = str_to_int('apple')
+        print(num + 1)
+    except IOError:
+        print('Not a number')
+
+func1()</code></pre>
+          <ul>
+            <li><span class="inline-code">int('apple')</span> gây <span class="inline-code">ValueError</span>, nhưng ta
+              lại chỉ bắt <span class="inline-code">IOError</span>.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Cú pháp finally ====================== -->
+        <section>
+          <h2>Dọn dẹp với <span class="inline-code">finally</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">try: 
+    &lt;Statements&gt;
+except &lt;exn-name&gt;:
+    &lt;statements&gt;
+…
+except:
+    &lt;statements&gt;
+finally:
+    &lt;statements&gt;</code></pre>
+          <ul>
+            <li><span class="inline-code">finally</span> giúp đảm bảo các thao tác dọn dẹp luôn chạy.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ finally luôn chạy ====================== -->
+        <section>
+          <h2>Ví dụ: <span class="inline-code">finally</span> luôn chạy</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">def divide(a, b):
+    try:
+        result = a/b;
+        print("Result is ", result)
+    except ZeroDivisionError:
+        print("Error: Cannot divide by zero.")
+    finally:
+         print("Cleaning up and completing")
+
+res = divide(10, 0)
+print(res)</code></pre>
+          <pre><code class="language-plaintext" data-trim>Error: Cannot divide by zero.
+Cleaning up and completing
+None</code></pre>
+        </section>
+
+        <!-- ====================== Slide: Khi nào dùng finally? ====================== -->
+        <section>
+          <h2>Khi nào dùng <span class="inline-code">finally</span>?</h2>
+          <ul>
+            <li>Khối <span class="inline-code">finally</span> luôn chạy:</li>
+            <ul>
+              <li>✅ Dù <span class="inline-code">try</span> có lỗi hay không.</li>
+              <li>✅ Dù ngoại lệ có được bắt hay không.</li>
+            </ul>
+            <li>Dùng để giải phóng <span class="keyword">tài nguyên</span>:</li>
+            <ul>
+              <li>Đóng file, ngắt kết nối mạng, giải phóng bộ nhớ/lock…</li>
+            </ul>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 5: raise ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">5.</span><br />
+            Ném ngoại lệ<br />
+            <span class="text-light">raise</span>
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Ném ngoại lệ với raise ====================== -->
+        <section>
+          <h2>Ném ngoại lệ với <span class="inline-code">raise</span></h2>
+          <ul>
+            <li>Ngoại lệ có thể do Python tự ném ra, hoặc do ta <span class="keyword">chủ động</span> ném ra.</li>
+            <li>Ví dụ: <span class="inline-code">num = int('apple')</span> → <span
+                class="inline-code">ValueError</span>.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ngoại lệ đến từ đâu? ====================== -->
+        <section>
+          <h2>Ngoại lệ đến từ đâu?</h2>
+          <ul>
+            <li>Python ném ngoại lệ khi có vấn đề (đầu vào sai, không tìm thấy file, …).</li>
+            <li>Trong ví dụ trên, hàm dựng sẵn <span class="inline-code">int()</span> là “người ném” ngoại lệ.</li>
+            <li>Ta cũng có thể ném ngoại lệ trong hàm do mình định nghĩa.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Vì sao cần raise? ====================== -->
+        <section>
+          <h2>Vì sao cần <span class="inline-code">raise</span>?</h2>
+          <ul>
+            <li>Để báo hiệu đầu vào không hợp lệ hoặc lỗi logic.</li>
+            <li>Dừng thực thi khi có vấn đề quan trọng.</li>
+            <li>Ép việc xử lý lỗi trở nên rõ ràng và có chủ đích.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ raise ====================== -->
+        <section>
+          <h2>Ví dụ: <span class="inline-code">raise</span> <span class="keyword">ValueError</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">def check_password(pwd):
+    if len(pwd) &lt; 6:
+        raise ValueError("Password must be at least 6 characters long.")
+    if pwd.isalpha() or pwd.isdigit():
+        raise ValueError("Password must contain both letters and numbers.")
+    print("Password is valid!")
+
+try:
+    check_password("abc12")
+except ValueError as e:
+    print("Invalid password:", e)</code></pre>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 6: Assertion ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">6.</span><br />
+            Assertion<br />
+            <span class="text-light">bắt lỗi sớm</span>
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Assertion là gì? ====================== -->
+        <section>
+          <h2>Assertion là gì?</h2>
+          <ul>
+            <li>Công cụ chuyên biệt để phát hiện và xử lý lỗi sớm.</li>
+            <li>Ném ngoại lệ nếu điều kiện không thỏa.</li>
+            <li><strong>Mục đích:</strong> phát hiện lỗi của lập trình viên, debug logic trong quá trình phát triển.
+            </li>
+            <li><strong>Thường dùng:</strong> kiểm thử (assert equals), debug (assert statement).</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ: lỗi do lập trình viên ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: lỗi do lập trình viên</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">def greet(name):
+    print("Hello," + name)
+
+for n in ["Roy", 6]:
+    greet(n)</code></pre>
+          <ul>
+            <li><span class="inline-code">"Hello," + 6</span> gây lỗi kiểu dữ liệu → đây là lỗi do <span
+                class="keyword">người viết code</span>.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Vì sao khó debug? ====================== -->
+        <section data-auto-animate>
+          <h2>Vì sao khó debug?</h2>
+          <ul>
+            <li>Lỗi xuất hiện vì vi phạm <span class="keyword">tiền điều kiện</span> (precondition) của hàm.</li>
+            <li>Thông báo lỗi đôi khi không “nói rõ” ý định của người viết → càng lớn càng khó tìm.</li>
+            <li>Giải pháp: dùng <span class="inline-code">assert</span> để báo lỗi sớm và rõ ràng.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Dùng assert để kiểm tra tiền điều kiện ====================== -->
+        <section data-auto-animate>
+          <h2>Dùng <span class="inline-code">assert</span> để kiểm tra tiền điều kiện</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">def greet(name):
+    assert isinstance(name, str), \
+         "name must be a string but " \
+         + str(name) + " is not" 
+    print("Hello," + name)
+
+for n in ["Roy", 6]:
+    greet(n)</code></pre>
+          <ul>
+            <li>Thông báo lỗi <span class="keyword">hữu ích hơn</span> cho lập trình viên khi debug.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Assertion cũng là ngoại lệ ====================== -->
+        <section>
+          <h2>Assertion cũng là ngoại lệ</h2>
+          <ul>
+            <li><span class="inline-code">AssertionError</span> là một loại ngoại lệ.</li>
+            <li><span class="inline-code">assert</span> là cách “nâng cấp” để ném <span
+                class="inline-code">AssertionError</span>.</li>
+            <li>Có thể tắt assertions khi chạy:</li>
+            <li><span class="inline-code">Python -0 script.py</span> (chạy script nhưng bỏ qua các <span
+                class="inline-code">assert</span>).</li>
+            <li>Dùng assertions để <span class="keyword">phát hiện sai</span>, không phải để “bảo đảm đúng”.</li>
+          </ul>
+        </section>
+
+      </section>
+
+      <!-- ====================== Chương 7: Debugging ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">7.</span><br />
+            Gỡ lỗi<br />
+            <span class="text-light">(Debugging)</span>
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Bugs ====================== -->
+        <section>
+          <h2>Bug &amp; Debugging</h2>
+          <ul>
+            <li><strong>Bug</strong>: sai sót/lỗi khiến hành vi bất ngờ.</li>
+            <li>Thường do logic sai, triển khai sai, giả định sai, …</li>
+            <li><strong>Debugging</strong>: quá trình xác định, cô lập và sửa bug.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Cách tư duy khi debug ====================== -->
+        <section>
+          <h2>Cách tư duy khi debug</h2>
+          <p>Đừng hỏi:</p>
+          <blockquote style="font-size: 0.9em">“Vì sao code của tôi không làm điều tôi muốn?”</blockquote>
+          <p>Hãy hỏi:</p>
+          <blockquote style="font-size: 0.9em"><span class="keyword">“Code của tôi đang làm gì?”</span></blockquote>
+        </section>
+
+        <!-- ====================== Slide: Hai cách quan sát code ====================== -->
+        <section>
+          <h2>Hai cách quan sát chương trình</h2>
+          <ol>
+            <li>Bước qua từng dòng, vẽ sơ đồ thực thi hoặc dùng Python tutor.</li>
+            <li>Dùng <span class="inline-code">print</span>/<span class="inline-code">logging</span> để in thông tin
+              quan trọng:</li>
+          </ol>
+          <ul>
+            <li>Giá trị biến trung gian</li>
+            <li>Đầu vào/đầu ra của hàm</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Ví dụ debug bằng print ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: debug nhanh bằng <span class="inline-code">print</span></h2>
+          <p class="text-light">Mẹo: dùng <span class="inline-code">repr()</span> để nhìn “dạng lập trình viên”.</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">def last_name_first(full_name):
+   print('DEBUG: full_name =' + repr(full_name))
+   space_index = full_name.index(' ')
+   print('DEBUG: space_index =' + repr(space_index))
+   first = full_name[:space_index]
+   print('DEBUG: first =' + repr(first))
+   last = full_name[space_index + 1:]
+   print('DEBUG: last =' + repr(last))
+   return_value = last + ", " + first
+   print('DEBUG: return_value = ' + repr(return_value))
+   return return_value
+
+last_name_first("Toni Marrison")</code></pre>
+        </section>
+
+        <!-- ====================== Slide: Từ print ra bằng chứng ====================== -->
+        <section data-auto-animate>
+          <h2>Từ <span class="inline-code">print</span> ra bằng chứng</h2>
+          <ul>
+            <li>Giờ ta thấy code đang làm gì.</li>
+            <li>Ta có <span class="keyword">bằng chứng</span> để khoanh vùng dòng “sai”.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: repr() là gì? ====================== -->
+        <section>
+          <h2><span class="inline-code">repr()</span> là gì?</h2>
+          <ul>
+            <li><span class="inline-code">repr()</span>: trả về biểu diễn chuỗi “chuẩn” (canonical) của một giá trị.
+            </li>
+            <li>Hữu ích cho lập trình viên khi debug, không nhằm hiển thị cho người dùng cuối.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Print để debug: ưu/nhược ====================== -->
+        <section>
+          <h2><span class="inline-code">print</span> để debug: ưu/nhược</h2>
+          <table style="width: 100%; font-size: 0.8em">
+            <thead>
+              <tr>
+                <th>Tiêu chí</th>
+                <th><span class="inline-code">print</span></th>
+                <th><span class="inline-code">logging</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Dùng nhanh</td>
+                <td>✅ Rất nhanh, đơn giản</td>
+                <td>⚠️ Cần cấu hình ban đầu</td>
+              </tr>
+              <tr>
+                <td>Quy mô lớn</td>
+                <td>❌ Dễ làm “bẩn” output</td>
+                <td>✅ Linh hoạt, có mức log</td>
+              </tr>
+              <tr>
+                <td>Kiểm soát</td>
+                <td>❌ Khó bật/tắt có chọn lọc</td>
+                <td>✅ Điều chỉnh theo level (<span class="inline-code">INFO</span>, <span
+                    class="inline-code">DEBUG</span>…)</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="text-light">Khi dự án lớn, nên ưu tiên <span class="keyword">logging</span>.</p>
+        </section>
+
+        <!-- ====================== Slide: Logging module (ví dụ) ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">logging</span>: ví dụ</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">import logging
+
+logging.basicConfig( level=logging.DEBUG, format="%(levelname)s: %(message)s")
+
+def last_name_first(full_name):
+    logging.debug('full_name = %r', full_name)
+    space_index = full_name.index(' ')
+    logging.debug('space_index = %r', space_index)
+    first = full_name[:space_index]
+    logging.debug('first = %r', first)
+    last = full_name[space_index + 1:]
+    logging.debug('last = %r', last)
+    return_value = last + ", " + first
+    logging.debug('return_value = %r', return_value)
+    return return_value</code></pre>
+        </section>
+
+        <!-- ====================== Slide: Logging module (lợi ích) ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">logging</span>: vì sao nên dùng?</h2>
+          <ul>
+            <li>Hệ thống ghi nhận sự kiện có cấu trúc và dễ kiểm soát.</li>
+            <li>Dễ điều chỉnh: bật/tắt theo mức (<span class="inline-code">logging.INFO</span>, <span
+                class="inline-code">logging.ERROR</span>, <span class="inline-code">logging.DEBUG</span>).</li>
+            <li>Định dạng phong phú: timestamp, level, module name, …</li>
+            <li>Phù hợp quy mô production: mở rộng được, cấu hình được.</li>
+          </ul>
+          <p class="text-light">
+            Xem thêm:
+            <a href="https://docs.python.org/3/library/logging.html">Python logging documentation</a>
+          </p>
+        </section>
+      </section>
+
+      <section>
+        <!-- ====================== Slide: Tóm tắt ====================== -->
+        <section>
+          <h2>Tóm tắt</h2>
+          <ul>
+            <li><span class="keyword">Ngoại lệ</span> làm gián đoạn luồng thực thi bình thường.</li>
+            <li>Dùng <span class="inline-code">try/except</span> để xử lý lỗi “êm” và giữ chương trình chạy.</li>
+            <li>Thêm <span class="inline-code">finally</span> để đảm bảo dọn dẹp luôn diễn ra.</li>
+            <li>Dùng <span class="inline-code">raise</span> để báo lỗi có chủ đích khi input/logic không hợp lệ.</li>
+            <li>Gỡ lỗi bằng <span class="inline-code">print</span> hoặc <span class="inline-code">logging</span> để quan
+              sát hành vi chương trình.</li>
+          </ul>
+        </section>
+      </section>
+
+      <div class="footer">
+        Tư duy Tính toán (HK 1 2025–2026) §12: Ngoại lệ &amp; Gỡ lỗi
+      </div>
+    </div>
+  </div>
+
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+
+  <!-- Nguồn tham chiếu (ẩn trong HTML) -->
+  <!-- PPTX: lec12_exception_debugging.pptx -->
+  <!-- Reference HTML: lecture-11-recursion.html -->
+</body>
+
+</html>
