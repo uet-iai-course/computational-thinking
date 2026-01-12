@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="vi">
+<!-- Chuyển đổi từ PPTX: lec13_File IO.pptx
+     Theo định dạng tham chiếu: lecture-09-searching-sorting.html -->
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Bài 13: Nhập / Xuất tệp</title>
+
+  <link rel="stylesheet"href="revealjs/dist/reset.css"/>
+  <link rel="stylesheet"href="revealjs/dist/reveal.css"/>
+  <link rel="stylesheet"href="revealjs/dist/theme/white.css"/>
+  <link rel="stylesheet"href="plugin/highlight/monokai.css"/>
+  <link rel="stylesheet"href="lecture-style.css"/>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====================== Slide: Trang tiêu đề ====================== -->
+      <section>
+        <section>
+          <h2 class="r-fit-text">Tư duy Tính toán</h2>
+          <h2>Nhập / Xuất tệp <br> <span class="text-light">(File I/O)</span></h2>
+          <p>Trường ĐH Công nghệ – Đại học Quốc gia Hà Nội</p>
+        </section>
+
+        <!-- ====================== Slide: Nội dung ====================== -->
+        <section>
+          <h2>Nội dung</h2>
+          <ol>
+            <li><span class="keyword">Động lực</span></li>
+            <li><span class="keyword">Open/Close</span></li>
+            <li>Read/Write &amp; <span class="inline-code">with</span></li>
+            <li><span class="inline-code">os</span> / <span class="inline-code">os.path</span></li>
+            <li>Các định dạng khác (CSV, JSON, ảnh)</li>
+            <li>Bài tập thực hành</li>
+            <li>Tổng kết</li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 1: Động lực ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">1.</span><br />
+            Động lực
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Problem ====================== -->
+        <section data-auto-animate>
+          <h2>Vấn đề</h2>
+          <p>Trước đây, chương trình chỉ xử lý <span class="keyword">một lần</span> chạy:</p>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+name = input("What's your name?")
+print(f"hello, {name}")
+          </code></pre>
+
+          <p>Nếu nhập nhiều lần (ví dụ 3 lần):</p>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+for _ in range(3):
+    name = input("What's your name?")
+    print(name)
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Problem ====================== -->
+        <section data-auto-animate>
+          <h2>Vấn đề</h2>
+          <p>Cần lưu 3 tên vào một <span class="inline-code">list</span>:</p>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+names = []
+
+for _ in range(3):
+   names.append(input("Give me your name:"))
+          </code></pre>
+
+          <ul>
+            <li>Nhưng: sau khi chương trình kết thúc, dữ liệu <span class="keyword">mất hết</span>.</li>
+            <li>Cần một cách lưu trữ <span class="keyword">bền vững</span> qua nhiều lần chạy.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Value of Files ====================== -->
+        <section>
+          <h2>Giá trị của <span class="keyword">tệp</span></h2>
+          <ul>
+            <li>Tệp giúp lưu trữ <span class="keyword">lâu dài</span> cho:</li>
+            <ul>
+              <li>Chương trình</li>
+              <li>Dữ liệu đầu vào</li>
+              <li>Kết quả đầu ra</li>
+            </ul>
+            <li>Không phụ thuộc vào việc chương trình đang chạy hay đã dừng.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Relative Pathnames ====================== -->
+        <section>
+          <h2>Đường dẫn tệp</h2>
+          <ul>
+            <li>Tệp nằm trong hệ thống tệp theo <span class="keyword">cấu trúc thư mục</span> (directories)
+              dạng phân cấp.</li>
+            <li><span class="keyword">Path</span> mô tả vị trí của tệp trong cấu trúc đó.</li>
+            <li>Hai loại đường dẫn:</li>
+            <ul>
+              <li><span class="keyword">Tuyệt đối</span> (absolute)</li>
+              <li><span class="keyword">Tương đối</span> (relative)</li>
+            </ul>
+          </ul>
+        </section>
+
+        <section style="font-size: .8em;">
+          <h2>Đường dẫn tuyệt đối vs. tương đối</h2>
+
+          <ul>
+            <li><strong>Đường dẫn tuyệt đối</strong> (absolute path): bắt đầu từ thư mục gốc (root directory).
+            </li>
+            <li><strong>Đường dẫn tương đối</strong> (relative path): bắt đầu từ thư mục làm việc hiện tại
+              (current working directory).</li>
+          </ul>
+
+          <img src="img/lec13/paths.png"alt="absolute vs relative paths"style="width: 60%; margin-top: 0.5em;"/>
+        </section>
+
+        <!-- ====================== Slide: File I/O ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">File I/O</span> dùng để làm gì?</h2>
+          <ul>
+            <li>Lưu dữ liệu <span class="keyword">vĩnh viễn</span> sau khi chương trình kết thúc.</li>
+            <li>Làm việc với các tệp: <span class="inline-code">.txt</span>, <span class="inline-code">.csv</span>,
+              <span class="inline-code">.json</span>, ...
+            </li>
+            <li>Xử lý tệp lớn hiệu quả (không cần nạp hết vào bộ nhớ).</li>
+            <li>Tự động hoá: đọc cấu hình, ghi log, xuất kết quả,...</li>
+          </ul>
+          <p style="margin-top: 0.6em;">
+            ⚠️ Lưu ý Windows: dấu <span class="inline-code">\</span> là ký tự escape trong Python → ưu tiên
+            <span class="inline-code">/</span> hoặc raw string <span class="inline-code">r"..."</span>.
+          </p>
+        </section>
+
+        <!-- ====================== Slide: Manage Files in Python ====================== -->
+        <section data-auto-animate>
+          <h2>Quản lý tệp trong Python</h2>
+          <p>Python cung cấp giao diện <span class="keyword">đơn giản</span> để làm việc với tệp:</p>
+          <table style="width: 100%; font-size: 0.75em">
+            <thead>
+              <tr>
+                <th>Hàm</th>
+                <th>Ý nghĩa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">open</span></td>
+                <td>Mở tệp, tạo <span class="keyword">file handle</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">close</span></td>
+                <td>Đóng tệp, giải phóng tài nguyên</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">read</span></td>
+                <td>Đọc dữ liệu từ tệp vào chương trình</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">write</span></td>
+                <td>Ghi dữ liệu từ chương trình ra tệp</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 2: Open/Close ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">2.</span><br />
+            Open/Close
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Opening a File ====================== -->
+        <section data-auto-animate>
+          <h2>Mở tệp</h2>
+          <ul>
+            <li>Trước khi truy cập dữ liệu, cần <span class="keyword">mở</span> tệp.</li>
+            <li><span class="inline-code">open</span> trả về một đối tượng tệp (<span class="inline-code">file</span>
+              object).</li>
+            <li>Khi mở, ta chỉ ra <span class="keyword">mode</span> để hệ thống biết cách ta tương tác với
+              tệp.</li>
+          </ul>
+        </section>
+
+        <section>
+          <img src="img/lec13/open-file.png"alt="file I/O diagram"style="width: 100%; margin-top: 0.5em;"/>
+        </section>
+
+        <!-- ====================== Slide: open() ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">open()</span></h2>
+          <ul>
+            <li>Mở tệp để <span class="keyword">đọc</span> hoặc <span class="keyword">ghi</span>.</li>
+            <li>Nếu không cung cấp full path → dùng đường dẫn tương đối theo thư mục làm việc hiện tại.</li>
+          </ul>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+file = open('filename.txt','mode')
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: open mode ====================== -->
+        <section data-auto-animate>
+          <h2>Chế độ mở tệp (<span class="inline-code">mode</span>)</h2>
+          <table style="width: 100%; font-size: 0.75em">
+            <thead>
+              <tr>
+                <th>Mode</th>
+                <th>Ý nghĩa</th>
+                <th>Hành vi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">r</span></td>
+                <td>Read</td>
+                <td>❌ Nếu sai đường dẫn / không tồn tại → <span class="inline-code">FileNotFoundError</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">w</span></td>
+                <td>Write</td>
+                <td>✅ Tạo mới nếu chưa có; ⚠️ <span class="keyword">ghi đè</span> nếu đã tồn tại</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">a</span></td>
+                <td>Append</td>
+                <td>✅ Tạo mới nếu chưa có; ✅ ghi thêm vào <span class="keyword">cuối tệp</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size: 0.85em; margin-top: 0.5em;">⚠️ Còn nhiều mode khác (kết hợp quyền truy cập,
+            text/binary).</p>
+        </section>
+
+        <!-- ====================== Slide: close() ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">close()</span></h2>
+          <ul>
+            <li>Đóng tệp và giải phóng tài nguyên.</li>
+            <li>Vì sao cần đóng?</li>
+            <ul>
+              <li>Tệp có thể bị <span class="keyword">khóa</span> khi đang mở.</li>
+              <li>Dữ liệu ghi có thể nằm trong buffer, chưa ra đĩa.</li>
+              <li>Tránh rò rỉ tài nguyên.</li>
+            </ul>
+          </ul>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+file = open('filename.txt','w')
+file.close ()
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: File properties ====================== -->
+        <section data-auto-animate>
+          <h2>Thuộc tính của <span class="inline-code">file</span> object</h2>
+          <ul>
+            <li>Sau khi mở, có thể kiểm tra:</li>
+          </ul>
+          <table style="width: 100%; font-size: 0.8em">
+            <thead>
+              <tr>
+                <th>Thuộc tính</th>
+                <th>Ví dụ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">file.name</span></td>
+                <td>Tên tệp (ví dụ <span class="inline-code">names.txt</span>)</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">file.mode</span></td>
+                <td>Mode đã mở (ví dụ <span class="inline-code">r</span>)</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">file.closed</span></td>
+                <td><span class="inline-code">False</span> nếu đang mở, <span class="inline-code">True</span> nếu đã
+                  đóng
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+file = open('names.txt','r')
+print(file.name)
+print(file.mode)
+print(file.closed)
+          </code></pre>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 3: Read/Write & with ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">3.</span><br />
+            Read/Write &amp; <span class="inline-code">with</span>
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Write a File ====================== -->
+        <section data-auto-animate>
+          <h2>Ghi tệp</h2>
+          <ul>
+            <li><span class="inline-code">write</span> ghi <span class="keyword">chuỗi</span> vào tệp đang
+              mở.</li>
+            <li>⚠️ <span class="inline-code">write()</span> <span class="keyword">không tự thêm</span> xuống
+              dòng <span class="inline-code">\n</span>.</li>
+          </ul>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+file = open("filename.txt",'w')
+string = input('Enter your name:')
+file.write(string)
+file.close()
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Raw Strings ====================== -->
+        <section data-auto-animate>
+          <h2>Raw string</h2>
+          <ul>
+            <li>Raw string: ký tự escape được hiểu như ký tự bình thường.</li>
+            <li>Thêm tiền tố <span class="inline-code">r</span> trước chuỗi.</li>
+            <li>Hữu ích khi làm việc với path Windows có <span class="inline-code">\</span>.</li>
+          </ul>
+          <pre><code class="language-pycon"data-trim>
+>>> print("abc\ndef")
+abc
+def
+>>> print(r"abc\ndef")
+abc]ndef
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Read a File ====================== -->
+        <section data-auto-animate>
+          <h2>Đọc tệp</h2>
+          <ul>
+            <li><span class="inline-code">file.read()</span>: đọc toàn bộ tệp (string).</li>
+            <li><span class="inline-code">file.read(k)</span>: đọc k ký tự tiếp theo (string).</li>
+            <li><span class="inline-code">file.readline()</span>: đọc 1 dòng tiếp theo (string).</li>
+            <li><span class="inline-code">file.readlines()</span>: đọc các dòng còn lại (list of strings).
+            </li>
+          </ul>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+file = open("filename.txt","r")
+content  =  file.read()
+print(content)
+file.close()
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: with ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">with</span> (context manager)</h2>
+          <ul>
+            <li><span class="inline-code">with</span> tự động <span class="keyword">đóng tệp</span> sau khi
+              dùng xong.</li>
+            <li>Khuyến nghị khi mở nhiều tệp hoặc muốn code an toàn.</li>
+          </ul>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+with open("filenames.txt","r") as file:
+    print(file.read())
+
+name = input("What's your name?")
+
+with open ("names.txt","a") as file:
+    file.write (f"{name}\n")
+          </code></pre>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 4: OS Functions ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">4.</span><br />
+            <span class="inline-code">OS Functions</span>
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: File Operations ====================== -->
+        <section data-auto-animate>
+          <h2>Thao tác với tệp</h2>
+          <ul>
+            <li><span class="inline-code">rename</span>: đổi tên tệp</li>
+            <li><span class="inline-code">remove</span>: xoá tệp</li>
+          </ul>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+import os
+os.rename('names.txt','new_names.txt')
+
+import os
+os.remove('usernames.txt')
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Directory Operation ====================== -->
+        <section data-auto-animate>
+          <h2>Thao tác thư mục (1)</h2>
+          <table style="width: 100%; font-size: 0.8em">
+            <thead>
+              <tr>
+                <th>Hàm</th>
+                <th>Ý nghĩa</th>
+                <th>Ghi chú</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">os.mkdir</span></td>
+                <td>Tạo thư mục mới</td>
+                <td>✅ Trong thư mục hiện tại</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">os.rmdir</span></td>
+                <td>Xoá thư mục</td>
+                <td>⚠️ Cần xoá hết nội dung bên trong trước</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">os.chdir</span></td>
+                <td>Đổi thư mục làm việc</td>
+                <td><span class="keyword">Cẩn thận</span> khi dùng path tương đối</td>
+              </tr>
+            </tbody>
+          </table>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+os.mkdir('newdir')
+os.rmdir('dirname')
+os.chdir('dirname')
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Directory Operation ====================== -->
+        <section data-auto-animate>
+          <h2>Thao tác thư mục (2)</h2>
+          <ul>
+            <li><span class="inline-code">os.getcwd()</span>: lấy thư mục làm việc hiện tại</li>
+            <li><span class="inline-code">os.listdir(path)</span>: liệt kê nội dung thư mục</li>
+          </ul>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+import os
+path = "D:/code"
+contents = os.listdir(path)
+print("Directory contents:", contents)
+
+os.getcwd() # => Ex: D:/code
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Path Operation ====================== -->
+        <section data-auto-animate>
+          <h2>Thao tác đường dẫn: <span class="inline-code">join</span></h2>
+          <p>Ghép các thành phần path một cách"thông minh".</p>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+import os
+base_dir = "D:/data"
+filename = "names.txt"
+path = os.path.join(base_dir, filename)
+print(path) # => "D:/data/names.txt"
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Path Operation ====================== -->
+        <section data-auto-animate>
+          <h2>Thao tác đường dẫn: <span class="inline-code">exists</span></h2>
+          <p>Kiểm tra một path có tồn tại không.</p>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+import os
+base_dir = "D:/data"
+filename = "names.txt"
+print(os.path.exists(os.path.join(base_dir, filename)))
+# (check if there is anything at "D:/data/names.txt" or not)
+          </code></pre>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 5: Các định dạng tệp khác ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">5.</span><br />
+            Các định dạng tệp khác
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Comma Separated Value (CSV) ====================== -->
+        <section style="font-size: 0.8em;">
+          <h2><span class="keyword">CSV</span> (Comma Separated Value)</h2>
+          <ul>
+            <li>CSV là cách biểu diễn <span class="keyword">bảng</span> đơn giản bằng văn bản.</li>
+            <li>Mỗi dòng là một bản ghi, các cột cách nhau bằng dấu phẩy.</li>
+          </ul>
+          <p style="margin-top: 0.4em; font-size: 0.85em;"><strong>Ví dụ:</strong> <span
+              class="inline-code">students.csv</span></p>
+          <pre><code class="language-pycon"data-trim>
+Hermione,Gryffindor
+Harry,Gryffindor
+Ron,Gryffindor
+Draco,Slytherin
+          </code></pre>
+          <p style="font-size: 0.85em; margin-top: 0.4em;">Đọc CSV bằng cách <span class="keyword">strip</span> và
+            <span class="keyword">split</span>:
+          </p>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+with open("students.csv") as file:
+    for line in file:
+        row =  line.rstrip ().split(",")
+        print(f"{row[0]} is in {row[1]}")
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: JavaScript Object Notation (JSON) ====================== -->
+        <section data-auto-animate>
+          <h2><span class="keyword">JSON</span> (JavaScript Object Notation)</h2>
+          <ul>
+            <li>Định dạng trao đổi dữ liệu <span class="keyword">nhẹ</span>, dễ đọc/ghi cho cả người và máy.
+            </li>
+            <li>Dùng gói <span class="inline-code">json</span> để đọc/ghi và thao tác.</li>
+          </ul>
+          <pre><code class="language-json" data-trim>
+{"name": "Nam", "age": 18, "city": "Ha Noi"}
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Load a JSON File ====================== -->
+        <section data-auto-animate>
+          <h2>Nạp (load) tệp JSON</h2>
+          <ul>
+            <li><span class="inline-code">json.load(filename)</span>: chuyển JSON thành đối tượng <span
+                class="keyword">dict</span>.</li>
+          </ul>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+import json
+user = json.load("user.json")
+print(user) # => {"name": "Nam", "age": 18, "city": "Ha Noi"}
+print(user["name"]) # => John
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Dump/Write a JSON File ====================== -->
+        <section data-auto-animate>
+          <h2>Ghi (dump) tệp JSON</h2>
+          <ul>
+            <li><span class="inline-code">json.dumps(content, filename)</span>: chuyển đối tượng Python
+              thành JSON.</li>
+          </ul>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+import  json
+user = {
+ 	"name": "Nam",
+ 	"age": 18,
+ 	"city": "Ha Noi"
+}
+json.dumps(user, "user.json")
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Binary files: Image ====================== -->
+        <section data-auto-animate>
+          <h2>Tệp nhị phân: Ảnh</h2>
+          <ul>
+            <li>Một thư viện phổ biến để xử lý ảnh: <span class="inline-code">PIL</span>.</li>
+            <li>Ví dụ: mở và hiển thị ảnh.</li>
+          </ul>
+          <pre><code class="language-python"data-trim data-line-numbers="">
+from PIL import Image
+path = "img/lec13/sample_image.jpg"
+# open the image file
+im = Image.open(path)
+# show the image file
+im.show()
+          </code></pre>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 6: Hands-On Activity ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">6.</span><br />
+            Bài tập thực hành
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Hands-On Activity ====================== -->
+        <section style="font-size: 0.9em;">
+          <h2>Hands-On Activity</h2>
+          <ul>
+            <li><strong>Bài 1: Lines of Code (LOC)</strong><br />
+              Viết script Python để đếm số dòng code (LOC) trong một script khác bạn đã viết.</li>
+            <li><strong>Bài 2: "I was here"</strong><br />
+              Viết script Python để thêm một dòng in <span class="inline-code">"I was here"</span> vào
+              cuối một script bạn
+              đã viết.</li>
+            <li><strong>Bài 3: Sửa thông tin người dùng</strong><br />
+              Tạo tệp JSON <span class="inline-code">user.json</span> gồm tên, tuổi, thành phố. Sau đó đổi
+              thành:
+              <span class="inline-code">"UETer"</span>, <span class="inline-code">"18"</span>, <span
+                class="inline-code">"Hanoi"</span>.
+            </li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ====================== Slide: Summary ====================== -->
+      <section style="font-size: 0.8em">
+        <h2>Tổng kết</h2>
+        <ul>
+          <li>Tệp cung cấp <span class="keyword">lưu trữ bền vững</span> vượt qua vòng đời chương trình.</li>
+          <li>Dùng <span class="inline-code">open()</span> với các mode <span class="inline-code">r/w/a</span>
+            để đọc/ghi;
+            nhớ <span class="inline-code">close</span> hoặc dùng <span class="inline-code">with</span>.</li>
+          <li>Làm việc với nội dung tệp: <span class="inline-code">read</span> / <span class="inline-code">write</span>
+            /
+            <span class="inline-code">append</span> và xử lý theo dòng.
+          </li>
+          <li>Dùng <span class="inline-code">os</span> / <span class="inline-code">os.path</span> cho thao tác
+            tệp &amp;
+            thư mục (path, rename, remove, list, cwd...).</li>
+          <li>Định dạng khác: <span class="keyword">CSV</span> và <span class="keyword">JSON</span> cho dữ
+            liệu có cấu
+            trúc.</li>
+        </ul>
+      </section>
+
+      <!-- ====================== Footer ====================== -->
+      <div class="footer">
+        Tư duy Tính toán (HK 1 2025–2026) §13: File I/O
+      </div>
+
+    </div>
+  </div>
+
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout:"edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+
+  <!-- Nguồn tham chiếu (ẩn trong HTML) -->
+  <!-- :contentReference[oaicite:0]{index=0} -->
+  <!-- :contentReference[oaicite:1]{index=1} -->
+
+</body>
+
+</html>
