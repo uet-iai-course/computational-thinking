@@ -13,6 +13,7 @@ You are given two files: (1) a slide set in **.pptx**, and (2) my **reference Re
 * Keep content **simple and concise**; prefer short bullet lists.
 * **Code blocks:**
 
+  * Write Python code in correct syntax.
   * Python scripts →
     `<pre><code class="language-python" data-trim data-line-numbers=""> … </code></pre>`
   * Python shell/REPL examples →
