@@ -1,0 +1,1095 @@
+<!doctype html>
+<html lang="vi">
+<!-- Chuyển đổi từ PPTX: lec15_popular_python_libs.pptx
+     Theo định dạng tham chiếu: lecture-13-file-io.html -->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Bài 15: Thư viện Python phổ biến</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css" />
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  <link rel="stylesheet" href="lecture-style.css" />
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====================== Slide: Trang tiêu đề ====================== -->
+      <section>
+        <section>
+          <h2 class="r-fit-text">Tư duy Tính toán</h2>
+          <h2>Thư viện Python phổ biến <br> <span class="text-light">(Popular Python Libraries)</span></h2>
+          <p>Trường ĐH Công nghệ – Đại học Quốc gia Hà Nội</p>
+        </section>
+
+        <!-- ====================== Slide: Nội dung ====================== -->
+        <section>
+          <h2>Nội dung</h2>
+          <ol>
+            <li>Giới thiệu về <span class="keyword">thư viện</span> Python</li>
+            <li><span class="keyword">Thư viện chuẩn</span> (standard library)</li>
+            <li>Quản lý thư viện ngoài với <span class="inline-code">pip</span></li>
+            <li>Trực quan hóa dữ liệu với <span class="inline-code">matplotlib</span></li>
+            <li>Làm việc với dữ liệu bảng bằng <span class="inline-code">pandas</span></li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 1: Giới thiệu về thư viện Python ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">1.</span><br />
+            Giới thiệu<br />
+            <span class="text-light">Thư viện Python</span>
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Python’s Libraries ====================== -->
+        <section data-auto-animate>
+          <h2>Thư viện Python</h2>
+          <ul>
+            <li><strong>Thư viện</strong> là một tập hợp các <span class="keyword">module</span> chứa hàm, lớp, phương
+              thức.</li>
+            <li>Mục tiêu: <span class="keyword">tái sử dụng</span> code, tăng hiệu quả, tiếp cận chức năng chuyên biệt.
+            </li>
+            <li>Ví dụ thư viện phổ biến: <span class="inline-code">math</span>, <span
+                class="inline-code">datetime</span>, <span class="inline-code">random</span>, <span
+                class="inline-code">matplotlib</span>, <span class="inline-code">pandas</span>.</li>
+          </ul>
+
+          <pre><code class="language-pycon" data-trim>
+>>> import math
+>>> x = 99
+>>> math.sqrt(x)
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Python Library Types ====================== -->
+        <section data-auto-animate>
+          <h2>Hai loại thư viện</h2>
+          <table style="width: 100%; font-size: 0.75em">
+            <thead>
+              <tr>
+                <th>Loại</th>
+                <th>Mô tả</th>
+                <th>Ví dụ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="keyword">Thư viện chuẩn</span></td>
+                <td>Có sẵn trong mọi bản cài Python, dùng ngay</td>
+                <td><span class="inline-code">math</span>, <span class="inline-code">random</span>, <span
+                    class="inline-code">datetime</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword">Thư viện ngoài</span></td>
+                <td>Cài thêm bằng trình quản lý gói (ví dụ <span class="inline-code">pip</span>)</td>
+                <td><span class="inline-code">pandas</span>, <span class="inline-code">matplotlib</span>, <span
+                    class="inline-code">numpy</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="text-light" style="margin-top: 0.6em;">Gợi ý: ưu tiên thư viện chuẩn khi đủ dùng; dùng thư viện
+            ngoài khi cần năng lực chuyên sâu.</p>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 2: Thư viện chuẩn ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">2.</span><br />
+            Thư viện chuẩn<br />
+            <span class="text-light">(Standard libraries)</span>
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Using math Library ====================== -->
+        <section data-auto-animate>
+          <h2>Thư viện <span class="inline-code">math</span></h2>
+          <ul>
+            <li>Cung cấp các hàm & hằng số toán học thông dụng.</li>
+            <li>Hữu ích cho bài toán hình học, tính toán <span class="keyword">khoa học</span>, xử lý số.</li>
+          </ul>
+
+          <table style="width: 100%; font-size: 0.75em">
+            <thead>
+              <tr>
+                <th>Hằng số</th>
+                <th>Ý nghĩa</th>
+                <th>Ghi chú</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">math.pi</span></td>
+                <td>π ≈ 3.1415</td>
+                <td>Dùng cho đường tròn, mặt cầu</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">math.e</span></td>
+                <td>e ≈ 2.71828</td>
+                <td>Nền tảng log tự nhiên, giải tích</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Thư viện <span class="inline-code">math</span></h2>
+
+          <p style="margin-top: 0.7em;">Ví dụ: tính chu vi đường tròn</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import math
+
+radius = 5
+circumference = 2*math.pi*radius
+print(circumference)
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Essential math Functions (1/2) ====================== -->
+        <section data-auto-animate>
+          <h2>Hàm <span class="inline-code">math</span>: làm tròn</h2>
+          <table style="width: 100%; font-size: 0.75em">
+            <thead>
+              <tr>
+                <th>Hàm</th>
+                <th>Mô tả</th>
+                <th>Ví dụ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">math.ceil(x)</span></td>
+                <td>Làm tròn <span class="keyword">lên</span></td>
+                <td><span class="inline-code">print(math.ceil(4.1))</span> → <span class="inline-code">5</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">math.floor(x)</span></td>
+                <td>Làm tròn <span class="keyword">xuống</span></td>
+                <td><span class="inline-code">print(math.floor(4.9))</span> → <span class="inline-code">4</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">math.trunc(x)</span></td>
+                <td>Cắt phần thập phân</td>
+                <td>
+                  <span class="inline-code">math.trunc(4.9)</span> → <span class="inline-code">4</span><br />
+                  <span class="inline-code">math.trunc(-4.1)</span> → <span class="inline-code">-4</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import math
+
+print(math.ceil(4.1))   # Output: 5
+print(math.floor(4.9))  # Output: 4
+print(math.trunc(4.9))  # Output: 4
+print(math.trunc(-4.1)) # Output: -4
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Essential math Functions (2/2) ====================== -->
+        <section data-auto-animate>
+          <h2>Hàm <span class="inline-code">math</span>: lũy thừa &amp; căn</h2>
+          <ul>
+            <li><span class="inline-code">math.pow(base, exp)</span>: luôn trả về <span
+                class="inline-code">float</span>.</li>
+            <li><span class="inline-code">math.sqrt(x)</span>: căn bậc hai; <span class="keyword">x ≥ 0</span>.</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import math
+print(math.pow(2, 3)) # Output: 8.0
+print(2**3)           # Output: 8
+print(math.sqrt(25))  # Output: 5.0
+          </code></pre>
+
+          <p style="margin-top: 0.6em;">Ứng dụng: định lý Pythagoras</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import math
+a = 3
+b = 4
+hypotenuse = math.sqrt(math.pow(a, 2) + math.pow(b, 2))
+print(f"Hypotenuse: {hypotenuse}") # Output: 5.0
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Using random Library ====================== -->
+        <section data-auto-animate>
+          <h2>Thư viện <span class="inline-code">random</span></h2>
+          <ul>
+            <li>Dùng để mô phỏng <span class="keyword">ngẫu nhiên</span> / bất định.</li>
+            <li>Ứng dụng: mô phỏng khoa học, trò chơi, sinh dữ liệu kiểm thử.</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import random
+
+print(random.random())        # ví dụ: 0.95...
+print(random.randint(1, 10))  # trả về số nguyên từ 1 đến 10
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Making Random Selections ====================== -->
+        <section data-auto-animate>
+          <h2>Chọn ngẫu nhiên &amp; xáo trộn</h2>
+          <ul>
+            <li><span class="inline-code">random.choice(sequence)</span>: chọn 1 phần tử.</li>
+            <li><span class="inline-code">random.shuffle(list)</span>: xáo trộn <span class="keyword">tại chỗ</span>
+              (in-place).</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import random
+
+choices = ["Rock", "Paper", "Scissors"]
+choice = random.choice(choices)
+print(choice)
+
+my_list = [1, 2, 3, 4, 5]
+random.shuffle(my_list)
+print(my_list)
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Using datetime Library ====================== -->
+        <section data-auto-animate>
+          <h2>Thư viện <span class="inline-code">datetime</span></h2>
+          <ul>
+            <li>Quản lý thời gian ở dạng <span class="keyword">dễ đọc</span>: ngày, giờ, phút, giây, microseconds…</li>
+            <li>Lấy “thời điểm hiện tại” bằng <span class="inline-code">datetime.datetime.now()</span>.</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import datetime
+
+current_time = datetime.datetime.now()
+print(current_time)
+          </code></pre>
+
+          <p class="text-light" style="margin-top: 0.6em;">Thường hiển thị theo dạng:
+          </p>
+          <pre><code class="language-plaintext" data-trim>
+YYYY-MM-DD HH:MM:SS.microseconds
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Constructing Specific Timestamps ====================== -->
+        <section data-auto-animate>
+          <h2>Tạo thời điểm cụ thể</h2>
+          <ul>
+            <li><span class="inline-code">datetime.date(year, month, day)</span> → đối tượng ngày.</li>
+            <li><span class="inline-code">datetime.time(hour, minute, second)</span> → đối tượng giờ.</li>
+            <li><span class="inline-code">datetime.datetime(...)</span> → ngày + giờ.</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import datetime
+
+christmas = datetime.date(2023, 12, 25)
+noon = datetime.time(12, 0, 0)
+event = datetime.datetime(2024, 7, 4, 9, 30, 0)
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Performing Time Calculations with Timedelta ====================== -->
+        <section data-auto-animate>
+          <h2>Tính toán thời gian với <span class="inline-code">timedelta</span></h2>
+          <ul>
+            <li><span class="inline-code">timedelta</span> biểu diễn một <span class="keyword">khoảng thời gian</span>.
+            </li>
+            <li>Có thể cộng/trừ với <span class="inline-code">datetime</span>.</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+from datetime import datetime, timedelta
+
+today = datetime.now()
+seven_days_later = today + timedelta(days=7)
+
+print(f"Today: {today.date()}")
+print(f"Deadline in 7 days: {seven_days_later.date()}")
+          </code></pre>
+
+          <p class="text-light" style="margin-top: 0.4em;">Đơn vị thường dùng: <span class="inline-code">days</span>,
+            <span class="inline-code">seconds</span>, <span class="inline-code">minutes</span>, <span
+              class="inline-code">hours</span>, <span class="inline-code">weeks</span>.
+          </p>
+        </section>
+
+        <!-- ====================== Slide: Formatting Dates and Times with strftime ====================== -->
+        <section data-auto-animate style="font-size: 0.8em;">
+          <h2>Định dạng thời gian với <span class="inline-code">strftime</span></h2>
+          <ul>
+            <li>Chuyển đối tượng thời gian thành chuỗi theo <span class="keyword">mẫu</span> (format code).</li>
+          </ul>
+
+          <table style="width: 100%; font-size: 0.7em">
+            <thead>
+              <tr>
+                <th>Mã</th>
+                <th>Ý nghĩa</th>
+                <th>Ví dụ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">%Y</span></td>
+                <td>Năm đầy đủ</td>
+                <td><span class="inline-code">2023</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">%m</span></td>
+                <td>Tháng (01–12)</td>
+                <td><span class="inline-code">01</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">%d</span></td>
+                <td>Ngày (01–31)</td>
+                <td><span class="inline-code">25</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">%H</span></td>
+                <td>Giờ (00–23)</td>
+                <td><span class="inline-code">14</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">%M</span></td>
+                <td>Phút (00–59)</td>
+                <td><span class="inline-code">05</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">%S</span></td>
+                <td>Giây (00–59)</td>
+                <td><span class="inline-code">09</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">%A</span></td>
+                <td>Tên thứ trong tuần</td>
+                <td><span class="inline-code">Monday</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+from datetime import datetime
+
+today = datetime.now()
+formatted_date = today.strftime("%m/%d/%Y")
+print(formatted_date)
+          </code></pre>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 3: Quản lý thư viện ngoài với pip ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">3.</span><br />
+            Quản lý thư viện ngoài với <span class="inline-code">pip</span>
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: PIP: The Python Package Installer ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">pip</span>: trình cài gói Python</h2>
+          <ul>
+            <li><span class="inline-code">pip</span> là hệ thống quản lý gói chuẩn của Python.</li>
+            <li>Kết nối tới <span class="keyword">PyPI</span> (Python Package Index) – kho thư viện khổng lồ.</li>
+            <li>Tự xử lý <span class="keyword">phụ thuộc</span> (dependencies) khi cài đặt.</li>
+          </ul>
+
+          <p style="margin-top: 0.6em;">Cài thư viện:
+            <span class="inline-code">pip install &lt;tên_thư_viện&gt;</span>.            
+          </p>
+          <pre><code class="language-pycon" data-trim>
+pip install pandas
+pip install matplotlib
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Common PIP’s commands ====================== -->
+        <section data-auto-animate>
+          <h2>Các lệnh <span class="inline-code">pip</span> thường dùng</h2>
+          <table style="width: 100%; font-size: 0.75em">
+            <thead>
+              <tr>
+                <th>Lệnh</th>
+                <th>Tác dụng</th>
+                <th>Gợi ý</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">pip list</span></td>
+                <td>Liệt kê gói đã cài &amp; phiên bản</td>
+                <td>✅ Kiểm tra môi trường</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">pip uninstall</span></td>
+                <td>Gỡ cài đặt thư viện</td>
+                <td>✅ Dọn dẹp</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">pip install --upgrade</span></td>
+                <td>Nâng cấp lên phiên bản mới nhất</td>
+                <td>⚠️ Cẩn thận tương thích</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 4: Trực quan hóa dữ liệu với Matplotlib ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">4.</span><br />
+            Trực quan hóa dữ liệu với Matplotlib
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Why Visualize Data? ====================== -->
+        <section data-auto-animate>
+          <h2>Vì sao cần trực quan hóa?</h2>
+          <ul>
+            <li>Giao tiếp thông tin hiệu quả: <span class="keyword">“một hình hơn ngàn lời”</span>.</li>
+            <li>Nhìn nhanh <span class="keyword">xu hướng</span> &amp; điểm bất thường (outliers).</li>
+            <li>Rất phổ biến trong Khoa học dữ liệu, Học máy, báo cáo…</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Introducing Matplotlib ====================== -->
+        <section data-auto-animate>
+          <h2>Giới thiệu <span class="inline-code">matplotlib</span></h2>
+          <ul>
+            <li>Thư viện vẽ biểu đồ 2D rất phổ biến trong Python.</li>
+            <li>Hỗ trợ biểu đồ tĩnh, hoạt ảnh, tương tác (tùy môi trường).</li>
+            <li>Thông thường dùng module <span class="inline-code">pyplot</span> với alias <span
+                class="inline-code">plt</span>.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import matplotlib.pyplot as plt
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Basic Plotting Workflow ====================== -->
+        <section data-auto-animate>
+          <h2>Quy trình vẽ cơ bản</h2>
+          <ol>
+            <li><strong>Chuẩn bị dữ liệu</strong> (list/array…)</li>
+            <li><strong>Vẽ</strong> bằng hàm phù hợp (ví dụ <span class="inline-code">plt.plot</span>, <span
+                class="inline-code">plt.bar</span>)</li>
+            <li><strong>Hiển thị</strong> bằng <span class="inline-code">plt.show()</span></li>
+          </ol>
+          <p class="text-light" style="margin-top: 0.6em;">Mục tiêu: làm rõ thông điệp, không chỉ “vẽ cho đẹp”.</p>
+        </section>
+
+        <!-- ====================== Slide: Line Plots: Tracking Changes Over Time ====================== -->
+        <section data-auto-animate>
+          <h2>Biểu đồ đường (<span class="inline-code">line plot</span>)</h2>
+          <ul>
+            <li>Dùng để thể hiện <span class="keyword">biến thiên</span> theo một trục liên tục (thường là thời gian).
+            </li>
+            <li>Hàm lõi: <span class="inline-code">plt.plot(x, y)</span></li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+plt.plot(x, y)
+plt.show()
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Enhancing Readability: Titles and Labels ====================== -->
+        <section data-auto-animate>
+          <h2>Tăng khả năng đọc</h2>
+          <h4>tiêu đề &amp; nhãn</h4>
+          <ul>
+            <li>Thêm <span class="keyword">bối cảnh</span> cho biểu đồ.</li>
+            <li>plt.title</span>, <span
+                class="inline-code">plt.xlabel</span>, <span class="inline-code">plt.ylabel</span>.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+plt.plot(x, y)
+plt.title("Sine Wave")
+plt.xlabel("Angle (radians)")
+plt.ylabel("Amplitude")
+plt.show()
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Adding Legends for Clarity ====================== -->
+        <section data-auto-animate>
+          <h2>Chú giải (<span class="inline-code">legend</span>)</h2>
+          <ul>
+            <li>Khi có nhiều đường dữ liệu, legend giúp phân biệt.</li>
+            <li>Gắn <span class="inline-code">label=...</span> cho mỗi đường và gọi <span
+                class="inline-code">plt.legend()</span>.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y1 = np.sin(x)
+y2 = np.cos(x)
+
+plt.plot(x, y1, label="sin")
+plt.plot(x, y2, label="cos")
+plt.legend()
+plt.show()
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Bar Charts: Comparing Categories ====================== -->
+        <section data-auto-animate>
+          <h2>Biểu đồ cột (<span class="inline-code">bar</span>)</h2>
+          <ul>
+            <li>Dùng để <span class="keyword">so sánh</span> các nhóm rời rạc (categories).</li>
+            <li>Hàm lõi: <span class="inline-code">plt.bar(categories, values)</span></li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Bar Chart Example ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: biểu đồ cột</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import matplotlib.pyplot as plt
+
+categories = ["Product A", "Product B", "Product C", "Product D", "Product E"]
+values = [25, 40, 15, 30, 20]
+
+plt.bar(categories, values, color="skyblue", edgecolor="navy")
+plt.xlabel("Categories")
+plt.ylabel("Sales (Units)")
+plt.title("Monthly Product Performance")
+plt.show()
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Pie Charts: Showing Proportions ====================== -->
+        <section data-auto-animate>
+          <h2>Biểu đồ tròn (<span class="inline-code">pie</span>)</h2>
+          <ul>
+            <li>Thể hiện tỉ trọng “phần trong tổng”.</li>
+            <li>Hàm lõi: <span class="inline-code">plt.pie(sizes, labels=..., autopct=..., startangle=...)</span></li>
+            <li><span class="inline-code">autopct</span> hiển thị phần trăm lên từng lát.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Pie Chart Example ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: biểu đồ tròn</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import matplotlib.pyplot as plt
+
+labels = ["Rent", "Groceries", "Utilities", "Entertainment", "Savings"]
+sizes = [1200, 450, 200, 150, 500]
+colors = ["#ff9999", "#66b3ff", "#99ff99", "#ffcc99", "#c2c2f0"]
+
+plt.pie(sizes, labels=labels, autopct="%1.1f%%", startangle=140, colors=colors)
+plt.axis("equal")
+plt.title("Monthly Expense Breakdown")
+plt.show()
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Histograms: Understanding Data Distribution ====================== -->
+        <section data-auto-animate>
+          <h2>Histogram: phân phối dữ liệu</h2>
+          <ul>
+            <li>Hiển thị phân phối của một biến liên tục (tần suất theo khoảng).</li>
+            <li>Hữu ích để nhìn <span class="keyword">độ lệch</span>, đỉnh, độ trải rộng…</li>
+            <li>Hàm lõi: <span class="inline-code">plt.hist(data, bins=..., edgecolor=...)</span></li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Histogram Example ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: histogram</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import matplotlib.pyplot as plt
+import numpy as np
+
+data = np.random.randn(1000)
+
+plt.hist(data, bins=30, color="forestgreen", edgecolor="black", alpha=0.7)
+plt.xlabel("Value")
+plt.ylabel("Frequency")
+plt.title("Data Distribution")
+plt.show()
+          </code></pre>
+        </section>
+      </section>
+
+      <!-- ====================== Chương 5: Dữ liệu bảng với Pandas ====================== -->
+      <section>
+        <!-- ====================== Slide: Tiêu đề chương ====================== -->
+        <section>
+          <h1>
+            <span class="text-light">5.</span><br />
+            Dữ liệu bảng<br />
+            <span class="text-light">Pandas</span>
+          </h1>
+        </section>
+
+        <!-- ====================== Slide: Real-world Datasets ====================== -->
+        <section data-auto-animate>
+          <h2>Dữ liệu trong thực tế</h2>
+          <ul>
+            <li>Dữ liệu xuất hiện dưới nhiều dạng: văn bản, ảnh/đa phương tiện, và <span class="keyword">dữ liệu
+                bảng</span>.</li>
+            <li>Dữ liệu bảng thường gặp:</li>
+            <ul>
+              <li>Excel</li>
+              <li>CSV</li>
+            </ul>
+            <li>Giới hạn của cấu trúc cơ bản (list/dict) khi dữ liệu lớn và phức tạp.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Introducing Pandas ====================== -->
+        <section data-auto-animate>
+          <h2>Giới thiệu <span class="inline-code">pandas</span></h2>
+          <ul>
+            <li><span class="inline-code">pandas</span> là công cụ tiêu chuẩn để xử lý dữ liệu bảng.</li>
+            <li>Có thể: sắp xếp dữ liệu dạng bảng, lọc theo điều kiện, thao tác tạo insight.</li>
+            <li>Tối ưu nhờ phép toán <span class="keyword">vector hóa</span> (nhanh hơn vòng lặp thuần).</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Series ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">Series</span></h2>
+          <ul>
+            <li><span class="inline-code">Series</span> là cấu trúc 1 chiều, gồm:</li>
+            <ul>
+              <li><strong>Values</strong>: dãy giá trị</li>
+              <li><strong>Index</strong>: nhãn cho từng giá trị</li>
+            </ul>
+            <li>Alias phổ biến: <span class="inline-code">import pandas as pd</span></li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import pandas as pd
+
+s = pd.Series(["welcome", "to", "COM1050"])
+print(s.index)
+print(s.values)
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Selection in Series ====================== -->
+        <section data-auto-animate>
+          <h2>Chọn dữ liệu trong <span class="inline-code">Series</span></h2>
+          <ul>
+            <li>Chọn theo <span class="keyword">nhãn</span>, theo danh sách nhãn, hoặc theo điều kiện.</li>
+            <li>Điều kiện tạo <span class="inline-code">boolean mask</span> rồi lọc.</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import pandas as pd
+
+s = pd.Series([4, -2, 0, 6], index=["a", "b", "c", "d"])
+
+print(s["a"])
+print(s[["a", "c"]])
+
+mask = s > 0
+print(mask)
+print(s[mask])
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: DataFrame: The Heart of Pandas ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">DataFrame</span>: “trái tim” của pandas</h2>
+          <ul>
+            <li><span class="inline-code">DataFrame</span> là một <span class="keyword">bảng</span> (rows × columns).
+            </li>
+            <li>Có thể coi như tập hợp nhiều <span class="inline-code">Series</span> cùng chung <span
+                class="inline-code">index</span>.</li>
+            <li>Thao tác thuận tiện: lọc, join, group, sort, thống kê…</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Creating a DataFrame ====================== -->
+        <section data-auto-animate>
+          <h2>Tạo <span class="inline-code">DataFrame</span></h2>
+          <ul>
+            <li>Cú pháp tổng quát: <span class="inline-code">pandas.DataFrame(data, index, columns)</span></li>
+            <li>Có thể tạo từ:</li>
+            <ul>
+              <li>CSV/Excel</li>
+              <li><span class="inline-code">dict</span></li>
+              <li><span class="inline-code">Series</span></li>
+            </ul>
+            <li>Quan trọng hơn việc “học thuộc”: hiểu <span class="keyword">mục tiêu</span> rồi tra cú pháp.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Creating a DataFrame From a CSV File ====================== -->
+        <section data-auto-animate>
+          <h2>Tạo DataFrame từ CSV</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import pandas as pd
+
+elections = pd.read_csv("elections.csv")
+print(elections.head())
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Creating a DataFrame From a Dictionary ====================== -->
+        <section data-auto-animate>
+          <h2>Tạo DataFrame từ <span class="inline-code">dict</span></h2>
+          <ul>
+            <li>Dạng “cột” (keys là cột):</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import pandas as pd
+df1 = pd.DataFrame({
+    "Fruit": ["Strawberry", "Orange"],
+    "Price": [5.49, 3.99]
+})
+          </code></pre>
+
+          <ul style="margin-top: 0.4em;">
+            <li>Dạng “hàng” (mỗi phần tử là 1 record):</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import pandas as pd
+df2 = pd.DataFrame([
+    {"Fruit": "Strawberry", "Price": 5.49},
+    {"Fruit": "Orange", "Price": 3.99}
+])
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Creating a DataFrame From a Series ====================== -->
+        <section data-auto-animate>
+          <h2>Tạo DataFrame từ <span class="inline-code">Series</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import pandas as pd
+
+s_a = pd.Series(["a1", "a2", "a3"], index=["r1", "r2", "r3"])
+s_b = pd.Series(["b1", "b2", "b3"], index=["r1", "r2", "r3"])
+
+df = pd.DataFrame({"A-column": s_a, "B-column": s_b})
+
+df_single = pd.DataFrame(s_a)
+df_frame = s_a.to_frame()
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: The DataFrame API ====================== -->
+        <section data-auto-animate>
+          <h2>API của <span class="inline-code">DataFrame</span></h2>
+          <ul>
+            <li>API rất lớn: rất nhiều thuộc tính &amp; phương thức.</li>
+            <li>Thực hành quan trọng trong lập trình: <span class="keyword">tra cứu</span> tài liệu chính thức.</li>
+            <li>Từ khóa hữu ích: <span class="inline-code">pandas.DataFrame</span>, <span
+                class="inline-code">pandas.pydata.org</span>, Stack Overflow…</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Extracting Data ====================== -->
+        <section data-auto-animate>
+          <h2>Trích xuất dữ liệu</h2>
+          <ul>
+            <li>Lấy nhanh vài dòng đầu/cuối: <span class="inline-code">df.head(n)</span>, <span
+                class="inline-code">df.tail(n)</span></li>
+            <li>Lấy theo <span class="keyword">nhãn</span> (labels) → <span class="inline-code">.loc</span></li>
+            <li>Lấy theo <span class="keyword">vị trí</span> (integers) → <span class="inline-code">.iloc</span></li>
+            <li>Cú pháp ngắn gọn theo ngữ cảnh → <span class="inline-code">[ ]</span></li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Label-based Extraction: .loc ====================== -->
+        <section data-auto-animate>
+          <h2>Trích xuất theo nhãn: <span class="inline-code">.loc</span></h2>
+          <ul>
+            <li><span class="inline-code">.loc</span> dùng <span class="keyword">label</span> của hàng và cột.</li>
+            <li>Cú pháp: <span class="inline-code">df.loc[row_labels, column_labels]</span></li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# khung cú pháp
+df.loc[row_labels, column_labels]
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Label-based Extraction: .loc ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">.loc</span>: các dạng tham số</h2>
+          <ul>
+            <li>Mỗi đối số có thể là:</li>
+            <ul>
+              <li>Danh sách: <span class="inline-code">[87, 25, 179]</span></li>
+              <li>Slice (bao gồm cả biên phải): <span class="inline-code">"Popular vote":"%"</span></li>
+              <li>Giá trị đơn: <span class="inline-code">0</span> hoặc <span class="inline-code">"Candidate"</span></li>
+            </ul>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# ví dụ minh họa (giả sử có DataFrame elections)
+elections.loc[[87, 25, 179], ["Year", "Candidate", "Result"]]
+elections.loc[[87, 25, 179], "Popular vote":"%"]
+elections.loc[0, "Candidate"]
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Integer-based Extraction: .iloc ====================== -->
+        <section data-auto-animate>
+          <h2>Trích xuất theo vị trí: <span class="inline-code">.iloc</span></h2>
+          <ul>
+            <li><span class="inline-code">.iloc</span> dùng chỉ số nguyên (0, 1, 2, …).</li>
+            <li>Quy ước Python: vị trí đầu tiên là <span class="inline-code">0</span>.</li>
+            <li>Cú pháp: <span class="inline-code">df.iloc[row_integers, column_integers]</span></li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# khung cú pháp
+df.iloc[row_integers, column_integers]
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Integer-based Extraction: .iloc ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">.iloc</span>: các dạng tham số</h2>
+          <ul>
+            <li>Mỗi đối số có thể là:</li>
+            <ul>
+              <li>Danh sách: <span class="inline-code">[1, 2, 3]</span></li>
+              <li>Slice (không gồm biên phải): <span class="inline-code">0:3</span></li>
+              <li>Giá trị đơn: <span class="inline-code">0</span></li>
+            </ul>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# ví dụ minh họa (giả sử có DataFrame elections)
+elections.iloc[[1, 2, 3], [0, 1, 2]]
+elections.iloc[[1, 2, 3], 0:3]
+elections.iloc[0, 1]
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Context-dependent Extraction: [ ] ====================== -->
+        <section data-auto-animate>
+          <h2>Cú pháp ngữ cảnh: <span class="inline-code">[ ]</span></h2>
+          <ul>
+            <li><span class="inline-code">[ ]</span> chỉ nhận <strong>1</strong> đối số, nhưng “hiểu theo ngữ cảnh”.
+            </li>
+            <li>Có thể là:</li>
+            <ul>
+              <li>Slice số hàng (biên phải loại trừ)</li>
+              <li>Danh sách nhãn cột</li>
+              <li>Một nhãn cột</li>
+            </ul>
+            <li>Ưu điểm: <span class="keyword">ngắn gọn</span>, rất phổ biến.</li>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: Context-dependent Extraction: [ ] ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">[ ]</span>: cắt theo hàng</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# lấy các hàng 3,4,5,6 (biên phải loại trừ)
+elections[3:7]
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Context-dependent Extraction: [ ] ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">[ ]</span>: chọn nhiều cột</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# chọn nhiều cột
+elections[["Year", "Candidate", "Result"]]
+          </code></pre>
+          <p class="text-light" style="margin-top: 0.6em;">⚠️ Lỗi hay gặp: quên ngoặc vuông bên trong.</p>
+        </section>
+
+        <!-- ====================== Slide: NumPy ====================== -->
+        <section data-auto-animate>
+          <h2>Kết hợp với <span class="inline-code">NumPy</span></h2>
+          <ul>
+            <li><span class="inline-code">Series</span> và <span class="inline-code">DataFrame</span> hỗ trợ nhiều phép
+              toán số.</li>
+            <li>Khi dữ liệu là số, có thể dùng <span class="inline-code">numpy</span> để tính thống kê nhanh.</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import numpy as np
+
+yash_count = babynames[babynames["Name"] == "Yash"]["Count"]
+print(np.mean(yash_count))
+print(np.max(yash_count))
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Built-In pandas Methods ====================== -->
+        <section data-auto-animate>
+          <h2>Phương thức tiện ích trong <span class="inline-code">pandas</span></h2>
+          <ul>
+            <li>Rất nhiều hàm hỗ trợ khám phá dữ liệu:</li>
+            <ul>
+              <li><span class="inline-code">size</span>, <span class="inline-code">shape</span></li>
+              <li><span class="inline-code">describe</span>, <span class="inline-code">sample</span></li>
+              <li><span class="inline-code">value_counts</span>, <span class="inline-code">unique</span></li>
+              <li><span class="inline-code">sort_values</span>, …</li>
+            </ul>
+          </ul>
+        </section>
+
+        <!-- ====================== Slide: .sort_values() ====================== -->
+        <section data-auto-animate>
+          <h2><span class="inline-code">.sort_values()</span></h2>
+          <ul>
+            <li>Sắp xếp DataFrame/Series theo giá trị.</li>
+            <li>Thường dùng với tham số <span class="inline-code">by=...</span> (DataFrame).</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# ví dụ minh họa
+df.sort_values(by="Price", ascending=True)
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Applying a Function to a Row ====================== -->
+        <section data-auto-animate>
+          <h2>Áp dụng hàm theo hàng: <span class="inline-code">apply</span></h2>
+          <ul>
+            <li><span class="inline-code">dt.apply(f)</span> tạo mảng kết quả khi áp dụng hàm <span
+                class="inline-code">f</span> cho từng hàng.</li>
+            <li>Với DataFrame, thường chỉ định <span class="inline-code">axis=1</span> để chạy theo hàng.</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# khung cú pháp
+dt.apply(f, axis=1)
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Applying a Function to a Row ====================== -->
+        <section data-auto-animate>
+          <h2>Ví dụ: tính tổng theo hàng</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import pandas as pd
+
+def calculate_total(row):
+    """Calculates price * quantity and adds a shipping fee."""
+    total = (row["Price"] * row["Quantity"]) + 10
+    return total
+
+data = {
+    "Product": ["Laptop", "Mouse", "Monitor", "Keyboard"],
+    "Price": [1200, 25, 300, 75],
+    "Quantity": [2, 10, 3, 5]
+}
+
+df = pd.DataFrame(data)
+df["Total_with_Shipping"] = df.apply(calculate_total, axis=1)
+          </code></pre>
+        </section>
+
+        <!-- ====================== Slide: Plotting in Pandas ====================== -->
+        <section data-auto-animate>
+          <h2>Vẽ biểu đồ trực tiếp</h2>
+          <ul>
+            <li>Dựa trên <span
+                class="inline-code">matplotlib</span>.</li>
+            <li>Cần cài <span class="keyword">cả hai</span>: <span class="inline-code">pandas</span> và <span
+                class="inline-code">matplotlib</span>.</li>
+            <li>Hàm lõi: <span class="inline-code">df.plot(..., kind="line|bar|pie|hist|...")</span></li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = {"Month": ["Jan", "Feb", "Mar", "Apr", "May"],
+        "Sales": [2500, 3200, 2100, 4000, 4500]}
+
+df = pd.DataFrame(data)
+df.plot(x="Month", y="Sales", kind="line", marker="o", title="Monthly Sales Trend")
+plt.show()
+          </code></pre>
+        </section>
+      </section>
+
+      <!-- ====================== Slide: Summary - Key Takeaways ====================== -->
+      <section style="font-size: 0.85em">
+        <h2>Tổng kết</h2>
+        <ul>
+          <li><span class="inline-code">math</span>: hàm &amp; hằng số toán học cơ bản.</li>
+          <li><span class="inline-code">random</span>: mô phỏng <span class="keyword">ngẫu nhiên</span>, chọn phần tử,
+            xáo trộn.</li>
+          <li><span class="inline-code">datetime</span>: thao tác ngày/giờ, <span class="inline-code">timedelta</span>,
+            <span class="inline-code">strftime</span>.
+          </li>
+          <li><span class="inline-code">matplotlib</span>: trực quan hóa dữ liệu bằng nhiều loại biểu đồ.</li>
+          <li><span class="inline-code">pandas</span>: chuẩn công nghiệp cho dữ liệu bảng (Series/DataFrame).</li>
+          <li><span class="inline-code">pip</span>: cài và quản lý thư viện ngoài từ PyPI.</li>
+        </ul>
+      </section>
+
+      <!-- ====================== Slide: References ====================== -->
+      <section>
+        <h2>Tài liệu tham khảo</h2>
+        <ul>
+          <li>UC Berkeley, Data 100: Principles and Techniques of Data Science, Fall 2025</li>
+        </ul>
+      </section>
+
+      <!-- ====================== Footer ====================== -->
+      <div class="footer">
+        Tư duy Tính toán (HK 1 2025–2026) §15: Thư viện Python phổ biến
+      </div>
+
+    </div>
+  </div>
+
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+
+  <!-- Nguồn tham chiếu (ẩn trong HTML) -->
+  <!-- :contentReference[oaicite:0]{index=0} :contentReference[oaicite:1]{index=1} -->
+</body>
+
+</html>
