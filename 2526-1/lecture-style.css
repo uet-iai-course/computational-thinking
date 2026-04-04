@@ -3,15 +3,15 @@
 }
 
 .reveal .controls .controls-arrow {
-    color: #1E93AB;
+    color: #5B4FCF;
 }
 
 .reveal .progress span {
-    background: #1E93AB;
+    background: #5B4FCF;
 }
 
 .reveal .text-blue {
-    color: #1E93AB !important;
+    color: #5B4FCF !important;
 }
 
 .reveal .text-red {
@@ -27,11 +27,11 @@
 }
 
 .reveal .bg-light {
-    background-color: #F3F2EC !important;
+    background-color: #F0EDFB !important;
 }
 
 .reveal a {
-    color: #1E93AB;
+    color: #5B4FCF;
 }
 
 .reveal ul,
@@ -78,6 +78,21 @@
     text-transform: none !important;
 }
 
+.reveal .slide-badge-row {
+    text-align: right;
+    margin: 0 0 0.35em;
+}
+
+.reveal .self-study-badge {
+    display: inline-block;
+    background: #90A4AE;
+    color: white;
+    font-size: 0.42em;
+    padding: 3px 10px;
+    border-radius: 16px;
+    font-weight: 600;
+}
+
 .reveal .fragment.blur {
     filter: blur(5px);
 }
@@ -87,19 +102,19 @@
 }
 
 .reveal .question-box {
-    border: 3px solid #1E93AB;
+    border: 3px solid #5B4FCF;
     border-radius: 16px;
     padding: 0.75em;
     /* max-width: 700px; */
     margin: auto;
-    background: #F3F2EC;
+    background: #F0EDFB;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .reveal .question-title {
     /* font-size: 1.2em; */
     font-weight: bold;
-    color: #1E93AB;
+    color: #5B4FCF;
     margin-bottom: 0.5em;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -123,8 +138,8 @@
 }
 
 .reveal .pipeline .stage {
-    background: #F3F2EC;
-    border: 2px solid #1E93AB;
+    background: #F0EDFB;
+    border: 2px solid #5B4FCF;
     border-radius: 10px;
     padding: 0.5em;
     width: 140px;
@@ -134,7 +149,7 @@
 
 .reveal .pipeline .stage-title {
     font-weight: bold;
-    color: #1E93AB;
+    color: #5B4FCF;
     margin-bottom: 0.5em;
 }
 
@@ -147,7 +162,7 @@
     display: flex;
     align-items: center;
     font-size: 1.5em;
-    color: #1E93AB;
+    color: #5B4FCF;
 }
 
 .reveal .caption {
